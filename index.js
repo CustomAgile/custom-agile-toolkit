@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const _ = require('lodash');
 const { URL, URLSearchParams } = require('url');
 
+const defaultRallyServer = 'https://rally1.rallydev.com';
 const manageResponse = async (response) => {
     if (!response.ok) {
         console.error(response.status);
@@ -29,7 +30,7 @@ class Request {
     constructor(
         /** @type{string} */apiKey,
         options = {
-            server: 'https://rally1.rallydev.com',
+            server: defaultRallyServer,
             project: undefined,
             workspace: undefined
         }
@@ -39,7 +40,7 @@ class Request {
             throw new Error('Api key is required');
         }
         this.options = options;
-        this.server = options.server;
+        this.server = options.server || defaultRallyServer;
         this.apiKey = apiKey;
     }
 

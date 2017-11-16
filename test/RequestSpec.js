@@ -17,6 +17,12 @@ const getOptions = () => {
 const { expect } = chai;
 describe('Request', function requestFoo() {
   this.timeout(5000);
+
+  it('should default the server to rally1 if no server is given in the options', function testServer() {
+      const request = new Request(apiKey, { project: projectRef });
+      expect(request.server).to.equal('https://rally1.rallydev.com');      
+  });
+
   describe('getRef', function getRef() {
     it('should use ref when provided', () => {
       expect(Request.getRef('/project/786')).to.equal('/project/786');
@@ -93,22 +99,22 @@ describe('Request', function requestFoo() {
       expect((defectObject.Name)).to.equal(defect.Name);
       expect((defectObject.ObjectID));
     });
-  });
 
-  it('should update a new', async () => {
-    const rand = Math.floor((Math.random() * 10000));
-    const request = new Request(apiKey);
-    const defect = {
-      ObjectID: 172482267852,
-      Project: projectRef,
-      Name: `${rand}`
-    };
+    it('should update a defect', async () => {
+      const rand = Math.floor((Math.random() * 10000));
+      const request = new Request(apiKey);
+      const defect = {
+        ObjectID: 172482267852,
+        Project: projectRef,
+        Name: `${rand}`
+      };
 
-    const defectObject = await request.save('Defect', defect);
+      const defectObject = await request.save('Defect', defect);
 
-    expect(defectObject);
-    expect((defectObject.Name)).to.equal(defect.Name);
-    expect((defectObject.ObjectID)).to.equal(defect.ObjectID);
+      expect(defectObject);
+      expect((defectObject.Name)).to.equal(defect.Name);
+      expect((defectObject.ObjectID)).to.equal(defect.ObjectID);
+    });
   });
 });
 
