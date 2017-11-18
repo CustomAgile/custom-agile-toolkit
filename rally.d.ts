@@ -3,7 +3,7 @@ declare namespace RallyClient {
         fetch: string[] | bool,
         query: string,
         start: number,
-        pageSize: number,
+        pagesize: number,
         projectScopeUp: bool,
         projectScopeDown: bool,
         compact: bool,

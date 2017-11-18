@@ -1,6 +1,6 @@
 {
   "name": "rally-node-api",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "main": "index.js",
   "author": "",
   "license": "ISC",

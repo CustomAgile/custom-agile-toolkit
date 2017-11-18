@@ -51,8 +51,21 @@ class Request {
      * @param {[string:any]} params 
      * @returns {Promise<object[]>}
      */
-    query(type, params = {}) {
-        const url = Request.prepareUrl(this.server, type, false, params);
+    query(...args) {
+        return this.queryRaw(...args)
+            .then(manageResponse);
+    }
+
+    /**
+     * Returns all information from the API including request information
+     * @param {string} type 
+     * @param {RallyClient.QueryOptions} query 
+     * @param {[string:any]} params 
+     * @returns {Promise<object[]>}
+     */
+    queryRaw(type, query = {}, params = {}) {
+        const finalParams = _.defaults(query, params, Request.defaultOptions);
+        const url = Request.prepareUrl(this.server, type, false, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -62,7 +75,10 @@ class Request {
             headers,
             credentials: 'include'
         })
-        .then(manageResponse);
+        .then((resp) => {
+            resp.params = finalParams;
+            return resp;
+        });
     }
 
     /**
@@ -77,9 +93,12 @@ class Request {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
         };
+        if (!data.Project && this.options.project) {
+            data.Project = this.options.project;
+        }
         const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
         let url = Request.prepareUrl(this.server, type, action, params);
-        
+
         if (_.isNumber(data.ObjectID)) {
             url = `${url}/${data.ObjectID}?`;
         } else {
@@ -88,17 +107,16 @@ class Request {
         const wrapper = {};
         wrapper[type] = data;
         const body = JSON.stringify(wrapper);
-        console.log(body);
         return fetch(
-url, 
+            url,
             {
                 method: 'PUT',
                 headers,
                 credentials: 'include',
                 body
             }
-)
-            .then(manageResponse);
+        )
+        .then(manageResponse);
     }
 
     /**
@@ -134,9 +152,8 @@ url,
          */
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
-            x: '(Name contains "name")',
             start: 1,
-            pageSize: 200,
+            pagesize: 200,
             projectScopeUp: true,
             projectScopeDown: true,
             compact: true,

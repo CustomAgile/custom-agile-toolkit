@@ -19,8 +19,8 @@ describe('Request', function requestFoo() {
   this.timeout(5000);
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
-      const request = new Request(apiKey, { project: projectRef });
-      expect(request.server).to.equal('https://rally1.rallydev.com');      
+    const request = new Request(apiKey, { project: projectRef });
+    expect(request.server).to.equal('https://rally1.rallydev.com');
   });
 
   describe('getRef', function getRef() {
@@ -44,6 +44,24 @@ describe('Request', function requestFoo() {
     });
   });
 
+  describe('queryRaw', function queryRaw() {
+    it('should show defaulted query info', async () => {
+      const request = new Request(apiKey);
+      const query = { 
+        Query: '(Name Contains "test")',
+        project: projectRef,
+        workspace: workspaceRef,
+        pagesize: 2000
+      };
+      const options = Request.defaultOptions;
+      options.Query = query.Query;
+      options.project = projectRef;
+      options.workspace = workspaceRef;
+      options.pagesize = 2000;
+      let defectsResponse = await request.queryRaw('Defect', query);
+      expect(defectsResponse.params).to.deep.equal(options);
+    });
+  });
   describe('query', function queryFoo() {
     this.timeout(5000);
 
@@ -51,10 +69,8 @@ describe('Request', function requestFoo() {
       const request = new Request(apiKey);
       const query = Request.defaultOptions;
 
-      return request.query('Project', query)
-        .then((projects) => {
-          expect(projects.length).to.not.equal(0);
-        });
+      let projects = await request.query('Project', query);
+      expect(projects.length).to.not.equal(0);
     });
     it('should handle rally errors', async () => {
       const request = new Request(apiKey);
@@ -114,6 +130,21 @@ describe('Request', function requestFoo() {
       expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
       expect((defectObject.ObjectID)).to.equal(defect.ObjectID);
+    });
+
+    it('should handle rally errors', async () => {
+      const request = new Request(apiKey);
+      const defect = {
+        Project: projectRef,
+        Name: 'test defect'
+      };
+
+      return request.save('IAMNOTAREALONE', defect)
+        .then(() => fail())
+        .catch((err) => {
+          expect(err.message);
+          expect((err.message).includes('Requested type name "iamnotarealone" is unknown')).to.equal(true);
+        });
     });
   });
 });
