@@ -1,6 +1,15 @@
-const fetch = require('node-fetch');
-const _ = require('lodash');
-const { URL, URLSearchParams } = require('url');
+
+let r = name => typeof (window) === 'object' && window[name];
+if (typeof (require) === 'function') {
+    r = require;
+    const url = r('url');
+    URL = url.URL;
+    URLSearchParams = url.URLSearchParams;
+} else {
+    module = {};    
+}
+const fetch = r('node-fetch');
+const _ = r('lodash');
 
 const defaultRallyServer = 'https://rally1.rallydev.com';
 const manageResponse = async (response) => {
@@ -75,10 +84,10 @@ class Request {
             headers,
             credentials: 'include'
         })
-        .then((resp) => {
-            resp.params = finalParams;
-            return resp;
-        });
+            .then((resp) => {
+                resp.params = finalParams;
+                return resp;
+            });
     }
 
     /**
@@ -116,7 +125,7 @@ class Request {
                 body
             }
         )
-        .then(manageResponse);
+            .then(manageResponse);
     }
 
     /**
@@ -182,4 +191,4 @@ class Request {
     }
 }
 
-module.exports = Request;
+module.exports = { Request };

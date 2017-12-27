@@ -1,5 +1,5 @@
 let chai = require('chai');
-const Request = require('../index');
+const { Request } = require('../index');
 const apiKey = require('./apikey.conf');// just the api key
 
 const project = 109942692864;
