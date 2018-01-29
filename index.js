@@ -1,45 +1,13 @@
 
-let r = name => typeof (window) === 'object' && window[name];
-if (typeof (require) === 'function') {
-    r = require;
-    const url = r('url');
-    URL = url.URL;
-    URLSearchParams = url.URLSearchParams;
-} else {
-    module = {};    
-}
-const fetch = r('node-fetch');
-const _ = r('lodash');
+const fetch = require('node-fetch');
+const _ = require('lodash');
+const { URLSearchParams } = require('url');
 
-const defaultRallyServer = 'https://rally1.rallydev.com';
-const manageResponse = async (response) => {
-    if (!response.ok) {
-        console.error(response.status);
-        console.error(response.statusText);
-        return Promise.reject(new Error(`${response.statusText} Code:${response.status}`));
-    }
-    const resp = await response.json();
-    const { QueryResult } = resp;
-    const unwrappedResponse = resp[_.keys(resp)[0]];
-    const errors = unwrappedResponse.Errors || resp.Errors;
-    if (errors && errors.length) {
-        return Promise.reject(new Error(errors.map(e => `Rally Server Error: ${e}`).join(',')));
-    }
-    if (QueryResult) {
-        return QueryResult.Results;
-    }
-    if (unwrappedResponse.Object) {
-        return unwrappedResponse.Object;
-    }
-    console.error(resp);
-    throw new Error('Response type not found');
-};
-
-class Request {
+class RallyClient {
     constructor(
         /** @type{string} */apiKey,
         options = {
-            server: defaultRallyServer,
+            server: RallyClient.defaultRallyServer,
             project: undefined,
             workspace: undefined
         }
@@ -49,20 +17,52 @@ class Request {
             throw new Error('Api key is required');
         }
         this.options = options;
-        this.server = options.server || defaultRallyServer;
+        this.server = options.server || RallyClient.defaultRallyServer;
         this.apiKey = apiKey;
+    }
+
+    /**
+     * The default server for Rally to be used
+     */
+    static get defaultRallyServer() {
+        return 'https://rally1.rallydev.com';
+    }
+
+    /**
+     * The default server for Rally to be used
+     */
+    static async manageResponse(response) {
+        if (!response.ok) {
+            console.error(response.status);
+            console.error(response.statusText);
+            throw new Error(`${response.statusText} Code:${response.status}`);
+        }
+        const resp = await response.json();
+        const { QueryResult } = resp;
+        const unwrappedResponse = resp[_.keys(resp)[0]];
+        const errors = unwrappedResponse.Errors || resp.Errors;
+        if (errors && errors.length) {
+            throw new Error(errors.map(e => `Rally Server Error: ${e}`).join(','));
+        }
+        if (QueryResult) {
+            return QueryResult.Results;
+        }
+        if (unwrappedResponse.Object) {
+            return unwrappedResponse.Object;
+        }
+        throw new Error('Response type not found');
     }
 
     /**
      * 
      * @param {string} type 
-     * @param {RallyClient.QueryOptions} query 
+     * @param {RallyApi.QueryOptions} query 
      * @param {[string:any]} params 
      * @returns {Promise<object[]>}
      */
-    query(...args) {
-        return this.queryRaw(...args)
-            .then(manageResponse);
+    async query(...args) {
+        const rawResponse = await this.queryRaw(...args);
+        return RallyClient.manageResponse(rawResponse);
     }
 
     /**
@@ -72,32 +72,30 @@ class Request {
      * @param {[string:any]} params 
      * @returns {Promise<object[]>}
      */
-    queryRaw(type, query = {}, params = {}) {
-        const finalParams = _.defaults(query, params, Request.defaultOptions);
-        const url = Request.prepareUrl(this.server, type, false, finalParams);
+    async queryRaw(type, query = {}, params = {}) {
+        const finalParams = _.defaults(query, params, RallyClient.defaultOptions);
+        const url = RallyClient.prepareUrl(this.server, type, false, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
         };
-        return fetch(url, {
+        const rawResponse = await fetch(url, {
             method: 'GET',
             headers,
             credentials: 'include'
-        })
-            .then((resp) => {
-                resp.params = finalParams;
-                return resp;
-            });
+        });
+        rawResponse.params = finalParams;
+        return rawResponse;
     }
 
     /**
- * 
- * @param {string} type 
- * @param {[string:any]} data 
- * @param {[string:any]} params 
- * @returns {Promise<object>}
- */
-    save(type, data, params = {}) {
+     * 
+     * @param {string} type 
+     * @param {[string:any]} data 
+     * @param {[string:any]} params 
+     * @returns {Promise<object>}
+     */
+    async save(type, data, params = {}) {
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -106,7 +104,7 @@ class Request {
             data.Project = this.options.project;
         }
         const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
-        let url = Request.prepareUrl(this.server, type, action, params);
+        let url = RallyClient.prepareUrl(this.server, type, action, params);
 
         if (_.isNumber(data.ObjectID)) {
             url = `${url}/${data.ObjectID}?`;
@@ -116,7 +114,7 @@ class Request {
         const wrapper = {};
         wrapper[type] = data;
         const body = JSON.stringify(wrapper);
-        return fetch(
+        const rawResponse = await fetch(
             url,
             {
                 method: 'PUT',
@@ -124,19 +122,19 @@ class Request {
                 credentials: 'include',
                 body
             }
-        )
-            .then(manageResponse);
+        );
+        return RallyClient.manageResponse(rawResponse);
     }
 
-    /**
-     * 
-     * @param {string} typeOrRef 
-     * @param {number} objectID 
-     * @returns {Promise}
-     */
-    get(typeOrRef, objectID) {
-        const ref = Request.getRef(typeOrRef, objectID);
-    }
+    // /**
+    //  * 
+    //  * @param {string} typeOrRef 
+    //  * @param {number} objectID 
+    //  * @returns {Promise}
+    //  */
+    // async get(typeOrRef, objectID) {
+    //     const ref = Request.getRef(typeOrRef, objectID);
+    // }
 
     /**
      * 
@@ -191,4 +189,4 @@ class Request {
     }
 }
 
-module.exports = { Request };
+module.exports = { RallyClient };

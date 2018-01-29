@@ -1,4 +1,5 @@
-declare namespace RallyClient {
+declare namespace RallyApi {
+    export interface Client extends RallyClient{}
     export interface QueryOptions {
         fetch: string[] | bool,
         query: string,
@@ -12,4 +13,3 @@ declare namespace RallyClient {
         workspace: string
     }
 }
-

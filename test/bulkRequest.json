@@ -1,0 +1,46 @@
+[
+    {
+      "Entry": {
+        "Path": "/portfolioitem/engrfeature/49796003010",
+        "Method": "PUT",
+        "Body": {
+          "portfolioitem/engrfeature": {
+            "c_ClarityID": "9"
+          }
+        }
+      }
+    },
+    {
+      "Entry": {
+        "Path": "/portfolioitem/engrfeature/49796003801",
+        "Method": "PUT",
+        "Body": {
+          "portfolioitem/engrfeature": {
+            "c_ClarityID": "9"
+          }
+        }
+      }
+    },
+    {
+      "Entry": {
+        "Path": "/portfolioitem/engrfeature/50184727537",
+        "Method": "PUT",
+        "Body": {
+          "portfolioitem/engrfeature": {
+            "c_ClarityID": "9"
+          }
+        }
+      }
+    },
+    {
+      "Entry": {
+        "Path": "/portfolioitem/engrfeature/51367759616",
+        "Method": "PUT",
+        "Body": {
+          "portfolioitem/engrfeature": {
+            "c_ClarityID": "9"
+          }
+        }
+      }
+    }
+  ]

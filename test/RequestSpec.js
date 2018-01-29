@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { Request } = require('../index');
+const { RallyClient } = require('../index');
 const apiKey = require('./apikey.conf');// just the api key
 
 const project = 109942692864;
@@ -8,7 +8,7 @@ const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
 
 const getOptions = () => {
-  const options = Request.defaultOptions;
+  const options = RallyClient.defaultOptions;
   options.project = projectRef;
   options.workspace = workspaceRef;
   return options;
@@ -19,22 +19,22 @@ describe('Request', function requestFoo() {
   this.timeout(5000);
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
-    const request = new Request(apiKey, { project: projectRef });
+    const request = new RallyClient(apiKey, { project: projectRef });
     expect(request.server).to.equal('https://rally1.rallydev.com');
   });
 
   describe('getRef', function getRef() {
     it('should use ref when provided', () => {
-      expect(Request.getRef('/project/786')).to.equal('/project/786');
+      expect(RallyClient.getRef('/project/786')).to.equal('/project/786');
     });
     it('should construct a ref our of a type and id', () => {
-      expect(Request.getRef('project', 786)).to.equal('/project/786');
+      expect(RallyClient.getRef('project', 786)).to.equal('/project/786');
     });
   });
   describe('prepareUrl', function prepareUrl() {
     this.timeout(5000);
     it('should use ref when provided', () => {
-      const url = Request.prepareUrl(
+      const url = RallyClient.prepareUrl(
         'https://rally1.rallydev.com',
         'project',
         false,
@@ -46,14 +46,14 @@ describe('Request', function requestFoo() {
 
   describe('queryRaw', function queryRaw() {
     it('should show defaulted query info', async () => {
-      const request = new Request(apiKey);
+      const request = new RallyClient(apiKey);
       const query = { 
         Query: '(Name Contains "test")',
         project: projectRef,
         workspace: workspaceRef,
         pagesize: 2000
       };
-      const options = Request.defaultOptions;
+      const options = RallyClient.defaultOptions;
       options.Query = query.Query;
       options.project = projectRef;
       options.workspace = workspaceRef;
@@ -66,14 +66,14 @@ describe('Request', function requestFoo() {
     this.timeout(5000);
 
     it('should get a page of story data', async () => {
-      const request = new Request(apiKey);
-      const query = Request.defaultOptions;
+      const request = new RallyClient(apiKey);
+      const query = RallyClient.defaultOptions;
 
       let projects = await request.query('Project', query);
       expect(projects.length).to.not.equal(0);
     });
     it('should handle rally errors', async () => {
-      const request = new Request(apiKey);
+      const request = new RallyClient(apiKey);
       const options = getOptions();
       options.query = '(Name zobolts 9)';
       return request.query('Project', options)
@@ -88,7 +88,7 @@ describe('Request', function requestFoo() {
 
     it('should handle http errors', async () => {
       const server = 'https://rally1.ralfdfdlydev.com';
-      const request = new Request(apiKey, { server });
+      const request = new RallyClient(apiKey, { server });
       return request.query('Project', getOptions())
         .then((projects) => {
           fail('Error not caught');
@@ -103,7 +103,7 @@ describe('Request', function requestFoo() {
   describe('save', function save() {
     this.timeout(5000);
     it('should create a new defect', async () => {
-      const request = new Request(apiKey);
+      const request = new RallyClient(apiKey);
       const defect = {
         Project: projectRef,
         Name: 'test defect'
@@ -118,7 +118,7 @@ describe('Request', function requestFoo() {
 
     it('should update a defect', async () => {
       const rand = Math.floor((Math.random() * 10000));
-      const request = new Request(apiKey);
+      const request = new RallyClient(apiKey);
       const defect = {
         ObjectID: 172482267852,
         Project: projectRef,
@@ -133,7 +133,7 @@ describe('Request', function requestFoo() {
     });
 
     it('should handle rally errors', async () => {
-      const request = new Request(apiKey);
+      const request = new RallyClient(apiKey);
       const defect = {
         Project: projectRef,
         Name: 'test defect'
@@ -148,4 +148,3 @@ describe('Request', function requestFoo() {
     });
   });
 });
-
