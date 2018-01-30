@@ -12,4 +12,23 @@ declare namespace RallyApi {
         project: string,
         workspace: string
     }
+    export namespace Bulk {
+        export interface Request {
+            Entry: Entry;
+          }
+          
+          interface Entry {
+            Path: string;
+            Method: string;
+            Body: Body;
+          }
+          
+          interface Body {
+            'portfolioitem/engrfeature': Portfolioitemengrfeature;
+          }
+          
+          interface Portfolioitemengrfeature {
+            [x:string,any]
+          }
+    }
 }
