@@ -13,6 +13,7 @@ module.exports = {
         "no-unused-vars": [1, { "vars": "local", "args": "none", "varsIgnorePattern": "/^[A-Z][a-z0-9_-]{3,19}$/" }],
         "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
         "no-debugger": 'warn',
+        "no-await-in-loop": 'warn',
         "indent": 0,
         "linebreak-style": 0,
         "comma-dangle": 0,

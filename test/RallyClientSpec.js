@@ -208,6 +208,60 @@ describe('Rally Client', function requestFoo() {
         expect(err.message).to.deep.equal('Forbidden Code:403');
       }
     });
+
+    describe('paging', async function paging() {
+      const pagesize = 15;
+      const query = {
+        find: {
+          ObjectID: 50765439113,
+          _ValidFrom: {
+            $gte: '2011-07-01TZ',
+            $lt: '2018-01-31TZ'
+          },
+        },
+        fields: true,
+        hydrate: [],
+        start: 0,
+        sort: '_ValidFrom',
+        pagesize,
+        removeUnauthorizedSnapshots: true
+      };
+      const response = await client.queryLookback(query, 38034898590);
+      const secondPageResponse = await response.$getNextPage();
+
+      it('should include a promise to get the next page', async () => {
+        expect(response.$getNextPage).to.be.a('function');
+        expect(response.length).to.equal(pagesize);
+        expect(response.$rawResponse.PageSize).to.equal(pagesize);
+        expect(response.$rawResponse.HasMore).to.equal(true);
+        expect(response.$rawResponse.TotalResultCount).to.equal(25);
+        expect(response.$hasMore).to.equal(true);
+        expect(response.length).to.equal(pagesize);
+
+        expect(secondPageResponse.$rawResponse.StartIndex)
+          .to.equal(response.$rawResponse.StartIndex + pagesize);
+        expect(secondPageResponse.length)
+          .to.equal(response.$rawResponse.TotalResultCount - pagesize);
+      });
+      it('should reject the promise if at final page', async () => {
+        try {
+          // no third page
+          expect(secondPageResponse.$hasMore).to.equal(false);
+          await secondPageResponse.$getNextPage();
+          fail('expect an error when asking for next page when that doesn\'t exist');
+        } catch (err) {
+          expect(err.message).to.equal('No more pages in this request');
+        }
+      });
+
+      it('should be able to get all pages', async () => {
+        const allResponse = await response.$getAll();
+        expect(allResponse.$rawResponse.StartIndex)
+          .to.equal(response.$rawResponse.StartIndex);
+        expect(allResponse.length).to.equal(response.$rawResponse.TotalResultCount);
+        expect(allResponse.$hasMore).to.equal(false);
+      });
+    });
   });
 
   describe('get', function getRef() {

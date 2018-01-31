@@ -78,8 +78,35 @@ class RallyClient {
             credentials: 'include',
             body
         });
+        /** @type {Promise<RallyApi.Lookback.Response>} */
         const resp = await RallyClient.manageResponse(rawResponse);
         resp.$params = finalParams;
+        resp.$hasMore = resp.$rawResponse.HasMore;
+        if (resp.$hasMore) {
+            resp.$getNextPage = async () => {
+                const newRequest = _.cloneDeep(request);
+                newRequest.start += newRequest.pagesize;
+                return this.queryLookback(newRequest, workspace);
+            };
+            resp.$getAll = async () => {
+                // TODO: eventually make this more concurrent
+                let clonedCurrent = _.cloneDeep(resp);
+                let currentResponse = await resp.$getNextPage();
+                clonedCurrent = [...clonedCurrent, currentResponse];
+                while (currentResponse.$hasMore) {
+                    currentResponse = await currentResponse.$getNextPage();
+                    clonedCurrent = [...clonedCurrent, currentResponse];
+                }
+                clonedCurrent.$getNextPage = async () => { throw new Error('No more pages in this request'); };
+                clonedCurrent.$getAll = async () => clonedCurrent;
+                clonedCurrent.$hasMore = false;
+                clonedCurrent.$rawResponse = resp.$rawResponse;
+                return clonedCurrent;
+            };
+        } else {
+            resp.$getNextPage = async () => { throw new Error('No more pages in this request'); };
+            resp.$getAll = async () => _.cloneDeep(resp);
+        }
         return resp;
     }
 
@@ -235,9 +262,9 @@ class RallyClient {
     }
 
     /**
- * @returns {RallyClient.QueryOptions}
- * 
- */
+     * @returns {RallyClient.QueryOptions}
+     * 
+     */
     static get defaultLookbackRequest() {
         return {
             find: {},

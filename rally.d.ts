@@ -37,16 +37,21 @@ declare namespace RallyApi {
 
     export interface Request {
       find: any;
-      fields: string[] | boolean;
-      hydrate: string[];
-      start: number;
-      pagesize: number;
-      removeUnauthorizedSnapshots: boolean;
+      fields?: string[] | boolean;
+      hydrate?: string[];
+      start?: number;
+      pagesize?: number;
+      removeUnauthorizedSnapshots?: boolean;
     }
 
     export interface Response {
       $params: any,
+      $hasMore: boolean,
       $rawResponse: RawResponse,
+      /** returns all the data from the later pages including this page */
+      $getAll: ()=> Promise<Lookback.Response>
+      /** returns the data from the next page */      
+      $getNextPage: () => Promise<Lookback.Response>
     }
 
     interface RawResponse {
