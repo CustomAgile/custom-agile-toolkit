@@ -9,6 +9,8 @@
     "node-fetch": "^1.7.3"
   },
   "devDependencies": {
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
     "assert": "^1.4.1",
     "chai": "^4.1.2",
     "eslint": "^4.10.0",
@@ -21,8 +23,7 @@
     "mocha": "^4.0.1"
   },
   "scripts": {
-    "test": " ./node_modules/mocha/bin/mocha",
-    "docs": " ./node_modules/.bin/jsdoc -c jsdoc.conf.json"
+    "test": " ./node_modules/mocha/bin/mocha"
   },
   "directories": {
     "test": "test"

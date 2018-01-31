@@ -44,7 +44,7 @@ describe('Rally Client', function requestFoo() {
     });
   });
 
-  xdescribe('query', function queryFoo() {
+  describe('query', function queryFoo() {
     it('should show defaulted query info', async () => {
       const request = new RallyClient(apiKey);
       const query = {
@@ -97,7 +97,7 @@ describe('Rally Client', function requestFoo() {
     });
   });
 
-  xdescribe('save', function save() {
+  describe('save', function save() {
     it('should create a new defect', async () => {
       const request = new RallyClient(apiKey);
       const defect = {
@@ -144,7 +144,7 @@ describe('Rally Client', function requestFoo() {
       }
     });
   });
-  xdescribe('Ref Tests', () => {
+  describe('Ref Tests', () => {
     describe('getIdFromRef', function getRef() {
       it('Should get the id from shorted ref', () => {
         expect(RallyClient.getIdFromRef('/type/76894'))
@@ -210,7 +210,7 @@ describe('Rally Client', function requestFoo() {
     });
   });
 
-  xdescribe('get', function getRef() {
+  describe('get', function getRef() {
     const id = 172482267852;
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
