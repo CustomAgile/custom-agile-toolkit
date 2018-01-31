@@ -13,7 +13,6 @@ class RallyClient {
         }
     ) {
         if (!_.isString(apiKey)) {
-            console.error(apiKey);
             throw new Error('Api key is required');
         }
         this.options = options;
@@ -31,29 +30,57 @@ class RallyClient {
     /**
      * The default server for Rally to be used
      */
-    static async manageResponse(response, unwrap = true) {
+    static async manageResponse(response) {
         if (!response.ok) {
-            console.error(response.status);
-            console.error(response.statusText);
             throw new Error(`${response.statusText} Code:${response.status}`);
         }
         const resp = await response.json();
-        const { QueryResult } = resp;
         const unwrappedResponse = resp[_.keys(resp)[0]];
         const errors = unwrappedResponse.Errors || resp.Errors;
         if (errors && errors.length) {
             throw new Error(errors.map(e => `Rally Server Error: ${e}`).join(','));
         }
-        if (unwrap) {
-            if (QueryResult) {
-                return QueryResult.Results;
-            }
-            if (unwrappedResponse.Object) {
-                return unwrappedResponse.Object;
-            }
-            throw new Error('Response type not found');
+        let returnedValue = resp;
+        if (resp.QueryResult) {
+            returnedValue = resp.QueryResult.Results;
+            delete resp.QueryResult;
         }
-        return unwrappedResponse;
+        if (resp.Results) {
+            returnedValue = resp.Results;
+            delete resp.Results;
+        }
+        if (unwrappedResponse.Object) {
+            returnedValue = unwrappedResponse.Object;
+            delete resp.Object;
+        }
+        returnedValue.$rawResponse = resp;
+        return returnedValue;
+    }
+
+    /**
+     * 
+     * @param {Lookback.Request} request 
+     * @returns {Promise<RallyApi.Lookback.Response>}
+     */
+    async queryLookback(request = {}, workspace = 0) {
+        workspace = workspace || this.workspace;
+        const url = `${this.options.server}/analytics/v2.0/service/rally/workspace/${workspace}/artifact/snapshot/query`;
+        const finalParams = _.defaults(request, RallyClient.defaultLookbackRequest);
+        const headers = {
+            zsessionid: this.apiKey,
+            'Access-Control-Allow-Origin': '*'
+        };
+        const body = JSON.stringify(request, null, 2);
+
+        const rawResponse = await fetch(url, {
+            method: 'POST',
+            headers,
+            credentials: 'include',
+            body
+        });
+        const resp = await RallyClient.manageResponse(rawResponse);
+        resp.$params = finalParams;
+        return resp;
     }
 
     /**
@@ -75,8 +102,8 @@ class RallyClient {
             headers,
             credentials: 'include'
         });
-        const resp = await RallyClient.manageResponse(rawResponse);
-        resp.__params = finalParams;
+        let resp = await RallyClient.manageResponse(rawResponse);
+        resp.$params = finalParams;
         return resp;
     }
 
@@ -115,7 +142,10 @@ class RallyClient {
                 body
             }
         );
-        return RallyClient.manageResponse(rawResponse);
+
+        let resp = await RallyClient.manageResponse(rawResponse);
+        resp.$params = params;
+        return resp;
     }
 
     /**
@@ -130,7 +160,7 @@ class RallyClient {
             type = RallyClient.getTypeFromRef(typeOrRef);
             objectID = RallyClient.getIdFromRef(typeOrRef);
         }
-        const finalParams = _.defaults(params, RallyClient.defaultOptions);
+        const finalParams = _.defaults(params, { fetch: true }, RallyClient.defaultOptions);
         delete finalParams.project;
         delete finalParams.workspace;
         const url = RallyClient.prepareUrl(this.options.server, type, objectID.toString(), finalParams);
@@ -143,10 +173,10 @@ class RallyClient {
             headers,
             credentials: 'include'
         });
-        
-        const resp = await RallyClient.manageResponse(rawResponse, false);
-        
-        // console.error(resp);
+
+        let resp = await RallyClient.manageResponse(rawResponse);
+        resp = resp[_.keys(resp)[0]];
+        resp.$params = finalParams;
         return resp;
     }
 
@@ -171,7 +201,6 @@ class RallyClient {
     static getIdFromRef(ref) {
         if (!_.isString(ref)) return null;
         const [id] = ref.split('/').reverse();
-
         return Number(id) || null;
     }
 
@@ -203,6 +232,21 @@ class RallyClient {
             workspace: undefined
         };
         return defaultRequest;
+    }
+
+    /**
+ * @returns {RallyClient.QueryOptions}
+ * 
+ */
+    static get defaultLookbackRequest() {
+        return {
+            find: {},
+            fields: ['ObjectID', 'Name'],
+            hydrate: [],
+            start: 0,
+            pagesize: 100,
+            removeUnauthorizedSnapshots: true
+        };
     }
 
     /**

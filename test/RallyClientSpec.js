@@ -1,6 +1,7 @@
 let chai = require('chai');
 const { RallyClient } = require('../index');
 const apiKey = require('./apikey.conf');// just the api key
+const loginApiKey = require('./lookback.apikey.conf');// just the api key
 
 const project = 109942692864;
 const workspace = 109942692528;
@@ -43,7 +44,7 @@ describe('Rally Client', function requestFoo() {
     });
   });
 
-  describe('query', function queryFoo() {
+  xdescribe('query', function queryFoo() {
     it('should show defaulted query info', async () => {
       const request = new RallyClient(apiKey);
       const query = {
@@ -58,9 +59,9 @@ describe('Rally Client', function requestFoo() {
       options.workspace = workspaceRef;
       options.pagesize = 1;
       let defectsResponse = await request.query('Defect', query);
-      console.error(defectsResponse);
-      expect(defectsResponse.__params).to.deep.equal(options);
+      expect(defectsResponse.$params).to.deep.equal(options);
     });
+
     it('should get a page of story data', async () => {
       const request = new RallyClient(apiKey);
       const query = RallyClient.defaultOptions;
@@ -68,6 +69,7 @@ describe('Rally Client', function requestFoo() {
       let projects = await request.query('Project', query);
       expect(projects.length).to.not.equal(0);
     });
+
     it('should handle rally errors', async () => {
       const request = new RallyClient(apiKey);
       const options = getOptions();
@@ -85,18 +87,17 @@ describe('Rally Client', function requestFoo() {
     it('should handle http errors', async () => {
       const server = 'https://rally1.ralfdfdlydev.com';
       const request = new RallyClient(apiKey, { server });
-      return request.query('Project', getOptions())
-        .then((projects) => {
-          fail('Error not caught');
-        })
-        .catch((err) => {
-          expect(err);
-          expect((err.message).includes(server)).to.equal(true);
-        });
+      try {
+        await request.query('Project', getOptions());
+        fail('Error not caught');
+      } catch (err) {
+        expect(err);
+        expect((err.message).includes(server)).to.equal(true);
+      }
     });
   });
 
-  describe('save', function save() {
+  xdescribe('save', function save() {
     it('should create a new defect', async () => {
       const request = new RallyClient(apiKey);
       const defect = {
@@ -143,54 +144,93 @@ describe('Rally Client', function requestFoo() {
       }
     });
   });
+  xdescribe('Ref Tests', () => {
+    describe('getIdFromRef', function getRef() {
+      it('Should get the id from shorted ref', () => {
+        expect(RallyClient.getIdFromRef('/type/76894'))
+          .to.equal(76894);
+      });
+      it('Should get the id from long ref', () => {
+        const result = RallyClient.getIdFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894');
+        expect(result).to.equal(76894);
+      });
+      it('Should return null from random string', () => {
+        expect(RallyClient.getIdFromRef('Who likes tacos I do'))
+          .to.equal(null);
+      });
+    });
 
-  describe('getIdFromRef', function getRef() {
-    it('Should get the id from shorted ref', () => {
-      expect(RallyClient.getIdFromRef('/type/76894'))
-        .to.equal(76894);
-    });
-    it('Should get the id from long ref', () => {
-      const result = RallyClient.getIdFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894');
-      console.error(result);
-      expect(result).to.equal(76894);
-    });
-    it('Should return null from random string', () => {
-      expect(RallyClient.getIdFromRef('Who likes tacos I do'))
-        .to.equal(null);
+    describe('getTypeFromRef', function getRef() {
+      it('Should get the type from shorted ref', () => {
+        expect(RallyClient.getTypeFromRef('/type/76894')).to.equal('type');
+      });
+      it('Should get the type from long ref', () => {
+        expect(RallyClient.getTypeFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894'))
+          .to.equal('project');
+      });
+      it('Should return null from random string', () => {
+        expect(RallyClient.getTypeFromRef('Who likes tacos I do')).to.equal(null);
+      });
     });
   });
 
-  describe('getTypeFromRef', function getRef() {
-    it('Should get the type from shorted ref', () => {
-      expect(RallyClient.getTypeFromRef('/type/76894')).to.equal('type');
+  describe('lookback', function lookback() {
+    const client = new RallyClient(loginApiKey, { project: projectRef });
+    it('return data', async () => {
+      const query = {
+        find: { ObjectID: 50765439113 },
+        fields: true,
+        hydrate: [],
+        start: 0,
+        pagesize: 10,
+        removeUnauthorizedSnapshots: true
+      };
+      const response = await client.queryLookback(query, 38034898590);
+      expect(response.length > 0).to.equal(true);
+      expect(response.$rawResponse.Warnings).to.deep.equal(['Max page size limited to 100 when fields=true']);
+      expect(response.$rawResponse.PageSize).to.equal(10);
+      expect(response.$rawResponse.HasMore).to.equal(true);
     });
-    it('Should get the type from long ref', () => {
-      expect(RallyClient.getTypeFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894'))
-        .to.equal('project');
-    });
-    it('Should return null from random string', () => {
-      expect(RallyClient.getTypeFromRef('Who likes tacos I do')).to.equal(null);
+
+    it('handle errors', async () => {
+      const query = {
+        find: { ObjectID: 50765439113 },
+        fields: true,
+        hydrate: [],
+        start: 0,
+        pagesize: 10,
+        removeUnauthorizedSnapshots: true
+      };
+      try {
+        await client.queryLookback(query, 1234);
+        fail('Expected Error');
+      } catch (err) {
+        expect(err.message).to.deep.equal('Forbidden Code:403');
+      }
     });
   });
 
-  describe('get', function getRef() {
+  xdescribe('get', function getRef() {
     const id = 172482267852;
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
     const longRef = `https://rally1.rallydev.com/slm/webservice/v2.0${shortRef}`;
-    const client = new RallyClient(apiKey, { project: projectRef });    
+    const client = new RallyClient(apiKey, { project: projectRef });
     it('Should get the defect from shorted ref', async () => {
       const resp = await client.get(shortRef);
       expect(resp.ObjectID).to.equal(id);
+      expect(resp.Description).to.equal('', 'should fetch more than regular field defaults');
     });
     it('Should get the defect from long ref', async () => {
       const resp = await client.get(longRef);
-      expect(resp.ObjectID).to.equal(id);      
+      expect(resp.ObjectID).to.equal(id);
+      expect(resp.Description).to.equal('', 'should fetch more than regular field defaults');
     });
 
     it('Should get the defect from type and id', async () => {
       const resp = await client.get(type, id);
-      expect(resp.ObjectID).to.equal(id);      
+      expect(resp.ObjectID).to.equal(id);
+      expect(resp.Description).to.equal('', 'should fetch more than regular field defaults');
     });
   });
 });
