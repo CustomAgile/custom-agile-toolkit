@@ -59,10 +59,10 @@ class RallyClient {
 
     /**
      * 
-     * @param {Lookback.Request} request 
+     * @param {RallyApi.Lookback.Request} request 
      * @returns {Promise<RallyApi.Lookback.Response>}
      */
-    async queryLookback(request = {}, workspace = 0) {
+    async queryLookback(request, workspace = 0) {
         workspace = workspace || this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally/workspace/${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, RallyClient.defaultLookbackRequest);
