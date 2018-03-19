@@ -308,8 +308,8 @@ describe('Rally Client', function requestFoo() {
         const allResponse = await response.$getAll();
         expect(allResponse.$rawResponse.StartIndex)
           .to.equal(response.$rawResponse.StartIndex);
-        expect(response.$hasMore).to.equal(true);          
-        expect(allResponse.$hasMore).to.equal(false);          
+        expect(response.$hasMore).to.equal(true);
+        expect(allResponse.$hasMore).to.equal(false);
         expect(allResponse.length).to.equal(response.$rawResponse.TotalResultCount);
       });
     });
@@ -336,6 +336,40 @@ describe('Rally Client', function requestFoo() {
       const resp = await client.get(type, id);
       expect(resp.ObjectID).to.equal(id);
       expect(resp.Description).to.equal('', 'should fetch more than regular field defaults');
+    });
+  });
+
+  describe('delete', function getRef() {
+    let defectToDelete;
+    const client = new RallyClient(apiKey);
+
+    beforeEach(async () => {
+      const defect = {
+        Project: projectRef,
+        Name: 'test defect for delete',
+        c_CreatedByAutomatedTest: true
+      };
+
+      defectToDelete = await client.save('Defect', defect);
+    });
+    it('Should delete the defect by object', async () => {
+      expect(defectToDelete);
+      const resp = await client.delete(defectToDelete);
+      try {
+        await client.get(defectToDelete._ref);
+        fail('Error expected');
+      } catch (err) {
+        expect(err.message).to.equal('Rally Server Error: Cannot find object to read');
+      }
+    });
+
+    it('Should error when given a defect that doesn\'t exist', async () => {
+      try {
+        await client.delete('https://rally1.rallydev.com/slm/webservice/v2.x/defect/1234');
+        fail('Error expected');
+      } catch (err) {
+        expect(err.message).to.equal('Rally Server Error: Object to delete cannot be null');
+      }
     });
   });
 });

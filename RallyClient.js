@@ -200,7 +200,11 @@ class RallyClient {
      * @param {number} objectID 
      * @returns {Promise}
      */
-    async get(typeOrRef, objectID = 0, params = {}) {
+    async get(typeOrRef, objectID = 0, params = {}) {   
+        return this._request(typeOrRef, objectID, params, 'GET');
+    }
+
+    async _request(typeOrRef, objectID = 0, params = {}, action) {
         let type = typeOrRef;
         if (!objectID) {
             type = RallyClient.getTypeFromRef(typeOrRef);
@@ -215,7 +219,7 @@ class RallyClient {
             'Access-Control-Allow-Origin': '*'
         };
         const rawResponse = await fetch(url, {
-            method: 'GET',
+            method: action,
             headers,
             credentials: 'include'
         });
@@ -224,6 +228,33 @@ class RallyClient {
         resp = resp[_.keys(resp)[0]];
         resp.$params = finalParams;
         return resp;
+    }
+
+    /**
+     * 
+     * @param {*} inputOrRef Either a Rally object or the ref for a Rally object
+     * @param {*} params Optional Params to be sent with the request
+     */
+    async delete(inputOrRef, params = {}) {
+        let ref;
+        if (_.isObject(inputOrRef)) {
+            ref = inputOrRef._ref;
+        } else {
+            ref = inputOrRef;
+        }
+        return this._request(ref, 0, params, 'DELETE');
+    }
+
+    static getRefFromStringOrObject(input) {
+        let ref;
+        if (_.isString(input)) {
+            ref = input;
+        } else if (_.isObject(input) && _.isString(input._ref)) {
+            ref = input._ref;
+        } else {
+            throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
+        }
+        return ref;
     }
 
     /**
