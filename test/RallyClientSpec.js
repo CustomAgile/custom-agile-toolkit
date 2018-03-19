@@ -1,13 +1,13 @@
 let chai = require('chai');
 const { RallyClient } = require('../index');
 const apiKey = require('./apikey.conf');// just the api key
-const loginApiKey = require('./lookback.apikey.conf');// just the api key
 
-const project = 109942692864;
-const workspace = 109942692528;
+const project = 199606970176;
+const workspace = 199606969760;
 const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
-
+const defectId = 206176979708;
+const defectId2 = 206335021952;
 const getOptions = () => {
   const options = RallyClient.defaultOptions;
   options.project = projectRef;
@@ -17,7 +17,7 @@ const getOptions = () => {
 
 const { expect } = chai;
 describe('Rally Client', function requestFoo() {
-  this.timeout(5000);
+  this.timeout(15000);
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
     const client = new RallyClient(apiKey, { project: projectRef });
@@ -99,24 +99,26 @@ describe('Rally Client', function requestFoo() {
 
   describe('save', function save() {
     it('should create a new defect', async () => {
-      const request = new RallyClient(apiKey);
+      const client = new RallyClient(apiKey);
       const defect = {
         Project: projectRef,
-        Name: 'test defect'
+        Name: 'test defect',
+        c_CreatedByAutomatedTest: true
       };
 
-      const defectObject = await request.save('Defect', defect);
+      const defectObject = await client.save('Defect', defect);
 
       expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
       expect((defectObject.ObjectID));
+      // defectObject;
     });
 
     it('should update a defect', async () => {
       const rand = Math.floor((Math.random() * 10000));
       const request = new RallyClient(apiKey);
       const defect = {
-        ObjectID: 172482267852,
+        ObjectID: defectId,
         Project: projectRef,
         Name: `${rand}`
       };
@@ -124,8 +126,42 @@ describe('Rally Client', function requestFoo() {
       const defectObject = await request.save('Defect', defect);
 
       expect(defectObject);
+      expect(defectObject.Name).to.equal(defect.Name);
+      expect(defectObject.ObjectID).to.equal(defectId);
+    });
+
+    it('should update a defect if ref is set without specifying type', async () => {
+      const rand = Math.floor((Math.random() * 10000));
+      const request = new RallyClient(apiKey);
+      const defect = {
+        _ref: `https://rally1.rallydev.com/slm/webservice/v2.x/defect/${defectId2}`,
+        ObjectID: -1,
+        Project: projectRef,
+        Name: `${rand}`
+      };
+
+      const defectObject = await request.save(defect);
+
+      expect(defectObject);
+      expect(defectObject.Name).to.equal(defect.Name);
+      expect((defectObject.ObjectID)).to.equal(defectId2);
+    });
+
+    it('should update a defect if a local ref "/defect/1234" is set without specifying type', async () => {
+      const rand = Math.floor((Math.random() * 10000));
+      const request = new RallyClient(apiKey);
+      const defect = {
+        _ref: `/defect/${defectId}`,
+        ObjectID: -1,
+        Project: projectRef,
+        Name: `${rand}`
+      };
+
+      const defectObject = await request.save(defect);
+
+      expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
-      expect((defectObject.ObjectID)).to.equal(defect.ObjectID);
+      expect((defectObject.ObjectID)).to.equal(defectId);
     });
 
     it('should handle rally errors', async () => {
@@ -144,6 +180,7 @@ describe('Rally Client', function requestFoo() {
       }
     });
   });
+
   describe('Ref Tests', () => {
     describe('getIdFromRef', function getRef() {
       it('Should get the id from shorted ref', () => {
@@ -172,20 +209,26 @@ describe('Rally Client', function requestFoo() {
         expect(RallyClient.getTypeFromRef('Who likes tacos I do')).to.equal(null);
       });
     });
+
+    describe('getTypeFromRef', function getRef() {
+      it('Should get the type from shorted ref', () => {
+
+      });
+    });
   });
 
   describe('lookback', function lookback() {
-    const client = new RallyClient(loginApiKey, { project: projectRef });
+    const client = new RallyClient(apiKey, { project: projectRef, workspace: workspaceRef });
     it('return data', async () => {
       const query = {
-        find: { ObjectID: 50765439113 },
+        find: { ObjectID: defectId },
         fields: true,
         hydrate: [],
         start: 0,
         pagesize: 10,
         removeUnauthorizedSnapshots: true
       };
-      const response = await client.queryLookback(query, 38034898590);
+      const response = await client.queryLookback(query);
       expect(response.length > 0).to.equal(true);
       expect(response.$rawResponse.Warnings).to.deep.equal(['Max page size limited to 100 when fields=true']);
       expect(response.$rawResponse.PageSize).to.equal(10);
@@ -194,7 +237,7 @@ describe('Rally Client', function requestFoo() {
 
     it('handle errors', async () => {
       const query = {
-        find: { ObjectID: 50765439113 },
+        find: { ObjectID: defectId },
         fields: true,
         hydrate: [],
         start: 0,
@@ -210,13 +253,14 @@ describe('Rally Client', function requestFoo() {
     });
 
     describe('paging', async function paging() {
+      let response, secondPageResponse;
       const pagesize = 15;
       const query = {
         find: {
-          ObjectID: 50765439113,
+          ObjectID: defectId,
           _ValidFrom: {
             $gte: '2011-07-01TZ',
-            $lt: '2018-01-31TZ'
+            $lt: '2018-03-19T15:26:34.663Z'
           },
         },
         fields: true,
@@ -226,8 +270,9 @@ describe('Rally Client', function requestFoo() {
         pagesize,
         removeUnauthorizedSnapshots: true
       };
-      const response = await client.queryLookback(query, 38034898590);
-      const secondPageResponse = await response.$getNextPage();
+      before(async () => {
+        response = await client.queryLookback(query);
+      });
 
       it('should include a promise to get the next page', async () => {
         expect(response.$getNextPage).to.be.a('function');
@@ -238,14 +283,19 @@ describe('Rally Client', function requestFoo() {
         expect(response.$hasMore).to.equal(true);
         expect(response.length).to.equal(pagesize);
 
+        secondPageResponse = await response.$getNextPage();
+
         expect(secondPageResponse.$rawResponse.StartIndex)
           .to.equal(response.$rawResponse.StartIndex + pagesize);
         expect(secondPageResponse.length)
           .to.equal(response.$rawResponse.TotalResultCount - pagesize);
       });
       it('should reject the promise if at final page', async () => {
+        secondPageResponse = await response.$getNextPage();
+
         try {
           // no third page
+
           expect(secondPageResponse.$hasMore).to.equal(false);
           await secondPageResponse.$getNextPage();
           fail('expect an error when asking for next page when that doesn\'t exist');
@@ -258,14 +308,15 @@ describe('Rally Client', function requestFoo() {
         const allResponse = await response.$getAll();
         expect(allResponse.$rawResponse.StartIndex)
           .to.equal(response.$rawResponse.StartIndex);
+        expect(response.$hasMore).to.equal(true);          
+        expect(allResponse.$hasMore).to.equal(false);          
         expect(allResponse.length).to.equal(response.$rawResponse.TotalResultCount);
-        expect(allResponse.$hasMore).to.equal(false);
       });
     });
   });
 
   describe('get', function getRef() {
-    const id = 172482267852;
+    const id = 206176979708;
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
     const longRef = `https://rally1.rallydev.com/slm/webservice/v2.0${shortRef}`;

@@ -44,7 +44,7 @@ declare namespace RallyApi {
       removeUnauthorizedSnapshots?: boolean;
     }
 
-    export interface Response {
+    export interface Response extends Array {
       $params: any,
       $hasMore: boolean,
       $rawResponse: RawResponse,

@@ -18,6 +18,8 @@ class RallyClient {
         this.options = options;
         this.options.server = options.server || RallyClient.defaultRallyServer;
         this.apiKey = apiKey;
+        this.workspace = options.workspace;
+        this.project = options.project;
     }
 
     /**
@@ -60,11 +62,12 @@ class RallyClient {
     /**
      * 
      * @param {RallyApi.Lookback.Request} request 
+     * @param {Number} request 
      * @returns {Promise<RallyApi.Lookback.Response>}
      */
-    async queryLookback(request, workspace = 0) {
-        workspace = workspace || this.workspace;
-        const url = `${this.options.server}/analytics/v2.0/service/rally/workspace/${workspace}/artifact/snapshot/query`;
+    async queryLookback(request, workspaceId = 0) {
+        const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
+        const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, RallyClient.defaultLookbackRequest);
         const headers = {
             zsessionid: this.apiKey,
@@ -82,26 +85,27 @@ class RallyClient {
         const resp = await RallyClient.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.$hasMore = resp.$rawResponse.HasMore;
+        const firstRawResponse = resp.$rawResponse;
         if (resp.$hasMore) {
             resp.$getNextPage = async () => {
                 const newRequest = _.cloneDeep(request);
                 newRequest.start += newRequest.pagesize;
-                return this.queryLookback(newRequest, workspace);
+                return this.queryLookback(newRequest, workspaceId);
             };
             resp.$getAll = async () => {
                 // TODO: eventually make this more concurrent
-                let clonedCurrent = _.cloneDeep(resp);
-                let currentResponse = await resp.$getNextPage();
-                clonedCurrent = [...clonedCurrent, currentResponse];
+                let currentResponse = resp;
+                currentResponse.$hasMore = resp.$hasMore;
+                let allResponses = currentResponse;
                 while (currentResponse.$hasMore) {
                     currentResponse = await currentResponse.$getNextPage();
-                    clonedCurrent = [...clonedCurrent, currentResponse];
+                    allResponses = [...currentResponse, ...allResponses];
                 }
-                clonedCurrent.$getNextPage = async () => { throw new Error('No more pages in this request'); };
-                clonedCurrent.$getAll = async () => clonedCurrent;
-                clonedCurrent.$hasMore = false;
-                clonedCurrent.$rawResponse = resp.$rawResponse;
-                return clonedCurrent;
+                allResponses.$getNextPage = async () => { throw new Error('No more pages in this request'); };
+                allResponses.$getAll = async () => allResponses;
+                allResponses.$hasMore = false;
+                allResponses.$rawResponse = firstRawResponse;
+                return allResponses;
             };
         } else {
             resp.$getNextPage = async () => { throw new Error('No more pages in this request'); };
@@ -136,12 +140,22 @@ class RallyClient {
 
     /**
      * 
-     * @param {string} type 
+     * @param {string||[string:any]} input Either a string typename for the following object or an object containing a ref
      * @param {[string:any]} data 
      * @param {[string:any]} params 
      * @returns {Promise<object>}
      */
-    async save(type, data, params = {}) {
+    async save(input, data, params = {}) {
+        let type, url;
+        
+        if (_.isString(input)) {
+            type = input;
+        } else if (_.isObject(input) && _.isString(input._ref)) {
+            params = data;            
+            data = input;
+        } else {
+            throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
+        }
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -149,13 +163,18 @@ class RallyClient {
         if (!data.Project && this.options.project) {
             data.Project = this.options.project;
         }
-        const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
-        let url = RallyClient.prepareUrl(this.options.server, type, action, params);
-
-        if (_.isNumber(data.ObjectID)) {
-            url = `${url}/${data.ObjectID}?`;
+        if (data._ref) {
+            url = RallyClient.prepareUrl(this.options.server, RallyClient.getTypeFromRef(data._ref), RallyClient.getIdFromRef(data._ref), params);
         } else {
-            url = `${url}/create?`;
+            const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
+
+            url = RallyClient.prepareUrl(this.options.server, type, action, params);
+
+            if (_.isNumber(data.ObjectID)) {
+                url = `${url}/${data.ObjectID}?`;
+            } else {
+                url = `${url}/create?`;
+            }
         }
         const wrapper = {};
         wrapper[type] = data;
@@ -177,7 +196,7 @@ class RallyClient {
 
     /**
      * 
-     * @param {string} typeOrRef 
+     * @param {string} typeOrRef
      * @param {number} objectID 
      * @returns {Promise}
      */
@@ -190,7 +209,7 @@ class RallyClient {
         const finalParams = _.defaults(params, { fetch: true }, RallyClient.defaultOptions);
         delete finalParams.project;
         delete finalParams.workspace;
-        const url = RallyClient.prepareUrl(this.options.server, type, objectID.toString(), finalParams);
+        const url = RallyClient.prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -284,6 +303,7 @@ class RallyClient {
      * @param {object} params 
      */
     static prepareUrl(server, type, action = '', params = {}) {
+        if (_.isNumber(action)) action = action.toString();
         if (!params.workspace) {
             delete params.workspace;
         }
