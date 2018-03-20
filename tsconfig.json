@@ -4,15 +4,18 @@
     "outDir": "./built",
     "target": "ESNEXT", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
     "module": "commonjs", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
-    "allowJs": true, /* Allow javascript files to be compiled. */
-    "checkJs": true, /* Report errors in .js files. */
-    "sourceMap": true /* Generates corresponding '.map' file. */
+    "allowJs": false, /* Allow javascript files to be compiled. */
+    "checkJs": false, /* Report errors in .js files. */
+    "sourceMap": true, /* Generates corresponding '.map' file. */
+    "declaration": true,
+    "declarationDir": "./declare"
   },
   "exclude": [
     "node_modules"
   ],
   "files": [
-    "./RallyClient.ts",
-    "./typings/rally.d.ts"
+    "RallyClient.ts",
+    "index.ts",
+    "declare/rally.d.ts"
   ]
 }

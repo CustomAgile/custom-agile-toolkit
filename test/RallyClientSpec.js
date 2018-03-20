@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { RallyClient } = require('../index');
+const { RallyClient } = require('../built/index');
 const apiKey = require('./apikey.conf');// just the api key
 
 const project = 199606970176;
@@ -403,7 +403,6 @@ describe('Rally Client', function requestFoo() {
       expect(deletePromises.length > 0).to.equal(true);      
       try {
         const { FormattedID } = await client.get(defectToDeleted2._ref);
-        console.log('deleteResponse', deleteResponse);
         expect.fail(null, null, `Error expected ${FormattedID}`);
       } catch (err) {
         expect(err.message).to.equal('Rally Server Error: Cannot find object to read');

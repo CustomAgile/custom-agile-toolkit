@@ -1,15 +1,15 @@
+/// <reference path="./declare/rally.d.ts"/>
+
 import fetch = require("node-fetch");
 import _ = require("lodash");
 import url = require("url");
 const { URLSearchParams } = url;
 
-function delay(t: number, v: Function = () => { }) {
-    return new Promise(((resolve) => {
-        setTimeout(resolve.bind(null, v), t);
-    }));
-}
+
 
 class RallyClient {
+
+    
     constructor(
         /** @type{string} */apiKey,
         options = {
@@ -79,13 +79,8 @@ class RallyClient {
         return returnedValue;
     }
 
-    /**
-     * 
-     * @param request Lookback Api Request @type {RallyApi.Lookback.Request} 
-     * @param {Number?} workspaceId 
-     * @returns {Promise<RallyApi.Lookback.Response>}
-     */
-    async queryLookback(/** @type {RallyApi.Lookback.Request} */request, workspaceId = 0) {
+
+    async queryLookback(/** @type {RallyApi.Lookback.Request} */request, workspaceId = 0):Promise<RallyApi.Lookback.Response> {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, RallyClient.defaultLookbackRequest);
@@ -139,8 +134,8 @@ class RallyClient {
      * @param {string} type 
      * @param {RallyApi.QueryOptions} query 
      * @param {[string:any]} params 
-     * @returns {Promise<object[]>}
-     */
+     * @returns {Promise<RallyApi.QueryResponse>}
+     */ 
     async query(type, query: RallyApi.QueryOptions = {}, params = {}):
         Promise<RallyApi.QueryResponse> {
         const finalParams = _.defaults(query, params, RallyClient.defaultOptions);
@@ -174,7 +169,7 @@ class RallyClient {
     async save(data: RallyApi.RallyObject): Promise<void>
     async save(arg1: RallyApi.RallyObject | string, arg2: RallyApi.RallyObject | RallyApi.QueryOptions = {}, arg3: RallyApi.QueryOptions = {}) {
         let type, url, data, params;
-        if (_.isString(arg1)) {
+        if (_.isString(arg1)) { 
             type = arg1;
             data = arg2;
         } else if (_.isObject(arg1)) {
@@ -292,7 +287,7 @@ class RallyClient {
         const resp = await this._request(ref, 0, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
-            const delayResult = await delay(500);
+            const delayResult = await RallyClient.delay(500);
         }
         return resp;
     }
@@ -315,7 +310,7 @@ class RallyClient {
      * @param {number} objectID 
      * @returns {string}
      */
-    static getRef(typeOrRef, objectID) {
+    static getRef(typeOrRef, objectID):string {
         if (_.isNumber(objectID)) {
             return `/${typeOrRef}/${objectID}`;
         }
@@ -401,6 +396,12 @@ class RallyClient {
         action = _.isString(action) ? `/${action}` : '';
         return `${server}slm/webservice/v2.0/${type}${action}?${searchParams.toString()}`;
     }
+
+    static delay(t: number, v: Function = () => { }) {
+        return new Promise(((resolve) => {
+            setTimeout(resolve.bind(null, v), t);
+        }));
+    }
 }
 
-export = { RallyClient };
+export = RallyClient;
