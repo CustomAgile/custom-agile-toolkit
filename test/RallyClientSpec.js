@@ -383,7 +383,7 @@ describe('Rally Client', function requestFoo() {
     });
 
     it('should de able to delete using $delete on query results', async function queryDelete() {
-      this.retries(4);
+      this.retries(7);
       
       const bulkDefect = {
         Project: projectRef,

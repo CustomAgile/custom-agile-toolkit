@@ -4,6 +4,7 @@ module.exports = function karma(config) {
     frameworks: ['mocha'],
     files: [
       '*.js',
+      '*.ts',
       'test/*.js'
     ]
   });

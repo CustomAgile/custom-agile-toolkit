@@ -6,7 +6,8 @@
   "license": "",
   "dependencies": {
     "lodash": "^4.17.4",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "eslint-plugin-jsx-a11y": "^6.0.3",
@@ -23,6 +24,7 @@
     "mocha": "^4.0.1"
   },
   "scripts": {
+    "pretest": "tsc",
     "test": " ./node_modules/mocha/bin/mocha"
   },
   "directories": {

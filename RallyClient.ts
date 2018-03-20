@@ -1,9 +1,9 @@
+import fetch = require("node-fetch");
+import _ = require("lodash");
+import url = require("url");
+const { URLSearchParams } = url;
 
-const fetch = require('node-fetch');
-const _ = require('lodash');
-const { URLSearchParams } = require('url');
-
-function delay(t, v) {
+function delay(t: number, v: Function = () => { }) {
     return new Promise(((resolve) => {
         setTimeout(resolve.bind(null, v), t);
     }));
@@ -28,6 +28,18 @@ class RallyClient {
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
+    }
+
+    apiKey: String
+    workspace: String
+    project: String
+
+    options: {
+        server: String
+        /** @type{string} */
+        project: undefined,
+        /** @type{string} */
+        workspace: undefined
     }
 
     /**
@@ -129,7 +141,8 @@ class RallyClient {
      * @param {[string:any]} params 
      * @returns {Promise<object[]>}
      */
-    async query(type, query = {}, params = {}) {
+    async query(type, query: RallyApi.QueryOptions = {}, params = {}):
+        Promise<RallyApi.QueryResponse> {
         const finalParams = _.defaults(query, params, RallyClient.defaultOptions);
         const url = RallyClient.prepareUrl(this.options.server, type, false, finalParams);
         const headers = {
@@ -147,6 +160,8 @@ class RallyClient {
         return resp;
     }
 
+
+
     /**
      * 
      * @param {string||[string:any]} input Either a string typename for the following object or an object containing a ref
@@ -154,14 +169,17 @@ class RallyClient {
      * @param {[string:any]} params 
      * @returns {Promise<object>}
      */
-    async save(input, data, params = {}) {
-        let type, url;
-
-        if (_.isString(input)) {
-            type = input;
-        } else if (_.isObject(input) && _.isString(input._ref)) {
-            params = data;
-            data = input;
+    async save(input: string, data: RallyApi.RallyObject, params: RallyApi.QueryOptions): Promise<void>
+    async save(data: RallyApi.RallyObject, params: RallyApi.QueryOptions): Promise<void>
+    async save(data: RallyApi.RallyObject): Promise<void>
+    async save(arg1: RallyApi.RallyObject | string, arg2: RallyApi.RallyObject | RallyApi.QueryOptions = {}, arg3: RallyApi.QueryOptions = {}) {
+        let type, url, data, params;
+        if (_.isString(arg1)) {
+            type = arg1;
+            data = arg2;
+        } else if (_.isObject(arg1)) {
+            params = arg2;
+            data = arg1;
         } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
@@ -173,7 +191,11 @@ class RallyClient {
             data.Project = this.options.project;
         }
         if (data._ref) {
-            url = RallyClient.prepareUrl(this.options.server, RallyClient.getTypeFromRef(data._ref), RallyClient.getIdFromRef(data._ref), params);
+            url = RallyClient.prepareUrl(
+                this.options.server,
+                RallyClient.getTypeFromRef(data._ref),
+                RallyClient.getIdFromRef(data._ref),
+                params);
         } else {
             const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
 
@@ -323,7 +345,7 @@ class RallyClient {
     }
 
     /**
-     * @returns {RallyClient.QueryOptions}
+     * @returns {RallyApi.QueryOptions}
      * 
      */
     static get defaultOptions() {
@@ -342,11 +364,11 @@ class RallyClient {
     }
 
     /**
-     * @returns {RallyClient.QueryOptions}
+     * @returns {RallyApi.QueryOptions}
      * 
      */
     static get defaultLookbackRequest() {
-        return {
+        const value = {
             find: {},
             fields: ['ObjectID', 'Name'],
             hydrate: [],
@@ -354,6 +376,7 @@ class RallyClient {
             pagesize: 100,
             removeUnauthorizedSnapshots: true
         };
+        return value;
     }
 
     /**
@@ -361,9 +384,9 @@ class RallyClient {
      * @param {string} server 
      * @param {string} type 
      * @param {string} action 
-     * @param {object} params 
+     * @param {RallyApi.QueryOptions} params 
      */
-    static prepareUrl(server, type, action = '', params = {}) {
+    static prepareUrl(server, type: string, action: boolean | string | number = '', params: RallyApi.QueryOptions = {}) {
         if (_.isNumber(action)) action = action.toString();
         if (!params.workspace) {
             delete params.workspace;
@@ -376,10 +399,8 @@ class RallyClient {
             server += '/';
         }
         action = _.isString(action) ? `/${action}` : '';
-        let url = `${server}slm/webservice/v2.0/${type}${action}`;
-        url += `?${searchParams.toString()}`;
-        return url;
+        return `${server}slm/webservice/v2.0/${type}${action}?${searchParams.toString()}`;
     }
 }
 
-module.exports = { RallyClient };
+export = { RallyClient };

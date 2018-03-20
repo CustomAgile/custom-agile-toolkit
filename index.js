@@ -1,3 +1,3 @@
-const { RallyClient } = require('./RallyClient');
+const { RallyClient } = require('./built/RallyClient');
 
 module.exports = { RallyClient };
