@@ -3,6 +3,12 @@ const fetch = require('node-fetch');
 const _ = require('lodash');
 const { URLSearchParams } = require('url');
 
+function delay(t, v) {
+    return new Promise(((resolve) => {
+        setTimeout(resolve.bind(null, v), t);
+    }));
+}
+
 class RallyClient {
     constructor(
         /** @type{string} */apiKey,
@@ -135,6 +141,7 @@ class RallyClient {
         });
         let resp = await RallyClient.manageResponse(rawResponse);
         resp.$params = finalParams;
+        resp.forEach(d => this._decorateObject(d));
         return resp;
     }
 
@@ -147,11 +154,11 @@ class RallyClient {
      */
     async save(input, data, params = {}) {
         let type, url;
-        
+
         if (_.isString(input)) {
             type = input;
         } else if (_.isObject(input) && _.isString(input._ref)) {
-            params = data;            
+            params = data;
             data = input;
         } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
@@ -191,6 +198,7 @@ class RallyClient {
 
         let resp = await RallyClient.manageResponse(rawResponse);
         resp.$params = params;
+        this._decorateObject(resp);
         return resp;
     }
 
@@ -200,10 +208,15 @@ class RallyClient {
      * @param {number} objectID 
      * @returns {Promise}
      */
-    async get(typeOrRef, objectID = 0, params = {}) {   
-        return this._request(typeOrRef, objectID, params, 'GET');
+    async get(typeOrRef, objectID = 0, params = {}) {
+        const result = this._request(typeOrRef, objectID, params, 'GET');
+        this._decorateObject(result);
+        return result;
     }
 
+    /**
+     * @private
+     */
     async _request(typeOrRef, objectID = 0, params = {}, action) {
         let type = typeOrRef;
         if (!objectID) {
@@ -231,18 +244,33 @@ class RallyClient {
     }
 
     /**
+    * Adds the delete and save options to each object
+    * @private
+    */
+    async _decorateObject(object) {
+        object.$save = () => this.save(object);
+        object.$delete = () => this.delete(object);
+    }
+
+    /**
      * 
      * @param {*} inputOrRef Either a Rally object or the ref for a Rally object
      * @param {*} params Optional Params to be sent with the request
+     * @param {Boolean} ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
-    async delete(inputOrRef, params = {}) {
+    async delete(inputOrRef, params = {}, ignoreDelay = false) {
         let ref;
         if (_.isObject(inputOrRef)) {
             ref = inputOrRef._ref;
         } else {
             ref = inputOrRef;
         }
-        return this._request(ref, 0, params, 'DELETE');
+        const resp = await this._request(ref, 0, params, 'DELETE');
+        if (!ignoreDelay) {
+            // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
+            const delayResult = await delay(500);
+        }
+        return resp;
     }
 
     static getRefFromStringOrObject(input) {

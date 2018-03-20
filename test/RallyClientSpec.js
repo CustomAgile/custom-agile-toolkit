@@ -14,13 +14,17 @@ const getOptions = () => {
   options.workspace = workspaceRef;
   return options;
 };
-
+const client = new RallyClient(apiKey, { project: projectRef, workspace: workspaceRef });
+function delay(t, v) {
+  return new Promise(((resolve) => {
+    setTimeout(resolve.bind(null, v), t);
+  }));
+}
 const { expect } = chai;
 describe('Rally Client', function requestFoo() {
-  this.timeout(15000);
+  this.timeout(5000);
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
-    const client = new RallyClient(apiKey, { project: projectRef });
     expect(client.options.server).to.equal('https://rally1.rallydev.com');
   });
 
@@ -46,37 +50,34 @@ describe('Rally Client', function requestFoo() {
 
   describe('query', function queryFoo() {
     it('should show defaulted query info', async () => {
-      const request = new RallyClient(apiKey);
+      const client = new RallyClient(apiKey);
       const query = {
-        Query: '(Name Contains "test")',
+        query: '(Name Contains "test")',
         project: projectRef,
         workspace: workspaceRef,
         pagesize: 1
       };
       const options = RallyClient.defaultOptions;
-      options.Query = query.Query;
+      options.query = query.query;
       options.project = projectRef;
       options.workspace = workspaceRef;
       options.pagesize = 1;
-      let defectsResponse = await request.query('Defect', query);
+      let defectsResponse = await client.query('Defect', query);
       expect(defectsResponse.$params).to.deep.equal(options);
     });
 
     it('should get a page of story data', async () => {
-      const request = new RallyClient(apiKey);
       const query = RallyClient.defaultOptions;
-
-      let projects = await request.query('Project', query);
+      let projects = await client.query('Project', query);
       expect(projects.length).to.not.equal(0);
     });
 
     it('should handle rally errors', async () => {
-      const request = new RallyClient(apiKey);
       const options = getOptions();
       options.query = '(Name zobolts 9)';
-      return request.query('Project', options)
+      return client.query('Project', options)
         .then((projects) => {
-          fail('Error not caught');
+          expect.fail('Error not caught');
         })
         .catch((err) => {
           expect(err);
@@ -86,10 +87,11 @@ describe('Rally Client', function requestFoo() {
 
     it('should handle http errors', async () => {
       const server = 'https://rally1.ralfdfdlydev.com';
-      const request = new RallyClient(apiKey, { server });
+      const brokenClient = new RallyClient(apiKey, { server });
+
       try {
-        await request.query('Project', getOptions());
-        fail('Error not caught');
+        await brokenClient.query('Project', getOptions());
+        expect.fail('Error not caught');
       } catch (err) {
         expect(err);
         expect((err.message).includes(server)).to.equal(true);
@@ -99,7 +101,6 @@ describe('Rally Client', function requestFoo() {
 
   describe('save', function save() {
     it('should create a new defect', async () => {
-      const client = new RallyClient(apiKey);
       const defect = {
         Project: projectRef,
         Name: 'test defect',
@@ -116,14 +117,13 @@ describe('Rally Client', function requestFoo() {
 
     it('should update a defect', async () => {
       const rand = Math.floor((Math.random() * 10000));
-      const request = new RallyClient(apiKey);
       const defect = {
         ObjectID: defectId,
         Project: projectRef,
         Name: `${rand}`
       };
 
-      const defectObject = await request.save('Defect', defect);
+      const defectObject = await client.save('Defect', defect);
 
       expect(defectObject);
       expect(defectObject.Name).to.equal(defect.Name);
@@ -132,7 +132,6 @@ describe('Rally Client', function requestFoo() {
 
     it('should update a defect if ref is set without specifying type', async () => {
       const rand = Math.floor((Math.random() * 10000));
-      const request = new RallyClient(apiKey);
       const defect = {
         _ref: `https://rally1.rallydev.com/slm/webservice/v2.x/defect/${defectId2}`,
         ObjectID: -1,
@@ -140,7 +139,7 @@ describe('Rally Client', function requestFoo() {
         Name: `${rand}`
       };
 
-      const defectObject = await request.save(defect);
+      const defectObject = await client.save(defect);
 
       expect(defectObject);
       expect(defectObject.Name).to.equal(defect.Name);
@@ -149,7 +148,6 @@ describe('Rally Client', function requestFoo() {
 
     it('should update a defect if a local ref "/defect/1234" is set without specifying type', async () => {
       const rand = Math.floor((Math.random() * 10000));
-      const request = new RallyClient(apiKey);
       const defect = {
         _ref: `/defect/${defectId}`,
         ObjectID: -1,
@@ -157,7 +155,7 @@ describe('Rally Client', function requestFoo() {
         Name: `${rand}`
       };
 
-      const defectObject = await request.save(defect);
+      const defectObject = await client.save(defect);
 
       expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
@@ -165,15 +163,14 @@ describe('Rally Client', function requestFoo() {
     });
 
     it('should handle rally errors', async () => {
-      const request = new RallyClient(apiKey);
       const defect = {
         Project: projectRef,
         Name: 'test defect'
       };
 
       try {
-        await request.save('IAMNOTAREALONE', defect);
-        fail('exception expected for bad endpoint');
+        await client.save('IAMNOTAREALONE', defect);
+        expect.fail('exception expected for bad endpoint');
       } catch (err) {
         expect(err.message);
         expect((err.message).includes('Requested type name "iamnotarealone" is unknown')).to.equal(true);
@@ -218,7 +215,6 @@ describe('Rally Client', function requestFoo() {
   });
 
   describe('lookback', function lookback() {
-    const client = new RallyClient(apiKey, { project: projectRef, workspace: workspaceRef });
     it('return data', async () => {
       const query = {
         find: { ObjectID: defectId },
@@ -246,7 +242,7 @@ describe('Rally Client', function requestFoo() {
       };
       try {
         await client.queryLookback(query, 1234);
-        fail('Expected Error');
+        expect.fail('Expected Error');
       } catch (err) {
         expect(err.message).to.deep.equal('Forbidden Code:403');
       }
@@ -298,7 +294,7 @@ describe('Rally Client', function requestFoo() {
 
           expect(secondPageResponse.$hasMore).to.equal(false);
           await secondPageResponse.$getNextPage();
-          fail('expect an error when asking for next page when that doesn\'t exist');
+          expect.fail('expect an error when asking for next page when that doesn\'t exist');
         } catch (err) {
           expect(err.message).to.equal('No more pages in this request');
         }
@@ -320,7 +316,6 @@ describe('Rally Client', function requestFoo() {
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
     const longRef = `https://rally1.rallydev.com/slm/webservice/v2.0${shortRef}`;
-    const client = new RallyClient(apiKey, { project: projectRef });
     it('Should get the defect from shorted ref', async () => {
       const resp = await client.get(shortRef);
       expect(resp.ObjectID).to.equal(id);
@@ -340,36 +335,93 @@ describe('Rally Client', function requestFoo() {
   });
 
   describe('delete', function getRef() {
-    let defectToDelete;
-    const client = new RallyClient(apiKey);
+    describe('happy path', () => {
+      let defectToDeleted;
 
-    beforeEach(async () => {
-      const defect = {
-        Project: projectRef,
-        Name: 'test defect for delete',
-        c_CreatedByAutomatedTest: true
-      };
+      beforeEach(async () => {
+        const defect = {
+          Project: projectRef,
+          Name: 'test defect for delete',
+          c_CreatedByAutomatedTest: true
+        };
 
-      defectToDelete = await client.save('Defect', defect);
-    });
-    it('Should delete the defect by object', async () => {
-      expect(defectToDelete);
-      const resp = await client.delete(defectToDelete);
-      try {
-        await client.get(defectToDelete._ref);
-        fail('Error expected');
-      } catch (err) {
-        expect(err.message).to.equal('Rally Server Error: Cannot find object to read');
-      }
+        defectToDeleted = await client.save('Defect', defect);
+      });
+      it('Should delete the defect by passing the object', async () => {
+        expect(defectToDeleted);
+        await client.delete(defectToDeleted);
+        try {
+          await delay(1000);          
+          await client.get(defectToDeleted._ref);
+          expect.fail(null, null, 'Error expected in delete call');
+        } catch (err) {
+          expect(err.message).to.equal('Rally Server Error: Cannot find object to read');
+        }
+      });
+
+      it('Should delete the defect by using the method on the object', async () => {
+        expect(defectToDeleted);
+        await defectToDeleted.$delete();
+
+        try {
+          await delay(1000);
+          await client.get(defectToDeleted._ref);
+          expect.fail(null, null, 'Error expected in delete call');
+        } catch (err) {
+          expect(err.message).to.equal('Rally Server Error: Cannot find object to read');
+        }
+      });
     });
 
     it('Should error when given a defect that doesn\'t exist', async () => {
       try {
         await client.delete('https://rally1.rallydev.com/slm/webservice/v2.x/defect/1234');
-        fail('Error expected');
+        expect.fail(null, null, 'Error expected');
       } catch (err) {
         expect(err.message).to.equal('Rally Server Error: Object to delete cannot be null');
       }
     });
+
+    it('should de able to delete using $delete on query results', async function queryDelete() {
+      this.retries(4);
+      
+      const bulkDefect = {
+        Project: projectRef,
+        Name: 'test defect for query delete',
+        c_CreatedByAutomatedTest: true
+      };
+      let defectToDeleted2 = await client.save('Defect', bulkDefect);
+      const query = {
+        query: `(Name = "${bulkDefect.Name}")`,
+        project: projectRef,
+        workspace: workspaceRef
+      };
+      let defectsResponse = await client.query('Defect', query);
+      
+      const deletePromises = defectsResponse.map(d => d.$delete());
+      const deleteResponse = await Promise.all(deletePromises);
+      expect(deletePromises.length > 0).to.equal(true);      
+      try {
+        const { FormattedID } = await client.get(defectToDeleted2._ref);
+        console.log('deleteResponse', deleteResponse);
+        expect.fail(null, null, `Error expected ${FormattedID}`);
+      } catch (err) {
+        expect(err.message).to.equal('Rally Server Error: Cannot find object to read');
+      }
+      return deleteResponse;
+    });
+  });
+  // final cleanup
+  after(async () => {
+    const query = {
+      query: '(c_CreatedByAutomatedTest = true)',
+      project: projectRef,
+      workspace: workspaceRef
+    };
+    let defectsResponse = await client.query('Defect', query);
+    const deletePromises = defectsResponse.map(d => d.$delete());
+
+    const resp = await Promise.all(deletePromises);
+    return { resp };
   });
 });
