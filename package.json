@@ -26,7 +26,8 @@
   },
   "scripts": {
     "pretest": "tsc; eslint --fix built/*.js&",
-    "test": " ./node_modules/mocha/bin/mocha"
+    "test": " ./node_modules/mocha/bin/mocha",
+    "posttest":"typedoc -out CustomAgileToolkit ./rally*.ts --ignoreCompilerErrors --mode modules&"
   },
   "directories": {
     "test": "test"

@@ -1,0 +1,3 @@
+[submodule "CustomAgileToolkit"]
+	path = CustomAgileToolkit
+	url = https://github.com/CustomAgile/CustomAgileToolkit.git
