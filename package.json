@@ -1,9 +1,9 @@
 {
-  "name": "rally-node-api",
-  "version": "0.1.4",
+  "name": "custom-agile-toolkit",
+  "version": "0.2.0",
   "main": "index.js",
-  "author": "",
-  "license": "ISC",
+  "author": "Charles Ferentchak",
+  "license": "",
   "dependencies": {
     "lodash": "^4.17.4",
     "node-fetch": "^1.7.3"
