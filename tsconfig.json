@@ -17,5 +17,6 @@
     "RallyClient.ts",
     "index.ts",
     "RallyApi.ts"
-  ]
+  ],
+  "compileOnSave": true
 } 
