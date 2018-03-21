@@ -1,17 +1,13 @@
-
-// / <reference path="./declare/rally.d.ts"/>
-const fetch = require('node-fetch');
-const _ = require('lodash');
-const url = require('url');
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fetch = require("node-fetch");
+const _ = require("lodash");
+const url = require("url");
 const { URLSearchParams } = url;
 class RallyClient {
-    constructor(
-    /** @type{string} */ apiKey, options = {
+    constructor(apiKey, options = {
         server: RallyClient.defaultRallyServer,
-        /** @type{string} */
         project: undefined,
-        /** @type{string} */
         workspace: undefined
     }) {
         if (!_.isString(apiKey)) {
@@ -99,7 +95,8 @@ class RallyClient {
                 allResponses.$rawResponse = firstRawResponse;
                 return allResponses;
             };
-        } else {
+        }
+        else {
             resp.$getNextPage = async () => { throw new Error('No more pages in this request'); };
             resp.$getAll = async () => _.cloneDeep(resp);
         }
@@ -134,10 +131,12 @@ class RallyClient {
         if (_.isString(arg1)) {
             type = arg1;
             data = arg2;
-        } else if (_.isObject(arg1)) {
+        }
+        else if (_.isObject(arg1)) {
             params = arg2;
             data = arg1;
-        } else {
+        }
+        else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
         const headers = {
@@ -149,12 +148,14 @@ class RallyClient {
         }
         if (data._ref) {
             url = RallyClient.prepareUrl(this.options.server, RallyClient.getTypeFromRef(data._ref), RallyClient.getIdFromRef(data._ref), params);
-        } else {
+        }
+        else {
             const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
             url = RallyClient.prepareUrl(this.options.server, type, action, params);
             if (_.isNumber(data.ObjectID)) {
                 url = `${url}/${data.ObjectID}?`;
-            } else {
+            }
+            else {
                 url = `${url}/create?`;
             }
         }
@@ -228,7 +229,8 @@ class RallyClient {
         let ref;
         if (_.isObject(inputOrRef)) {
             ref = inputOrRef._ref;
-        } else {
+        }
+        else {
             ref = inputOrRef;
         }
         const resp = await this._request(ref, 0, params, 'DELETE');
@@ -242,9 +244,11 @@ class RallyClient {
         let ref;
         if (_.isString(input)) {
             ref = input;
-        } else if (_.isObject(input) && _.isString(input._ref)) {
+        }
+        else if (_.isObject(input) && _.isString(input._ref)) {
             ref = input._ref;
-        } else {
+        }
+        else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
         return ref;
@@ -267,7 +271,8 @@ class RallyClient {
      * @returns {string}
      */
     static getIdFromRef(ref) {
-        if (!_.isString(ref)) { return null; }
+        if (!_.isString(ref))
+            return null;
         const [id] = ref.split('/').reverse();
         return Number(id) || null;
     }
@@ -277,7 +282,8 @@ class RallyClient {
      * @returns {string}
      */
     static getTypeFromRef(ref) {
-        if (!_.isString(ref)) { return null; }
+        if (!_.isString(ref))
+            return null;
         const [, type = null] = ref.split('/').reverse();
         return type;
     }
@@ -322,7 +328,8 @@ class RallyClient {
      * @param {RallyApi.QueryOptions} params
      */
     static prepareUrl(server, type, action = '', params = {}) {
-        if (_.isNumber(action)) { action = action.toString(); }
+        if (_.isNumber(action))
+            action = action.toString();
         if (!params.workspace) {
             delete params.workspace;
         }
@@ -336,11 +343,16 @@ class RallyClient {
         action = _.isString(action) ? `/${action}` : '';
         return `${server}slm/webservice/v2.0/${type}${action}?${searchParams.toString()}`;
     }
-    static delay(t, v = () => { }) {
+    /**
+     * @private
+     * @param millisecondsOfDelay
+     * @param scopeFuction
+     */
+    static delay(millisecondsOfDelay, scopeFuction = () => { }) {
         return new Promise(((resolve) => {
-            setTimeout(resolve.bind(null, v), t);
+            setTimeout(resolve.bind(null, scopeFuction), millisecondsOfDelay);
         }));
     }
 }
-module.exports = RallyClient;
-// # sourceMappingURL=RallyClient.js.map
+exports.RallyClient = RallyClient;
+//# sourceMappingURL=RallyClient.js.map

@@ -1,4 +1,15 @@
-declare namespace RallyApi {
+import { RallyClient } from "./RallyClient";
+
+namespace RallyApi {
+
+  export const Client = RallyClient
+
+  export interface ClientOptions {
+    server?: string,
+    project?: undefined,
+    workspace?: undefined
+  }
+
   export interface QueryOptions {
     fetch?: string[] | boolean,
     query?: string,
@@ -46,7 +57,7 @@ declare namespace RallyApi {
       $getNextPage: () => Promise<Lookback.Response>
     }
 
-    interface RawResponse {
+    export interface RawResponse {
       _rallyAPIMajor: string;
       _rallyAPIMinor: string;
       Errors: any[];
@@ -61,7 +72,7 @@ declare namespace RallyApi {
       Timings: Timings;
     }
 
-    interface Timings {
+    export interface Timings {
       preProcess: number;
       findEtlDate: number;
       allowedValuesDisambiguation: number;
@@ -73,7 +84,7 @@ declare namespace RallyApi {
       TOTAL: number;
     }
 
-    interface ThreadStats {
+    export interface ThreadStats {
       cpuTime: string;
       waitTime: string;
       waitCount: string;
@@ -81,21 +92,23 @@ declare namespace RallyApi {
       blockedCount: string;
     }
 
-    interface GeneratedQuery {
+    export interface GeneratedQuery {
       find: Find;
       limit: number;
       skip: number;
       fields: boolean;
     }
 
-    interface Find {
+    export interface Find {
       ObjectID: number;
       _ValidFrom: ValidFrom;
     }
 
-    interface ValidFrom {
+    export interface ValidFrom {
       '$lte': string;
     }
 
   }
 }
+
+export = RallyApi;

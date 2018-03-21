@@ -25,9 +25,9 @@
     "mocha": "^4.0.1"
   },
   "scripts": {
-    "pretest": "tsc; eslint --fix built/*.js&",
+    "pretest": "tsc",
     "test": " ./node_modules/mocha/bin/mocha",
-    "posttest":"typedoc -out CustomAgileToolkit ./rally*.ts --ignoreCompilerErrors --mode modules&"
+    "posttest":"./moveDocs.sh"
   },
   "directories": {
     "test": "test"
