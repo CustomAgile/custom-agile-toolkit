@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import RallyApi = require("./RallyApi");
+=======
+import RallyApi = require("./rally");
+>>>>>>> 8f13a3b0a4c59f83c6140a8398d6bcecea96b346
 export declare class RallyClient {
     constructor(apiKey: string, options?: RallyApi.ClientOptions);
     apiKey: String;

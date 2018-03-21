@@ -28,7 +28,11 @@
   "scripts": {
     "pretest": "tsc",
     "test": " ./node_modules/mocha/bin/mocha",
+<<<<<<< HEAD
     "posttest": "./moveDocs.sh"
+=======
+    "posttest":"./moveDocs.sh"
+>>>>>>> 8f13a3b0a4c59f83c6140a8398d6bcecea96b346
   },
   "directories": {
     "test": "test"
