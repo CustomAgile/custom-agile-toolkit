@@ -66,7 +66,6 @@ export class RallyClient {
         return returnedValue;
     }
 
-
     async queryLookback(/** @type {RallyApi.Lookback.Request} */request, workspaceId = 0): Promise<RallyApi.Lookback.Response> {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
