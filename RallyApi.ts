@@ -1,4 +1,4 @@
-import { RallyClient } from "./RallyClient";
+import { RallyClient } from './RallyClient';
 
 declare namespace RallyApi {
 

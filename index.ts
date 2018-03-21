@@ -1,5 +1,4 @@
-import RallyClient = require("./RallyClient");
+import RallyClient = require('./RallyClient');
 
 export = RallyClient;
 
- 

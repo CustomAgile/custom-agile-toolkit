@@ -1,3 +1,4 @@
+eslint *.ts --fix > /dev/null&
 git submodule init
 git submodule update
 typedoc -out tempDocs --tsconfig tsconfig.json --ignoreCompilerErrors --mode modules

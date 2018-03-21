@@ -1,7 +1,7 @@
-import RallyApi = require("./RallyApi");
-import fetch = require("node-fetch");
-import _ = require("lodash");
-import url = require("url");
+import RallyApi = require('./RallyApi');
+import fetch = require('node-fetch');
+import _ = require('lodash');
+import url = require('url');
 const { URLSearchParams } = url;
 
 export class RallyClient {
@@ -141,8 +141,6 @@ export class RallyClient {
         return resp;
     }
 
-
-
     /**
      * 
      * @param {string||[string:any]} input Either a string typename for the following object or an object containing a ref
@@ -176,7 +174,8 @@ export class RallyClient {
                 this.options.server,
                 RallyClient.getTypeFromRef(data._ref),
                 RallyClient.getIdFromRef(data._ref),
-                params);
+                params
+);
         } else {
             const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
 

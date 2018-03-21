@@ -10,6 +10,7 @@ module.exports = {
     ],
     "parser": "typescript-eslint-parser",
     rules: {
+        "no-dupe-class-members":'warn',
         "strict":0,
         "function-paren-newline":'warn',
         "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
