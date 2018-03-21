@@ -8,7 +8,9 @@ module.exports = {
     "plugins": [
         "import"
     ],
+    "parser": "typescript-eslint-parser",
     rules: {
+        "strict":0,
         "function-paren-newline":'warn',
         "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
         "no-unused-vars": [1, { "vars": "local", "args": "none", "varsIgnorePattern": "/^[A-Z][a-z0-9_-]{3,19}$/" }],

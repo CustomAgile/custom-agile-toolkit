@@ -16,6 +16,6 @@
   "files": [
     "RallyClient.ts",
     "index.ts",
-    "declare/rally.d.ts"
+    "RallyApi.ts"
   ]
 }
