@@ -1,6 +1,6 @@
 let chai = require('chai');
 const { RallyClient } = require('../built/index');
-const apiKey = require('./apikey.conf');// just the api key
+const apiKey = require('../apikey.conf');// just the api key
 
 const project = 199606970176;
 const workspace = 199606969760;

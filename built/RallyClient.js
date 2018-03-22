@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const fetch = require("node-fetch");
 const _ = require("lodash");
 const url = require("url");
@@ -354,5 +353,5 @@ class RallyClient {
         }));
     }
 }
-exports.RallyClient = RallyClient;
+module.exports = RallyClient;
 //# sourceMappingURL=RallyClient.js.map

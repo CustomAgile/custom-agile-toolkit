@@ -4,7 +4,7 @@ import _ = require('lodash');
 import url = require('url');
 const { URLSearchParams } = url;
 
-export class RallyClient {
+class RallyClient {
     constructor(
         apiKey: string,
 
@@ -175,7 +175,7 @@ export class RallyClient {
                 RallyClient.getTypeFromRef(data._ref),
                 RallyClient.getIdFromRef(data._ref),
                 params
-);
+            );
         } else {
             const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
 
@@ -393,3 +393,5 @@ export class RallyClient {
         }));
     }
 }
+
+export = RallyClient;

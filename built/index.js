@@ -1,4 +1,3 @@
 "use strict";
-const RallyClient = require("./RallyClient");
-module.exports = RallyClient;
+module.exports = _default;
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,5 @@
-import RallyApi = require("./RallyApi");
-export declare class RallyClient {
+import RallyApi = require('./RallyApi');
+declare class RallyClient {
     constructor(apiKey: string, options?: RallyApi.ClientOptions);
     apiKey: String;
     workspace: String;
@@ -117,3 +117,4 @@ export declare class RallyClient {
      */
     static delay(millisecondsOfDelay: number, scopeFuction?: Function): Promise<{}>;
 }
+export = RallyClient;

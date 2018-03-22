@@ -1,2 +1,5 @@
-import RallyClient = require("./RallyClient");
-export = RallyClient;
+import RallyClient = require('./RallyClient');
+declare const _default: {
+    RallyClient: typeof RallyClient;
+};
+export = _default;

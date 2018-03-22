@@ -1,4 +1,4 @@
-import { RallyClient } from './RallyClient';
+import  RallyClient = require('./RallyClient');
 
 declare namespace RallyApi {
 
@@ -24,10 +24,16 @@ declare namespace RallyApi {
   }
 
   export interface RallyObject {
-    _ref: string
+    _ref: string,
+    _refObjectName: string,
+    _type: string,
+    _rallyAPIMajor?: number,
+    _rallyAPIMinor?: number,
+    _CreatedAt?: string,
+    [ x :string]:any
   }
 
-  export interface QueryResponse {
+  export interface QueryResponse extends Array<RallyObject> {
     $params: any,
     $hasMore: boolean,
     /** returns all the data from the later pages including this page */
