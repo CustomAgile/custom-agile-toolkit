@@ -36,6 +36,19 @@ describe('Rally Client', function requestFoo() {
     it('should construct a ref our of a type and id', () => {
       expect(RallyClient.getRef('project', 786)).to.equal('/project/786');
     });
+    it('should get the ref from a rally object', () => {
+      const fakeRallyObject = { _ref: '/defect/1234' };
+      expect(RallyClient.getRef(fakeRallyObject)).to.equal('/defect/1234');
+    });
+    it('should throw an exception if the rally object doesn\'t have a ref', () => {
+      const fakeRallyObject = { _notRef: '/defect/1234' };
+      try {
+        RallyClient.getRef(fakeRallyObject);
+        expect.fail(null, null, 'Exception should of been thrown by Rally');
+      } catch (err) {
+        expect(err.message).to.equal('_ref must be specified to use getRef from a RallyObject');        
+      }
+    });
   });
   describe('prepareUrl', function prepareUrl() {
     it('should use ref when provided', () => {
@@ -51,7 +64,7 @@ describe('Rally Client', function requestFoo() {
 
   describe('query', function queryFoo() {
     it('should show defaulted query info', async () => {
-      const client = new RallyClient(apiKey);
+      const defaultClient = new RallyClient(apiKey);
       const query = {
         query: '(Name Contains "test")',
         project: projectRef,
@@ -63,7 +76,7 @@ describe('Rally Client', function requestFoo() {
       options.project = projectRef;
       options.workspace = workspaceRef;
       options.pagesize = 1;
-      let defectsResponse = await client.query('Defect', query);
+      let defectsResponse = await defaultClient.query('Defect', query);
       expect(defectsResponse.$params).to.deep.equal(options);
     });
 
@@ -327,15 +340,17 @@ describe('Rally Client', function requestFoo() {
     });
   });
 
-  describe('get', function getRef() {
+  describe('get', function getByRef() {
     const id = 206176979708;
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
     const longRef = `https://rally1.rallydev.com/slm/webservice/v2.0${shortRef}`;
     it('Should get the defect from shorted ref', async () => {
-      const resp = await client.get(shortRef);
-      expect(resp.ObjectID).to.equal(id);
-      expect(resp.Description).to.equal('', 'should fetch more than regular field defaults');
+      const defect = await client.get(shortRef);
+
+      expect(defect.$delete).to.be.a('function');
+      expect(defect.Description).to.equal('', 'should fetch more than regular field defaults');
+      expect(defect.ObjectID).to.equal(id);
     });
     it('Should get the defect from long ref', async () => {
       const resp = await client.get(longRef);
@@ -347,6 +362,25 @@ describe('Rally Client', function requestFoo() {
       const resp = await client.get(type, id);
       expect(resp.ObjectID).to.equal(id);
       expect(resp.Description).to.equal('', 'should fetch more than regular field defaults');
+    });
+  });
+
+  describe.only('getCollection', function getCollection() {
+    const id = 206176979708;
+    const type = 'defect';
+    const shortRef = `/${type}/${id}`;
+    let defect;
+    before(async () => {
+      defect = await client.get(shortRef);
+      const rawTags = defect.Tags._tagsNameArray;
+      expect(rawTags.length).to.equal(2, 'Precheck failed expected two tags');
+    });
+    it('Should get a collection', async () => {
+      const tags = await client.getCollection(defect, 'Tags', { });
+      expect(tags.length).to.equal(2, 'Expected two tags returned from sub collection');
+      const [tag1, tag2] = tags;
+      expect(tag1.Name).to.equal('Test Tag 1');
+      expect(tag2.Name).to.equal('Test Tag 2');
     });
   });
 
@@ -367,7 +401,7 @@ describe('Rally Client', function requestFoo() {
         expect(defectToDeleted);
         await client.delete(defectToDeleted);
         try {
-          await delay(1000);          
+          await delay(1000);
           await client.get(defectToDeleted._ref);
           expect.fail(null, null, 'Error expected in delete call');
         } catch (err) {
@@ -400,7 +434,7 @@ describe('Rally Client', function requestFoo() {
 
     it('should de able to delete using $delete on query results', async function queryDelete() {
       this.retries(7);
-      
+
       const bulkDefect = {
         Project: projectRef,
         Name: 'test defect for query delete',
@@ -413,10 +447,10 @@ describe('Rally Client', function requestFoo() {
         workspace: workspaceRef
       };
       let defectsResponse = await client.query('Defect', query);
-      
+
       const deletePromises = defectsResponse.map(d => d.$delete());
       const deleteResponse = await Promise.all(deletePromises);
-      expect(deletePromises.length > 0).to.equal(true);      
+      expect(deletePromises.length > 0).to.equal(true);
       try {
         const { FormattedID } = await client.get(defectToDeleted2._ref);
         expect.fail(null, null, `Error expected ${FormattedID}`);

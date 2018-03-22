@@ -1,9 +1,15 @@
 import RallyApi = require('./RallyApi');
 declare class RallyClient {
     constructor(apiKey: string, options?: RallyApi.ClientOptions);
+    /**
+     * @private
+     */
     apiKey: String;
     workspace: String;
     project: String;
+    /**
+     * @private
+     */
     options: RallyApi.ClientOptions;
     /**
      * The default Rally server Rally to be used
@@ -21,32 +27,31 @@ declare class RallyClient {
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<void>;
-    save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<void>;
-    save(rallyObject: Partial<RallyApi.RallyObject>): Promise<void>;
+    save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
+    save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
+    save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>;
     /**
      *
-     * @param {string} typeOrRef
-     * @param {number} objectID
-     * @returns {Promise}
+     * @param typeOrRef
+     * @param objectID
+     * @param params
      */
-    get(typeOrRef: any, objectID?: number, params?: {}): Promise<any>;
+    get(typeOrRef: string, objectID?: number, params?: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
     /**
      *
-     * @param {RallyApi.RallyObject} object
+     * @param {RallyApi.RallyObject} rallyObject
      * @param {number} objectID
-     * @returns {Promise}
      */
-    getCollection(typeOrRef: any, objectID?: number, params?: {}): Promise<any>;
+    getCollection(rallyObject: RallyApi.RallyObject, collectionName: string, params?: RallyApi.QueryOptions): Promise<RallyApi.QueryResponse>;
     /**
      * @private
      */
     _request(typeOrRef: any, objectID: number, params: {}, action: any): Promise<any>;
     /**
-    * Adds the delete and save options to each object
-    * @private
-    */
-    _decorateObject(object: any): Promise<void>;
+     *
+     *  Adds the delete and save options to each object
+     */
+    _decorateObject(rallyObject: RallyApi.RallyObject): Promise<void>;
     /**
      *
      * @param {*} inputOrRef Either a Rally object or the ref for a Rally object
@@ -54,14 +59,13 @@ declare class RallyClient {
      * @param {Boolean} ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     delete(inputOrRef: any, params?: {}, ignoreDelay?: boolean): Promise<any>;
-    static getRefFromStringOrObject(input: any): any;
     /**
      *
-     * @param {string} typeOrRef
-     * @param {number} objectID
+     * @param {string | RallyApi.RallyObject} input
+     * @param {number?} objectID
      * @returns {string}
      */
-    static getRef(typeOrRef: any, objectID: any): string;
+    static getRef(input: string | RallyApi.RallyObject, objectID?: number): string;
     /**
      * Gets the ID portion of a ref
      * @param {string} typeOrRef
@@ -73,12 +77,12 @@ declare class RallyClient {
      * @param {string} ref
      * @returns {string}
      */
-    static getTypeFromRef(ref: any): any;
+    static getTypeFromRef(ref: any): string;
     /**
      * @returns {RallyApi.QueryOptions}
      *
      */
-    static readonly defaultOptions: {
+    readonly defaultOptions: {
         fetch: string[];
         start: number;
         pagesize: number;
@@ -87,7 +91,7 @@ declare class RallyClient {
         compact: boolean;
         includePermissions: boolean;
         project: any;
-        workspace: any;
+        workspace: String;
     };
     /**
      * @returns {RallyApi.QueryOptions}
@@ -102,13 +106,13 @@ declare class RallyClient {
         removeUnauthorizedSnapshots: boolean;
     };
     /**
-     *
+     * @private
      * @param {string} server
      * @param {string} type
      * @param {string} action
      * @param {RallyApi.QueryOptions} params
      */
-    static prepareUrl(server: any, type: string, action?: boolean | string | number, params?: RallyApi.QueryOptions): string;
+    static _prepareUrl(server: any, type: string, action?: boolean | string | number, params?: RallyApi.QueryOptions): string;
     /**
      * @private
      * @param millisecondsOfDelay

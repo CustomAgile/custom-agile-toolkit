@@ -2,7 +2,7 @@
   "name": "custom-agile-toolkit",
   "version": "0.2.0",
   "main": "built/index.js",
-  "types": "index.d.ts",
+  "types": "declare/index.d.ts",
   "author": "Charles Ferentchak",
   "license": "gpl",
   "dependencies": {

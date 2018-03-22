@@ -24,9 +24,15 @@ class RallyClient {
         this.project = options.project;
     }
 
+    /**
+     * @private
+     */
     apiKey: String
     workspace: String
     project: String
+    /**
+     * @private
+     */
     options: RallyApi.ClientOptions
 
     /**
@@ -117,8 +123,8 @@ class RallyClient {
 
     async query(type, query: RallyApi.QueryOptions = {}, params = {}):
         Promise<RallyApi.QueryResponse> {
-        const finalParams = _.defaults(query, params, RallyClient.defaultOptions);
-        const url = RallyClient.prepareUrl(this.options.server, type, false, finalParams);
+        const finalParams = _.defaults(query, params, this.defaultOptions);
+        const url = RallyClient._prepareUrl(this.options.server, type, false, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -140,10 +146,14 @@ class RallyClient {
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    async save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<void>
-    async save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<void>
-    async save(rallyObject: Partial<RallyApi.RallyObject>): Promise<void>
-    async save(arg1: Partial<RallyApi.RallyObject> | string, arg2: Partial<RallyApi.RallyObject> | RallyApi.QueryOptions = {}, arg3: RallyApi.QueryOptions = {}) {
+    async save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>
+    async save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>
+    async save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>
+    async save(
+arg1: Partial<RallyApi.RallyObject> | string,
+        arg2: Partial<RallyApi.RallyObject> | RallyApi.QueryOptions = {},
+        arg3: RallyApi.QueryOptions = {}
+    ): Promise<RallyApi.RallyObject> {
         let type, url, rallyObject, params;
         rallyObject = _.isObject(arg1) ? arg1 : arg2;
         if (_.isString(arg1)) {
@@ -163,7 +173,7 @@ class RallyClient {
             rallyObject.Project = this.options.project;
         }
         if (rallyObject._ref) {
-            url = RallyClient.prepareUrl(
+            url = RallyClient._prepareUrl(
                 this.options.server,
                 RallyClient.getTypeFromRef(rallyObject._ref),
                 RallyClient.getIdFromRef(rallyObject._ref),
@@ -172,7 +182,7 @@ class RallyClient {
         } else {
             const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
 
-            url = RallyClient.prepareUrl(this.options.server, type, action, params);
+            url = RallyClient._prepareUrl(this.options.server, type, action, params);
 
             if (_.isNumber(rallyObject.ObjectID)) {
                 url = `${url}/${rallyObject.ObjectID}?`;
@@ -201,26 +211,41 @@ class RallyClient {
 
     /**
      * 
-     * @param {string} typeOrRef
-     * @param {number} objectID 
-     * @returns {Promise}
+     * @param typeOrRef 
+     * @param objectID 
+     * @param params 
      */
-    async get(typeOrRef, objectID = 0, params = {}) {
-        const result = this._request(typeOrRef, objectID, params, 'GET');
+    async get(typeOrRef: string, objectID = 0, params: RallyApi.QueryOptions = {}): Promise<RallyApi.RallyObject> {
+        const result = await this._request(typeOrRef, objectID, params, 'GET');
         this._decorateObject(result);
         return result;
     }
 
     /**
      * 
-     * @param {RallyApi.RallyObject} object
+     * @param {RallyApi.RallyObject} rallyObject
      * @param {number} objectID 
-     * @returns {Promise}
      */
-    async getCollection(typeOrRef, objectID = 0, params = {}) {
-        const result = this._request(typeOrRef, objectID, params, 'GET');
-        this._decorateObject(result);
-        return result;
+    async getCollection(rallyObject: RallyApi.RallyObject, collectionName: string, params: RallyApi.QueryOptions = {}): Promise<RallyApi.QueryResponse> {
+        const finalParams = _.defaults(params, this.defaultOptions);
+        const ref = RallyClient.getRef(rallyObject);
+        const type = RallyClient.getTypeFromRef(ref);
+        const objectId = RallyClient.getIdFromRef(ref);
+        const action = `${objectId}/${collectionName}`;
+        const url = RallyClient._prepareUrl(this.options.server, type, action, finalParams);
+        const headers = {
+            zsessionid: this.apiKey,
+            'Access-Control-Allow-Origin': '*'
+        };
+        const rawResponse = await fetch(url, {
+            method: 'GET',
+            headers,
+            credentials: 'include'
+        });
+        let resp = await RallyClient.manageResponse(rawResponse);
+        resp.$params = finalParams;
+        resp.forEach(d => this._decorateObject(d));
+        return resp;
     }
 
     /**
@@ -232,10 +257,10 @@ class RallyClient {
             type = RallyClient.getTypeFromRef(typeOrRef);
             objectID = RallyClient.getIdFromRef(typeOrRef);
         }
-        const finalParams = _.defaults(params, { fetch: true }, RallyClient.defaultOptions);
+        const finalParams = _.defaults(params, { fetch: true }, this.defaultOptions);
         delete finalParams.project;
         delete finalParams.workspace;
-        const url = RallyClient.prepareUrl(this.options.server, type, objectID, finalParams);
+        const url = RallyClient._prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -253,12 +278,12 @@ class RallyClient {
     }
 
     /**
-    * Adds the delete and save options to each object
-    * @private
-    */
-    async _decorateObject(object) {
-        object.$save = () => this.save(object);
-        object.$delete = () => this.delete(object);
+     * 
+     *  Adds the delete and save options to each object
+     */
+    async _decorateObject(rallyObject: RallyApi.RallyObject) {
+        rallyObject.$save = () => this.save(rallyObject);
+        rallyObject.$delete = () => this.delete(rallyObject);
     }
 
     /**
@@ -282,29 +307,25 @@ class RallyClient {
         return resp;
     }
 
-    static getRefFromStringOrObject(input) {
-        let ref;
-        if (_.isString(input)) {
-            ref = input;
-        } else if (_.isObject(input) && _.isString(input._ref)) {
-            ref = input._ref;
-        } else {
-            throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
-        }
-        return ref;
-    }
-
     /**
      * 
-     * @param {string} typeOrRef 
-     * @param {number} objectID 
+     * @param {string | RallyApi.RallyObject} input 
+     * @param {number?} objectID 
      * @returns {string}
      */
-    static getRef(typeOrRef, objectID): string {
-        if (_.isNumber(objectID)) {
-            return `/${typeOrRef}/${objectID}`;
+    static getRef(input: string | RallyApi.RallyObject, objectID: number = 0): string {
+        let obj;
+        if (_.isObject(input)) {
+            obj = input;
+            if (_.isString(obj._ref)) {
+                return obj._ref;
+            }
+            throw new Error('_ref must be specified to use getRef from a RallyObject');
         }
-        return typeOrRef;
+        if (_.isNumber(objectID)) {
+            return `/${input}/${objectID}`;
+        }
+        return input.toString();
     }
 
     /**
@@ -333,7 +354,7 @@ class RallyClient {
      * @returns {RallyApi.QueryOptions}
      * 
      */
-    static get defaultOptions() {
+    get defaultOptions() {
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
             start: 1,
@@ -343,7 +364,7 @@ class RallyClient {
             compact: true,
             includePermissions: true,
             project: undefined,
-            workspace: undefined
+            workspace: this.workspace
         };
         return defaultRequest;
     }
@@ -365,13 +386,13 @@ class RallyClient {
     }
 
     /**
-     * 
+     * @private
      * @param {string} server 
      * @param {string} type 
      * @param {string} action 
      * @param {RallyApi.QueryOptions} params 
      */
-    static prepareUrl(server, type: string, action: boolean | string | number = '', params: RallyApi.QueryOptions = {}) {
+    static _prepareUrl(server, type: string, action: boolean | string | number = '', params: RallyApi.QueryOptions = {}) {
         if (_.isNumber(action)) action = action.toString();
         if (!params.workspace) {
             delete params.workspace;
