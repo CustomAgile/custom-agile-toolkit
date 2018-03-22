@@ -1,5 +1,4 @@
-import RallyClient = require('./RallyClient');
 declare const _default: {
-    RallyClient: typeof RallyClient;
+    RallyClient: any;
 };
 export = _default;

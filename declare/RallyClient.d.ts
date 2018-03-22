@@ -14,24 +14,16 @@ declare class RallyClient {
      */
     static manageResponse(response: any): Promise<any>;
     queryLookback(/** @type {RallyApi.Lookback.Request} */ request: any, workspaceId?: number): Promise<RallyApi.Lookback.Response>;
-    /**
-     *
-     * @param {string} type
-     * @param {RallyApi.QueryOptions} query
-     * @param {[string:any]} params
-     * @returns {Promise<RallyApi.QueryResponse>}
-     */
     query(type: any, query?: RallyApi.QueryOptions, params?: {}): Promise<RallyApi.QueryResponse>;
     /**
-     *
-     * @param {string||[string:any]} input Either a string typename for the following object or an object containing a ref
-     * @param {[string:any]} data
-     * @param {[string:any]} params
-     * @returns {Promise<object>}
+     * Saves the current state of the Rally object to Rally.
+     * Creating a new object on the server if no _ref is provided in rallyObject
+     * @param type The type of object to be created
+     * @param rallyObject A new or existing Rally object
      */
-    save(input: string, data: RallyApi.RallyObject, params: RallyApi.QueryOptions): Promise<void>;
-    save(data: RallyApi.RallyObject, params: RallyApi.QueryOptions): Promise<void>;
-    save(data: RallyApi.RallyObject): Promise<void>;
+    save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<void>;
+    save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<void>;
+    save(rallyObject: Partial<RallyApi.RallyObject>): Promise<void>;
     /**
      *
      * @param {string} typeOrRef
@@ -39,6 +31,13 @@ declare class RallyClient {
      * @returns {Promise}
      */
     get(typeOrRef: any, objectID?: number, params?: {}): Promise<any>;
+    /**
+     *
+     * @param {RallyApi.RallyObject} object
+     * @param {number} objectID
+     * @returns {Promise}
+     */
+    getCollection(typeOrRef: any, objectID?: number, params?: {}): Promise<any>;
     /**
      * @private
      */

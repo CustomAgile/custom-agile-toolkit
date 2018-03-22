@@ -17,6 +17,7 @@ declare namespace RallyApi {
         includePermissions?: boolean;
         project?: string;
         workspace?: string;
+        [key: string]: any;
     }
     interface RallyObject {
         _ref: string;

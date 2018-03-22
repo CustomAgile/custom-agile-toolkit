@@ -1,5 +1,6 @@
 let chai = require('chai');
 const { RallyClient } = require('../built/index');
+
 const apiKey = require('../apikey.conf');// just the api key
 
 const project = 199606970176;
@@ -160,6 +161,21 @@ describe('Rally Client', function requestFoo() {
       expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
       expect((defectObject.ObjectID)).to.equal(defectId);
+    });
+
+    it('should handle error if input Rally Object has no _ref', async () => {
+      const defect = {
+        Project: projectRef,
+        Name: 'test defect'
+      };
+
+      try {
+        await client.save(defect);
+        expect.fail('exception expected for bad endpoint');
+      } catch (err) {
+        expect(err.message);
+        expect((err.message).includes('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"')).to.equal(true);
+      }
     });
 
     it('should handle rally errors', async () => {

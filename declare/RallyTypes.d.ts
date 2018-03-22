@@ -1,5 +1,5 @@
 
-export interface TypeDef {
+ interface TypeDef {
   _ref: string;
   _refObjectUUID: string;
   _refObjectName: string;
@@ -32,22 +32,22 @@ export interface TypeDef {
   _type: string;
 }
 
-export interface RevisionHistory {
+ interface RevisionHistory {
   _ref: string;
   _refObjectUUID: string;
   _type: string;
 }
 
-export interface Attributes {
+ interface Attributes {
   _ref: string;
   _type: string;
   Count: number;
 }
 
-export interface Subscription {
+ interface Subscription {
   _ref: string;
   _refObjectUUID: string;
   _refObjectName: string;
   _type: string;
 }
-
+export = TypeDef;

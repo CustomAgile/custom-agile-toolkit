@@ -1,4 +1,4 @@
-import  RallyClient = require('./RallyClient');
+import RallyClient = require('./RallyClient');
 
 declare namespace RallyApi {
 
@@ -20,7 +20,8 @@ declare namespace RallyApi {
     compact?: boolean,
     includePermissions?: boolean,
     project?: string,
-    workspace?: string
+    workspace?: string,
+    [key: string]: any
   }
 
   export interface RallyObject {

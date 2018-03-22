@@ -1,7 +1,9 @@
-"use strict";
-const fetch = require("node-fetch");
-const _ = require("lodash");
-const url = require("url");
+'use strict';
+
+const fetch = require('node-fetch');
+const _ = require('lodash');
+const url = require('url');
+
 const { URLSearchParams } = url;
 class RallyClient {
     constructor(apiKey, options = {
@@ -94,20 +96,12 @@ class RallyClient {
                 allResponses.$rawResponse = firstRawResponse;
                 return allResponses;
             };
-        }
-        else {
+        } else {
             resp.$getNextPage = async () => { throw new Error('No more pages in this request'); };
             resp.$getAll = async () => _.cloneDeep(resp);
         }
         return resp;
     }
-    /**
-     *
-     * @param {string} type
-     * @param {RallyApi.QueryOptions} query
-     * @param {[string:any]} params
-     * @returns {Promise<RallyApi.QueryResponse>}
-     */
     async query(type, query = {}, params = {}) {
         const finalParams = _.defaults(query, params, RallyClient.defaultOptions);
         const url = RallyClient.prepareUrl(this.options.server, type, false, finalParams);
@@ -126,40 +120,37 @@ class RallyClient {
         return resp;
     }
     async save(arg1, arg2 = {}, arg3 = {}) {
-        let type, url, data, params;
+        let type, url, rallyObject, params;
+        rallyObject = _.isObject(arg1) ? arg1 : arg2;
         if (_.isString(arg1)) {
             type = arg1;
-            data = arg2;
-        }
-        else if (_.isObject(arg1)) {
+            rallyObject = arg2;
+        } else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
             params = arg2;
-            data = arg1;
-        }
-        else {
+            rallyObject = arg1;
+        } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
         };
-        if (!data.Project && this.options.project) {
-            data.Project = this.options.project;
+        if (!rallyObject.Project && this.options.project) {
+            rallyObject.Project = this.options.project;
         }
-        if (data._ref) {
-            url = RallyClient.prepareUrl(this.options.server, RallyClient.getTypeFromRef(data._ref), RallyClient.getIdFromRef(data._ref), params);
-        }
-        else {
-            const action = _.isNumber(data.ObjectID) ? `${data.ObjectID}` : 'create';
+        if (rallyObject._ref) {
+            url = RallyClient.prepareUrl(this.options.server, RallyClient.getTypeFromRef(rallyObject._ref), RallyClient.getIdFromRef(rallyObject._ref), params);
+        } else {
+            const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
             url = RallyClient.prepareUrl(this.options.server, type, action, params);
-            if (_.isNumber(data.ObjectID)) {
-                url = `${url}/${data.ObjectID}?`;
-            }
-            else {
+            if (_.isNumber(rallyObject.ObjectID)) {
+                url = `${url}/${rallyObject.ObjectID}?`;
+            } else {
                 url = `${url}/create?`;
             }
         }
         const wrapper = {};
-        wrapper[type] = data;
+        wrapper[type] = rallyObject;
         const body = JSON.stringify(wrapper);
         const rawResponse = await fetch(url, {
             method: 'PUT',
@@ -179,6 +170,17 @@ class RallyClient {
      * @returns {Promise}
      */
     async get(typeOrRef, objectID = 0, params = {}) {
+        const result = this._request(typeOrRef, objectID, params, 'GET');
+        this._decorateObject(result);
+        return result;
+    }
+    /**
+     *
+     * @param {RallyApi.RallyObject} object
+     * @param {number} objectID
+     * @returns {Promise}
+     */
+    async getCollection(typeOrRef, objectID = 0, params = {}) {
         const result = this._request(typeOrRef, objectID, params, 'GET');
         this._decorateObject(result);
         return result;
@@ -228,8 +230,7 @@ class RallyClient {
         let ref;
         if (_.isObject(inputOrRef)) {
             ref = inputOrRef._ref;
-        }
-        else {
+        } else {
             ref = inputOrRef;
         }
         const resp = await this._request(ref, 0, params, 'DELETE');
@@ -243,11 +244,9 @@ class RallyClient {
         let ref;
         if (_.isString(input)) {
             ref = input;
-        }
-        else if (_.isObject(input) && _.isString(input._ref)) {
+        } else if (_.isObject(input) && _.isString(input._ref)) {
             ref = input._ref;
-        }
-        else {
+        } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
         return ref;
@@ -270,8 +269,7 @@ class RallyClient {
      * @returns {string}
      */
     static getIdFromRef(ref) {
-        if (!_.isString(ref))
-            return null;
+        if (!_.isString(ref)) { return null; }
         const [id] = ref.split('/').reverse();
         return Number(id) || null;
     }
@@ -281,8 +279,7 @@ class RallyClient {
      * @returns {string}
      */
     static getTypeFromRef(ref) {
-        if (!_.isString(ref))
-            return null;
+        if (!_.isString(ref)) { return null; }
         const [, type = null] = ref.split('/').reverse();
         return type;
     }
@@ -327,8 +324,7 @@ class RallyClient {
      * @param {RallyApi.QueryOptions} params
      */
     static prepareUrl(server, type, action = '', params = {}) {
-        if (_.isNumber(action))
-            action = action.toString();
+        if (_.isNumber(action)) { action = action.toString(); }
         if (!params.workspace) {
             delete params.workspace;
         }
@@ -354,4 +350,4 @@ class RallyClient {
     }
 }
 module.exports = RallyClient;
-//# sourceMappingURL=RallyClient.js.map
+// # sourceMappingURL=RallyClient.js.map

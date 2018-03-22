@@ -1,0 +1,55 @@
+{
+  "_ref": "/typedefinition/199606970260",
+  "_refObjectUUID": "2f58ebc8-6035-4878-98b2-0ef19af1247b",
+  "_refObjectName": "Test Folder Status",
+  "_p": "7",
+  "CreationDate": "2018-02-20T22:43:46.045Z",
+  "_CreatedAt": "Feb 20",
+  "ObjectID": 199606970260,
+  "ObjectUUID": "2f58ebc8-6035-4878-98b2-0ef19af1247b",
+  "VersionId": "1",
+  "Subscription": {
+    "_ref": "/subscription/199606968936",
+    "_refObjectUUID": "7fdd5853-81e8-4dfd-b8d3-975ac7be4162",
+    "_refObjectName": "Trial - Custom Agile Inc. - charles@customagile.com",
+    "_type": "Subscription"
+  },
+  "Workspace": {
+    "_ref": "/workspace/199606969760",
+    "_refObjectUUID": "abfe61c9-821a-4eb2-8432-c209c2aec037",
+    "_refObjectName": "Workspace 1",
+    "_type": "Workspace"
+  },
+  "Abstract": false,
+  "Attributes": {
+    "_ref": "/TypeDefinition/199606970260/Attributes",
+    "_type": "AttributeDefinition",
+    "Count": 10
+  },
+  "Copyable": false,
+  "Creatable": false,
+  "Deletable": false,
+  "DisplayName": "Test Folder Status",
+  "ElementName": "TestFolderStatus",
+  "IDPrefix": "TF",
+  "Name": "Test Folder Status",
+  "Note": "Test Folder Status",
+  "Ordinal": -1,
+  "Parent": {
+    "_ref": "/typedefinition/-51003",
+    "_refObjectUUID": "f6e082b8-df17-43a5-b972-1df1549f217f",
+    "_refObjectName": "Workspace Domain Object",
+    "_type": "TypeDefinition"
+  },
+  "Queryable": false,
+  "ReadOnly": true,
+  "Restorable": false,
+  "RevisionHistory": {
+    "_ref": "/revisionhistory/199606970264",
+    "_refObjectUUID": "00dc0ca5-e29d-41d1-b4f2-9c3ba0a938a6",
+    "_type": "RevisionHistory"
+  },
+  "TypePath": "TestFolderStatus",
+  "UserListable": false,
+  "_type": "TypeDefinition"
+}
