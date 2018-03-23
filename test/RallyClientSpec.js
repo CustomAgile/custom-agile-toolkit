@@ -9,13 +9,14 @@ const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
 const defectId = 206176979708;
 const defectId2 = 206335021952;
+const client = new RallyClient(apiKey, { project: projectRef, workspace: workspaceRef });
+
 const getOptions = () => {
-  const options = RallyClient.defaultOptions;
+  const options = client.defaultOptions;
   options.project = projectRef;
   options.workspace = workspaceRef;
   return options;
 };
-const client = new RallyClient(apiKey, { project: projectRef, workspace: workspaceRef });
 function delay(t, v) {
   return new Promise(((resolve) => {
     setTimeout(resolve.bind(null, v), t);
@@ -52,7 +53,7 @@ describe('Rally Client', function requestFoo() {
   });
   describe('prepareUrl', function prepareUrl() {
     it('should use ref when provided', () => {
-      const url = RallyClient.prepareUrl(
+      const url = RallyClient._prepareUrl(
         'https://rally1.rallydev.com',
         'project',
         false,
@@ -71,7 +72,7 @@ describe('Rally Client', function requestFoo() {
         workspace: workspaceRef,
         pagesize: 1
       };
-      const options = RallyClient.defaultOptions;
+      const options = client.defaultOptions;
       options.query = query.query;
       options.project = projectRef;
       options.workspace = workspaceRef;
@@ -365,7 +366,7 @@ describe('Rally Client', function requestFoo() {
     });
   });
 
-  describe.only('getCollection', function getCollection() {
+  describe('getCollection', function getCollection() {
     const id = 206176979708;
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
@@ -378,7 +379,9 @@ describe('Rally Client', function requestFoo() {
     it('Should get a collection', async () => {
       const tags = await client.getCollection(defect, 'Tags', { });
       expect(tags.length).to.equal(2, 'Expected two tags returned from sub collection');
+      expect(defect.Tags.length).to.equal(2, 'Expect the object to have it\'s subcollection filled');
       const [tag1, tag2] = tags;
+      
       expect(tag1.Name).to.equal('Test Tag 1');
       expect(tag2.Name).to.equal('Test Tag 2');
     });

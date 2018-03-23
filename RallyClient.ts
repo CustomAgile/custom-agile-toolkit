@@ -150,7 +150,7 @@ class RallyClient {
     async save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>
     async save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>
     async save(
-arg1: Partial<RallyApi.RallyObject> | string,
+        arg1: Partial<RallyApi.RallyObject> | string,
         arg2: Partial<RallyApi.RallyObject> | RallyApi.QueryOptions = {},
         arg3: RallyApi.QueryOptions = {}
     ): Promise<RallyApi.RallyObject> {
@@ -245,6 +245,8 @@ arg1: Partial<RallyApi.RallyObject> | string,
         let resp = await RallyClient.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach(d => this._decorateObject(d));
+        rallyObject[collectionName] = _.defaults(resp, rallyObject[collectionName]);
+
         return resp;
     }
 
@@ -322,7 +324,7 @@ arg1: Partial<RallyApi.RallyObject> | string,
             }
             throw new Error('_ref must be specified to use getRef from a RallyObject');
         }
-        if (_.isNumber(objectID)) {
+        if (_.isNumber(objectID) && objectID) {
             return `/${input}/${objectID}`;
         }
         return input.toString();
@@ -358,7 +360,7 @@ arg1: Partial<RallyApi.RallyObject> | string,
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
             start: 1,
-            pagesize: 200,
+            pagesize: 2000,
             projectScopeUp: true,
             projectScopeDown: true,
             compact: true,

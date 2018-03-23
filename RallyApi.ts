@@ -21,6 +21,7 @@ declare namespace RallyApi {
     includePermissions?: boolean,
     project?: string,
     workspace?: string,
+    order?:string,
     [key: string]: any
   }
 

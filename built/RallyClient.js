@@ -198,6 +198,7 @@ class RallyClient {
         let resp = await RallyClient.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach(d => this._decorateObject(d));
+        rallyObject[collectionName] = _.defaults(resp, rallyObject[collectionName]);
         return resp;
     }
     /**
@@ -270,7 +271,7 @@ class RallyClient {
             }
             throw new Error('_ref must be specified to use getRef from a RallyObject');
         }
-        if (_.isNumber(objectID)) {
+        if (_.isNumber(objectID) && objectID) {
             return `/${input}/${objectID}`;
         }
         return input.toString();
