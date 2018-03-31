@@ -4,9 +4,9 @@ export declare class RallyClient {
     /**
      * @private
      */
-    apiKey: String;
-    workspace: String;
-    project: String;
+    apiKey: string;
+    workspace: string;
+    project: string;
     /**
      * @private
      */
@@ -19,7 +19,13 @@ export declare class RallyClient {
      * The default server for Rally to be used
      */
     static manageResponse(response: any): Promise<any>;
+    /**
+     * Returns a collection of results from the Lookback Api
+     */
     queryLookback(/** @type {RallyApi.Lookback.Request} */ request: any, workspaceId?: number): Promise<RallyApi.Lookback.Response>;
+    /**
+     * returns an array modified to have additional meta data on it containing the results
+     */
     query(type: any, query?: RallyApi.QueryOptions, params?: {}): Promise<RallyApi.QueryResponse>;
     /**
      * Saves the current state of the Rally object to Rally.
@@ -31,16 +37,11 @@ export declare class RallyClient {
     save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
     save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>;
     /**
-     *
-     * @param typeOrRef
-     * @param objectID
-     * @param params
+     * Returns a Rally object by ref or by type and ID
      */
     get(typeOrRef: string, objectID?: number, params?: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
     /**
-     *
-     * @param {RallyApi.RallyObject} rallyObject
-     * @param {number} objectID
+     * Gets a subcollection stored on the Rally object
      */
     getCollection(rallyObject: RallyApi.RallyObject, collectionName: string, params?: RallyApi.QueryOptions): Promise<RallyApi.QueryResponse>;
     /**
@@ -54,69 +55,31 @@ export declare class RallyClient {
     _decorateObject(rallyObject: RallyApi.RallyObject): Promise<void>;
     /**
      *
-     * @param {*} inputOrRef Either a Rally object or the ref for a Rally object
-     * @param {*} params Optional Params to be sent with the request
-     * @param {Boolean} ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
+     * @param  inputOrRef Either a Rally object or the ref for a Rally object
+     * @param  params Optional Params to be sent with the request
+     * @param  ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
-    delete(inputOrRef: any, params?: {}, ignoreDelay?: boolean): Promise<any>;
+    delete(inputOrRef: string | RallyApi.RallyObject, params?: {}, ignoreDelay?: boolean): Promise<any>;
     /**
-     *
-     * @param {string | RallyApi.RallyObject} input
-     * @param {number?} objectID
-     * @returns {string}
+     * returns the ref from a rally object or returns the ref is input is passed as a string
      */
     static getRef(input: string | RallyApi.RallyObject, objectID?: number): string;
     /**
      * Gets the ID portion of a ref
-     * @param {string} typeOrRef
-     * @returns {string}
      */
-    static getIdFromRef(ref: any): number;
+    static getIdFromRef(ref: string): number;
     /**
      * Gets the type portion of a ref
-     * @param {string} ref
-     * @returns {string}
      */
-    static getTypeFromRef(ref: any): string;
-    /**
-     * @returns {RallyApi.QueryOptions}
-     *
-     */
-    readonly defaultOptions: {
-        fetch: string[];
-        start: number;
-        pagesize: number;
-        projectScopeUp: boolean;
-        projectScopeDown: boolean;
-        compact: boolean;
-        includePermissions: boolean;
-        project: any;
-        workspace: String;
-    };
-    /**
-     * @returns {RallyApi.QueryOptions}
-     *
-     */
-    static readonly defaultLookbackRequest: {
-        find: {};
-        fields: string[];
-        hydrate: any[];
-        start: number;
-        pagesize: number;
-        removeUnauthorizedSnapshots: boolean;
-    };
+    static getTypeFromRef(ref: string): string;
+    readonly defaultOptions: RallyApi.QueryOptions;
+    static readonly defaultLookbackRequest: RallyApi.QueryOptions;
     /**
      * @private
-     * @param {string} server
-     * @param {string} type
-     * @param {string} action
-     * @param {RallyApi.QueryOptions} params
      */
     static _prepareUrl(server: any, type: string, action?: boolean | string | number, params?: RallyApi.QueryOptions): string;
     /**
      * @private
-     * @param millisecondsOfDelay
-     * @param scopeFuction
      */
     static delay(millisecondsOfDelay: number, scopeFuction?: Function): Promise<{}>;
 }

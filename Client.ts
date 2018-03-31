@@ -28,9 +28,9 @@ export class RallyClient {
     /**
      * @private
      */
-    apiKey: String
-    workspace: String
-    project: String
+    apiKey: string
+    workspace: string
+    project: string
     /**
      * @private
      */
@@ -73,6 +73,9 @@ export class RallyClient {
         return returnedValue;
     }
 
+    /**
+     * Returns a collection of results from the Lookback Api
+     */
     async queryLookback(/** @type {RallyApi.Lookback.Request} */request, workspaceId = 0): Promise<RallyApi.Lookback.Response> {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
@@ -122,6 +125,9 @@ export class RallyClient {
         return resp;
     }
 
+    /**
+     * returns an array modified to have additional meta data on it containing the results
+     */
     async query(type, query: RallyApi.QueryOptions = {}, params = {}):
         Promise<RallyApi.QueryResponse> {
         const finalParams = _.defaults(query, params, this.defaultOptions);
@@ -140,7 +146,7 @@ export class RallyClient {
         resp.forEach(d => this._decorateObject(d));
         return resp;
     }
- 
+
     /**
      * Saves the current state of the Rally object to Rally.
      * Creating a new object on the server if no _ref is provided in rallyObject
@@ -211,10 +217,7 @@ export class RallyClient {
     }
 
     /**
-     * 
-     * @param typeOrRef 
-     * @param objectID 
-     * @param params 
+     * Returns a Rally object by ref or by type and ID
      */
     async get(typeOrRef: string, objectID = 0, params: RallyApi.QueryOptions = {}): Promise<RallyApi.RallyObject> {
         const result = await this._request(typeOrRef, objectID, params, 'GET');
@@ -223,9 +226,7 @@ export class RallyClient {
     }
 
     /**
-     * 
-     * @param {RallyApi.RallyObject} rallyObject
-     * @param {number} objectID 
+     * Gets a subcollection stored on the Rally object
      */
     async getCollection(rallyObject: RallyApi.RallyObject, collectionName: string, params: RallyApi.QueryOptions = {}): Promise<RallyApi.QueryResponse> {
         const finalParams = _.defaults(params, this.defaultOptions);
@@ -291,17 +292,13 @@ export class RallyClient {
 
     /**
      * 
-     * @param {*} inputOrRef Either a Rally object or the ref for a Rally object
-     * @param {*} params Optional Params to be sent with the request
-     * @param {Boolean} ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
+     * @param  inputOrRef Either a Rally object or the ref for a Rally object
+     * @param  params Optional Params to be sent with the request
+     * @param  ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
-    async delete(inputOrRef, params = {}, ignoreDelay = false) {
-        let ref;
-        if (_.isObject(inputOrRef)) {
-            ref = inputOrRef._ref;
-        } else {
-            ref = inputOrRef;
-        }
+    async delete(inputOrRef: string | RallyApi.RallyObject, params = {}, ignoreDelay = false) {
+        let ref: any = inputOrRef;
+        ref = _.isObject(ref) ? ref._ref : ref;
         const resp = await this._request(ref, 0, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
@@ -311,10 +308,7 @@ export class RallyClient {
     }
 
     /**
-     * 
-     * @param {string | RallyApi.RallyObject} input 
-     * @param {number?} objectID 
-     * @returns {string}
+     * returns the ref from a rally object or returns the ref is input is passed as a string
      */
     static getRef(input: string | RallyApi.RallyObject, objectID: number = 0): string {
         let obj;
@@ -333,10 +327,8 @@ export class RallyClient {
 
     /**
      * Gets the ID portion of a ref
-     * @param {string} typeOrRef 
-     * @returns {string}
      */
-    static getIdFromRef(ref) {
+    static getIdFromRef(ref: string): number {
         if (!_.isString(ref)) return null;
         const [id] = ref.split('/').reverse();
         return Number(id) || null;
@@ -344,20 +336,14 @@ export class RallyClient {
 
     /**
      * Gets the type portion of a ref
-     * @param {string} ref 
-     * @returns {string}
      */
-    static getTypeFromRef(ref) {
+    static getTypeFromRef(ref: string): string {
         if (!_.isString(ref)) return null;
         const [, type = null] = ref.split('/').reverse();
         return type;
     }
 
-    /**
-     * @returns {RallyApi.QueryOptions}
-     * 
-     */
-    get defaultOptions() {
+    get defaultOptions(): RallyApi.QueryOptions {
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
             start: 1,
@@ -372,11 +358,7 @@ export class RallyClient {
         return defaultRequest;
     }
 
-    /**
-     * @returns {RallyApi.QueryOptions}
-     * 
-     */
-    static get defaultLookbackRequest() {
+    static get defaultLookbackRequest(): RallyApi.QueryOptions {
         const value = {
             find: {},
             fields: ['ObjectID', 'Name'],
@@ -390,10 +372,6 @@ export class RallyClient {
 
     /**
      * @private
-     * @param {string} server 
-     * @param {string} type 
-     * @param {string} action 
-     * @param {RallyApi.QueryOptions} params 
      */
     static _prepareUrl(server, type: string, action: boolean | string | number = '', params: RallyApi.QueryOptions = {}) {
         if (_.isNumber(action)) action = action.toString();
@@ -413,8 +391,6 @@ export class RallyClient {
 
     /**
      * @private
-     * @param millisecondsOfDelay
-     * @param scopeFuction 
      */
     static delay(millisecondsOfDelay: number, scopeFuction: Function = () => { }) {
         return new Promise(((resolve) => {

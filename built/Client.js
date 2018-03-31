@@ -56,6 +56,9 @@ class RallyClient {
         returnedValue.$rawResponse = resp;
         return returnedValue;
     }
+    /**
+     * Returns a collection of results from the Lookback Api
+     */
     async queryLookback(/** @type {RallyApi.Lookback.Request} */ request, workspaceId = 0) {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
@@ -103,6 +106,9 @@ class RallyClient {
         }
         return resp;
     }
+    /**
+     * returns an array modified to have additional meta data on it containing the results
+     */
     async query(type, query = {}, params = {}) {
         const finalParams = _.defaults(query, params, this.defaultOptions);
         const url = RallyClient._prepareUrl(this.options.server, type, false, finalParams);
@@ -165,10 +171,7 @@ class RallyClient {
         return resp;
     }
     /**
-     *
-     * @param typeOrRef
-     * @param objectID
-     * @param params
+     * Returns a Rally object by ref or by type and ID
      */
     async get(typeOrRef, objectID = 0, params = {}) {
         const result = await this._request(typeOrRef, objectID, params, 'GET');
@@ -176,9 +179,7 @@ class RallyClient {
         return result;
     }
     /**
-     *
-     * @param {RallyApi.RallyObject} rallyObject
-     * @param {number} objectID
+     * Gets a subcollection stored on the Rally object
      */
     async getCollection(rallyObject, collectionName, params = {}) {
         const finalParams = _.defaults(params, this.defaultOptions);
@@ -239,17 +240,13 @@ class RallyClient {
     }
     /**
      *
-     * @param {*} inputOrRef Either a Rally object or the ref for a Rally object
-     * @param {*} params Optional Params to be sent with the request
-     * @param {Boolean} ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
+     * @param  inputOrRef Either a Rally object or the ref for a Rally object
+     * @param  params Optional Params to be sent with the request
+     * @param  ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     async delete(inputOrRef, params = {}, ignoreDelay = false) {
-        let ref;
-        if (_.isObject(inputOrRef)) {
-            ref = inputOrRef._ref;
-        } else {
-            ref = inputOrRef;
-        }
+        let ref = inputOrRef;
+        ref = _.isObject(ref) ? ref._ref : ref;
         const resp = await this._request(ref, 0, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
@@ -258,10 +255,7 @@ class RallyClient {
         return resp;
     }
     /**
-     *
-     * @param {string | RallyApi.RallyObject} input
-     * @param {number?} objectID
-     * @returns {string}
+     * returns the ref from a rally object or returns the ref is input is passed as a string
      */
     static getRef(input, objectID = 0) {
         let obj;
@@ -279,8 +273,6 @@ class RallyClient {
     }
     /**
      * Gets the ID portion of a ref
-     * @param {string} typeOrRef
-     * @returns {string}
      */
     static getIdFromRef(ref) {
         if (!_.isString(ref)) { return null; }
@@ -289,18 +281,12 @@ class RallyClient {
     }
     /**
      * Gets the type portion of a ref
-     * @param {string} ref
-     * @returns {string}
      */
     static getTypeFromRef(ref) {
         if (!_.isString(ref)) { return null; }
         const [, type = null] = ref.split('/').reverse();
         return type;
     }
-    /**
-     * @returns {RallyApi.QueryOptions}
-     *
-     */
     get defaultOptions() {
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
@@ -315,10 +301,6 @@ class RallyClient {
         };
         return defaultRequest;
     }
-    /**
-     * @returns {RallyApi.QueryOptions}
-     *
-     */
     static get defaultLookbackRequest() {
         const value = {
             find: {},
@@ -332,10 +314,6 @@ class RallyClient {
     }
     /**
      * @private
-     * @param {string} server
-     * @param {string} type
-     * @param {string} action
-     * @param {RallyApi.QueryOptions} params
      */
     static _prepareUrl(server, type, action = '', params = {}) {
         if (_.isNumber(action)) { action = action.toString(); }
@@ -354,8 +332,6 @@ class RallyClient {
     }
     /**
      * @private
-     * @param millisecondsOfDelay
-     * @param scopeFuction
      */
     static delay(millisecondsOfDelay, scopeFuction = () => { }) {
         return new Promise(((resolve) => {
