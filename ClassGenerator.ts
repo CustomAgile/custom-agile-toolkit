@@ -1,21 +1,21 @@
 import apiKey = require('./apikey.conf');
-import RallyClient = require('./RallyClient');
 import fs = require('fs');
 import _ = require('lodash');
-import * as Types from './declare/RallyClasses'
-import { RallyObject } from './declare/RallyApi';
+import * as Types from './Classes';
+import { RallyClient, RallyObject } from './index';
+
 const client = new RallyClient(apiKey);
 
 const doIt = async () => {
     let typedefs = (await client.query('typedefinition', { fetch: true, pagesize: 2000 }))
-        .map((r) => r);
+        .map(r => r);
 
     let mappedtypes = {};
     const mapType = (type: RallyObject) => {
         mappedtypes[type.ObjectID] = type;
-    }
+    };
     typedefs.forEach(mapType);
-    const indexParent = async type => {
+    const indexParent = async (type) => {
         const parent = await client.get(type.Parent._ref);
         type.Parent = parent;
         mapType(parent);
@@ -37,21 +37,19 @@ const doIt = async () => {
     // });
 
     fs.writeFileSync(
-        `declare/RallyClasses.d.ts`,
+        'Classes.ts',
         getModule(typedefs)
     );
 };
 
-const getModule = (types: any[]) => {
-    return `
-import * as RallyApi from './RallyApi';
+const getModule = (types: any[]) => `
+import * as RallyApi from './Api';
+
 ${types.map(getClass).join(' ')}
 `;
-};
-
 
 const getClass = (type: Types.TypeDefinition) => {
-    const parent = type.Parent ? type.Parent.ElementName : 'RallyApi.RallyObject'
+    const parent = type.Parent ? type.Parent.ElementName : 'RallyApi.RallyObject';
 
     const template = `
 /**
@@ -60,7 +58,7 @@ const getClass = (type: Types.TypeDefinition) => {
  * 
  */
 export interface ${type.ElementName} extends ${parent} {
-    ${ type.Attributes.map(a => ` ` + getAttribute(a)).join(' ')}
+    ${type.Attributes.map(a => ` ${getAttribute(a)}`).join(' ')}
 } `;
 
     return template;
@@ -87,25 +85,25 @@ const getAttribute = (attr: Types.AttributeDefinition) => {
         s = s.toLowerCase();
         let type = map[s];
         if (type === 'object') {
-            type = attr.AllowedValueType._refObjectName.replace(/\s/g, '')
-            if(type === 'PanelDefinition'){
-                type = '{[x:string]:any} //not in meta data on rally side'
+            type = attr.AllowedValueType._refObjectName.replace(/\s/g, '');
+            if (type === 'PanelDefinition') {
+                type = '{[x:string]:any} //not in meta data on rally side';
             }
         }
         if (s === 'collection') {
-            type = attr.AllowedValueType._refObjectName.replace(/\s/g, '') + '[]'
+            type = `${attr.AllowedValueType._refObjectName.replace(/\s/g, '')}[]`;
         }
-        if (!type) throw new Error("Missing type " + s + 'on attribute ' + attr.ElementName);
-        return type
+        if (!type) throw new Error(`Missing type ${s}on attribute ${attr.ElementName}`);
+        return type;
     };
     return `
     /**
      * ${attr.Name}
      * ${attr.Note}
      */
-    ${ attr.ElementName}? : ${mapAttributeType(attr.AttributeType)}
+    ${attr.ElementName}? : ${mapAttributeType(attr.AttributeType)}
 `;
-}
+};
 
 doIt()
     .then(console.log)
