@@ -32,9 +32,9 @@ const doIt = async () => {
     const attributeRequests = typedefs.map(r => client.getCollection(r, 'Attributes', { pagesize: 2000, fetch: true, order: 'Name' }));
     const finished = await Promise.all(attributeRequests);
 
-    // typedefs.forEach(t => {
-    //     t.Attributes = t.Attributes.filter(a => a.TypeDefinition._ref === t._ref)
-    // });
+    typedefs.forEach((t) => {
+        t.Attributes = t.Attributes.filter(a => a.TypeDefinition._ref === t._ref);
+    });
 
     fs.writeFileSync(
         'Classes.ts',
