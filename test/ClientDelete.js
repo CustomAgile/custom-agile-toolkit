@@ -7,8 +7,6 @@ const project = 199606970176;
 const workspace = 199606969760;
 const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
-const defectId = 206176979708;
-const defectId2 = 206335021952; 
 const client = new RallyClient(
   apiKey, 
   {   
@@ -17,12 +15,6 @@ const client = new RallyClient(
   } 
 );
 
-const getOptions = () => {
-  const options = client.defaultOptions;
-  options.project = projectRef;
-  options.workspace = workspaceRef;
-  return options;
-};
 function delay(t, v) {
   return new Promise(((resolve) => {
     setTimeout(resolve.bind(null, v), t);

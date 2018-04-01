@@ -23,11 +23,7 @@ const getOptions = () => {
   options.workspace = workspaceRef;
   return options;
 };
-function delay(t, v) {
-  return new Promise(((resolve) => {
-    setTimeout(resolve.bind(null, v), t);
-  }));
-}
+
 const { expect } = chai;
 describe('Rally Client', function requestFoo() {
   this.timeout(5000);
