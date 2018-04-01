@@ -1,4 +1,4 @@
-eslint *.ts --fix > /dev/null&
+# eslint *.ts --fix > /dev/null&
 eslint built/*.js --fix > /dev/null&
 git submodule init
 git submodule update

@@ -16,7 +16,8 @@
   "files": [
     "Client.ts",
     "index.ts",
-    "Api.ts"
+    "Api.ts",
+    "ClassClients.ts"    
   ],
   "compileOnSave": true
 }

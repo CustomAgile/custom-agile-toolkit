@@ -17,6 +17,7 @@
     "Classes.ts",
     "Api.ts",
     "Client.ts",
+    "ClassClients.ts",
   ],
   "compileOnSave": true
 }

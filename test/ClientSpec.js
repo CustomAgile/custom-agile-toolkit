@@ -27,9 +27,6 @@ const getOptions = () => {
 const { expect } = chai;
 describe('Rally Client', function requestFoo() {
   this.timeout(5000);
-  beforeEach(() => {
-    console.log('Before spec');
-  });
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
     expect(client.options.server).to.equal('https://rally1.rallydev.com');
