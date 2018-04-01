@@ -2,8 +2,8 @@ import RallyClient = require('./Client');
 
 export interface ClientOptions {
   server?: string,
-  project?: undefined,
-  workspace?: undefined
+  project?: string,
+  workspace?: string
 }
 
 export interface QueryOptions {
@@ -22,9 +22,9 @@ export interface QueryOptions {
 }
 
 export interface RallyObject {
-  _ref: string,
-  _refObjectName: string,
-  _type: string,
+  _ref?: string,
+  _refObjectName?: string,
+  _type?: string,
   _rallyAPIMajor?: number,
   _rallyAPIMinor?: number,
   _CreatedAt?: string,
@@ -51,7 +51,7 @@ export namespace Lookback {
     removeUnauthorizedSnapshots?: boolean;
   }
 
-  export interface Response {
+  export interface Response extends Array<any> {
     $params: any,
     $hasMore: boolean,
     $rawResponse: RawResponse,

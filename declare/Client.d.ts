@@ -33,8 +33,8 @@ export declare class RallyClient {
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
-    save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
+    save(type: string, rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>;
+    save(rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>;
     save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>;
     /**
      * Returns a Rally object by ref or by type and ID
@@ -57,7 +57,7 @@ export declare class RallyClient {
      *
      * @param  inputOrRef Either a Rally object or the ref for a Rally object
      * @param  params Optional Params to be sent with the request
-     * @param  ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
+     * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     delete(inputOrRef: string | RallyApi.RallyObject, params?: {}, ignoreDelay?: boolean): Promise<any>;
     /**

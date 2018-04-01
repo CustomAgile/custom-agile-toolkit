@@ -242,7 +242,7 @@ class RallyClient {
      *
      * @param  inputOrRef Either a Rally object or the ref for a Rally object
      * @param  params Optional Params to be sent with the request
-     * @param  ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
+     * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     async delete(inputOrRef, params = {}, ignoreDelay = false) {
         let ref = inputOrRef;

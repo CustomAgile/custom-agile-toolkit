@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { RallyClient } = require('../built/index');
+const { RallyClient } = require('custom-agile-toolkit');
 
 const apiKey = require('../apikey.conf');// just the api key
 
@@ -8,8 +8,14 @@ const workspace = 199606969760;
 const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
 const defectId = 206176979708;
-const defectId2 = 206335021952;
-const client = new RallyClient(apiKey, { project: projectRef, workspace: workspaceRef });
+const defectId2 = 206335021952; 
+const client = new RallyClient(
+  apiKey, 
+  {   
+    project: projectRef, 
+    workspace: workspaceRef 
+  } 
+);
 
 const getOptions = () => {
   const options = client.defaultOptions;
@@ -29,7 +35,7 @@ describe('Rally Client', function requestFoo() {
   it('should default the server to rally1 if no server is given in the options', function testServer() {
     expect(client.options.server).to.equal('https://rally1.rallydev.com');
   });
-
+ 
   describe('getRef', function getRef() {
     it('should use ref when provided', () => {
       expect(RallyClient.getRef('/project/786')).to.equal('/project/786');
@@ -47,7 +53,7 @@ describe('Rally Client', function requestFoo() {
         RallyClient.getRef(fakeRallyObject);
         expect.fail(null, null, 'Exception should of been thrown by Rally');
       } catch (err) {
-        expect(err.message).to.equal('_ref must be specified to use getRef from a RallyObject');        
+        expect(err.message).to.equal('_ref must be specified to use getRef from a RallyObject');
       }
     });
   });
@@ -82,7 +88,7 @@ describe('Rally Client', function requestFoo() {
     });
 
     it('should get a page of story data', async () => {
-      const query = RallyClient.defaultOptions;
+      const query = client.defaultOptions;
       let projects = await client.query('Project', query);
       expect(projects.length).to.not.equal(0);
     });
@@ -123,7 +129,7 @@ describe('Rally Client', function requestFoo() {
       };
 
       const defectObject = await client.save('Defect', defect);
-
+ 
       expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
       expect((defectObject.ObjectID));
@@ -197,7 +203,7 @@ describe('Rally Client', function requestFoo() {
         Project: projectRef,
         Name: 'test defect'
       };
-
+ 
       try {
         await client.save('IAMNOTAREALONE', defect);
         expect.fail('exception expected for bad endpoint');
@@ -377,11 +383,11 @@ describe('Rally Client', function requestFoo() {
       expect(rawTags.length).to.equal(2, 'Precheck failed expected two tags');
     });
     it('Should get a collection', async () => {
-      const tags = await client.getCollection(defect, 'Tags', { });
+      const tags = await client.getCollection(defect, 'Tags', {});
       expect(tags.length).to.equal(2, 'Expected two tags returned from sub collection');
       expect(defect.Tags.length).to.equal(2, 'Expect the object to have it\'s subcollection filled');
       const [tag1, tag2] = tags;
-      
+
       expect(tag1.Name).to.equal('Test Tag 1');
       expect(tag2.Name).to.equal('Test Tag 2');
     });

@@ -1,7 +1,7 @@
 export interface ClientOptions {
     server?: string;
-    project?: undefined;
-    workspace?: undefined;
+    project?: string;
+    workspace?: string;
 }
 export interface QueryOptions {
     fetch?: string[] | boolean;
@@ -18,9 +18,9 @@ export interface QueryOptions {
     [key: string]: any;
 }
 export interface RallyObject {
-    _ref: string;
-    _refObjectName: string;
-    _type: string;
+    _ref?: string;
+    _refObjectName?: string;
+    _type?: string;
     _rallyAPIMajor?: number;
     _rallyAPIMinor?: number;
     _CreatedAt?: string;
@@ -43,7 +43,7 @@ export declare namespace Lookback {
         pagesize?: number;
         removeUnauthorizedSnapshots?: boolean;
     }
-    interface Response {
+    interface Response extends Array<any> {
         $params: any;
         $hasMore: boolean;
         $rawResponse: RawResponse;

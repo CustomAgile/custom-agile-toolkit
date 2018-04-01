@@ -153,8 +153,8 @@ export class RallyClient {
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    async save(type: string, rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>
-    async save(rallyObject: Partial<RallyApi.RallyObject>, params: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>
+    async save(type: string, rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>
+    async save(rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>
     async save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>
     async save(
         arg1: Partial<RallyApi.RallyObject> | string,
@@ -294,7 +294,7 @@ export class RallyClient {
      * 
      * @param  inputOrRef Either a Rally object or the ref for a Rally object
      * @param  params Optional Params to be sent with the request
-     * @param  ignoreDelay Pass true if you don't want to wait a 500 ms longer to return. This time gives the Rally server a chance to finish deleting
+     * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     async delete(inputOrRef: string | RallyApi.RallyObject, params = {}, ignoreDelay = false) {
         let ref: any = inputOrRef;
