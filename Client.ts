@@ -1,16 +1,16 @@
-import * as RallyApi from './Api';
+import * as Toolkit from './index';
 
 import fetch = require('node-fetch');
 import _ = require('lodash');
 import url = require('url');
 const { URLSearchParams } = url;
 
-export class RallyClient {
+export class Client {
     constructor(
         apiKey: string,
 
-        options: RallyApi.ClientOptions = {
-            server: RallyClient.defaultRallyServer,
+        options: Toolkit.Api.ClientOptions = {
+            server: Client.defaultRallyServer,
             project: undefined,
             workspace: undefined
         }
@@ -19,7 +19,7 @@ export class RallyClient {
             throw new Error('Api key is required');
         }
         this.options = options;
-        this.options.server = options.server || RallyClient.defaultRallyServer;
+        this.options.server = options.server || Client.defaultRallyServer;
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
@@ -34,7 +34,7 @@ export class RallyClient {
     /**
      * @private
      */
-    options: RallyApi.ClientOptions
+    options: Toolkit.Api.ClientOptions
 
     /**
      * The default Rally server Rally to be used
@@ -76,10 +76,10 @@ export class RallyClient {
     /**
      * Returns a collection of results from the Lookback Api
      */
-    async queryLookback(/** @type {RallyApi.Lookback.Request} */request, workspaceId = 0): Promise<RallyApi.Lookback.Response> {
+    async queryLookback(/** @type {Toolkit.Api.Lookback.Request} */request, workspaceId = 0): Promise<Toolkit.Api.Lookback.Response> {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
-        const finalParams = _.defaults(request, RallyClient.defaultLookbackRequest);
+        const finalParams = _.defaults(request, Client.defaultLookbackRequest);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -92,8 +92,8 @@ export class RallyClient {
             credentials: 'include',
             body
         });
-        /** @type {Promise<RallyApi.Lookback.Response>} */
-        const resp = await RallyClient.manageResponse(rawResponse);
+        /** @type {Promise<Toolkit.Api.Lookback.Response>} */
+        const resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.$hasMore = resp.$rawResponse.HasMore;
         const firstRawResponse = resp.$rawResponse;
@@ -128,10 +128,10 @@ export class RallyClient {
     /**
      * returns an array modified to have additional meta data on it containing the results
      */
-    async query(type, query: RallyApi.QueryOptions = {}, params = {}):
-        Promise<RallyApi.QueryResponse> {
+    async query(type, query: Toolkit.Api.QueryOptions = {}, params = {}):
+        Promise<Toolkit.Api.QueryResponse> {
         const finalParams = _.defaults(query, params, this.defaultOptions);
-        const url = RallyClient._prepareUrl(this.options.server, type, false, finalParams);
+        const url = Client._prepareUrl(this.options.server, type, false, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -141,7 +141,7 @@ export class RallyClient {
             headers,
             credentials: 'include'
         });
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach(d => this._decorateObject(d));
         return resp;
@@ -153,19 +153,21 @@ export class RallyClient {
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    async save(type: string, rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>
-    async save(rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>
-    async save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>
+    async save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>
+    async save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>
+    async save(rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>
+    async save(rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>
     async save(
-        arg1: Partial<RallyApi.RallyObject> | string,
-        arg2: Partial<RallyApi.RallyObject> | RallyApi.QueryOptions = {},
-        arg3: RallyApi.QueryOptions = {}
-    ): Promise<RallyApi.RallyObject> {
+        arg1: Partial<Toolkit.Api.RallyObject> | string,
+        arg2: Partial<Toolkit.Api.RallyObject> | Toolkit.Api.QueryOptions = {},
+        arg3: Toolkit.Api.QueryOptions = {}
+    ): Promise<Toolkit.Api.RallyObject> {
         let type, url, rallyObject, params;
         rallyObject = _.isObject(arg1) ? arg1 : arg2;
         if (_.isString(arg1)) {
             type = arg1;
             rallyObject = arg2;
+            params = arg3;
         } else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
             params = arg2;
             rallyObject = arg1;
@@ -180,16 +182,16 @@ export class RallyClient {
             rallyObject.Project = this.options.project;
         }
         if (rallyObject._ref) {
-            url = RallyClient._prepareUrl(
+            url = Client._prepareUrl(
                 this.options.server,
-                RallyClient.getTypeFromRef(rallyObject._ref),
-                RallyClient.getIdFromRef(rallyObject._ref),
+                Client.getTypeFromRef(rallyObject._ref),
+                Client.getIdFromRef(rallyObject._ref),
                 params
             );
         } else {
             const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
 
-            url = RallyClient._prepareUrl(this.options.server, type, action, params);
+            url = Client._prepareUrl(this.options.server, type, action, params);
 
             if (_.isNumber(rallyObject.ObjectID)) {
                 url = `${url}/${rallyObject.ObjectID}?`;
@@ -210,7 +212,7 @@ export class RallyClient {
             }
         );
 
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp.$params = params;
         this._decorateObject(resp);
         return resp;
@@ -219,7 +221,7 @@ export class RallyClient {
     /**
      * Returns a Rally object by ref or by type and ID
      */
-    async get(typeOrRef: string, objectID = 0, params: RallyApi.QueryOptions = {}): Promise<RallyApi.RallyObject> {
+    async get(typeOrRef: string, objectID = 0, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject> {
         const result = await this._request(typeOrRef, objectID, params, 'GET');
         this._decorateObject(result);
         return result;
@@ -228,13 +230,13 @@ export class RallyClient {
     /**
      * Gets a subcollection stored on the Rally object
      */
-    async getCollection(rallyObject: RallyApi.RallyObject, collectionName: string, params: RallyApi.QueryOptions = {}): Promise<RallyApi.QueryResponse> {
+    async getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.QueryResponse> {
         const finalParams = _.defaults(params, this.defaultOptions);
-        const ref = RallyClient.getRef(rallyObject);
-        const type = RallyClient.getTypeFromRef(ref);
-        const objectId = RallyClient.getIdFromRef(ref);
+        const ref = Client.getRef(rallyObject);
+        const type = Client.getTypeFromRef(ref);
+        const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
-        const url = RallyClient._prepareUrl(this.options.server, type, action, finalParams);
+        const url = Client._prepareUrl(this.options.server, type, action, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -244,7 +246,7 @@ export class RallyClient {
             headers,
             credentials: 'include'
         });
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach(d => this._decorateObject(d));
         rallyObject[collectionName] = _.defaults(resp, rallyObject[collectionName]);
@@ -258,13 +260,13 @@ export class RallyClient {
     async _request(typeOrRef, objectID = 0, params = {}, action) {
         let type = typeOrRef;
         if (!objectID) {
-            type = RallyClient.getTypeFromRef(typeOrRef);
-            objectID = RallyClient.getIdFromRef(typeOrRef);
+            type = Client.getTypeFromRef(typeOrRef);
+            objectID = Client.getIdFromRef(typeOrRef);
         }
         const finalParams = _.defaults(params, { fetch: true }, this.defaultOptions);
         delete finalParams.project;
         delete finalParams.workspace;
-        const url = RallyClient._prepareUrl(this.options.server, type, objectID, finalParams);
+        const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -275,7 +277,7 @@ export class RallyClient {
             credentials: 'include'
         });
 
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp = resp[_.keys(resp)[0]];
         resp.$params = finalParams;
         return resp;
@@ -285,7 +287,7 @@ export class RallyClient {
      * 
      *  Adds the delete and save options to each object
      */
-    async _decorateObject(rallyObject: RallyApi.RallyObject) {
+    async _decorateObject(rallyObject: Toolkit.Api.RallyObject) {
         rallyObject.$save = () => this.save(rallyObject);
         rallyObject.$delete = () => this.delete(rallyObject);
     }
@@ -296,13 +298,13 @@ export class RallyClient {
      * @param  params Optional Params to be sent with the request
      * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
-    async delete(inputOrRef: string | RallyApi.RallyObject, params = {}, ignoreDelay = false) {
+    async delete(inputOrRef: string | Toolkit.Api.RallyObject, params = {}, ignoreDelay = false) {
         let ref: any = inputOrRef;
         ref = _.isObject(ref) ? ref._ref : ref;
         const resp = await this._request(ref, 0, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
-            const delayResult = await RallyClient.delay(500);
+            const delayResult = await Client.delay(500);
         }
         return resp;
     }
@@ -310,7 +312,7 @@ export class RallyClient {
     /**
      * returns the ref from a rally object or returns the ref is input is passed as a string
      */
-    static getRef(input: string | RallyApi.RallyObject, objectID: number = 0): string {
+    static getRef(input: string | Toolkit.Api.RallyObject, objectID: number = 0): string {
         let obj;
         if (_.isObject(input)) {
             obj = input;
@@ -343,7 +345,7 @@ export class RallyClient {
         return type;
     }
 
-    get defaultOptions(): RallyApi.QueryOptions {
+    get defaultOptions(): Toolkit.Api.QueryOptions {
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
             start: 1,
@@ -358,7 +360,7 @@ export class RallyClient {
         return defaultRequest;
     }
 
-    static get defaultLookbackRequest(): RallyApi.QueryOptions {
+    static get defaultLookbackRequest(): Toolkit.Api.QueryOptions {
         const value = {
             find: {},
             fields: ['ObjectID', 'Name'],
@@ -373,7 +375,7 @@ export class RallyClient {
     /**
      * @private
      */
-    static _prepareUrl(server, type: string, action: boolean | string | number = '', params: RallyApi.QueryOptions = {}) {
+    static _prepareUrl(server, type: string, action: boolean | string | number = '', params: Toolkit.Api.QueryOptions = {}) {
         if (_.isNumber(action)) action = action.toString();
         if (!params.workspace) {
             delete params.workspace;

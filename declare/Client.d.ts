@@ -1,6 +1,6 @@
-import * as RallyApi from './Api';
-export declare class RallyClient {
-    constructor(apiKey: string, options?: RallyApi.ClientOptions);
+import * as Toolkit from './index';
+export declare class Client {
+    constructor(apiKey: string, options?: Toolkit.Api.ClientOptions);
     /**
      * @private
      */
@@ -10,7 +10,7 @@ export declare class RallyClient {
     /**
      * @private
      */
-    options: RallyApi.ClientOptions;
+    options: Toolkit.Api.ClientOptions;
     /**
      * The default Rally server Rally to be used
      */
@@ -22,28 +22,29 @@ export declare class RallyClient {
     /**
      * Returns a collection of results from the Lookback Api
      */
-    queryLookback(/** @type {RallyApi.Lookback.Request} */ request: any, workspaceId?: number): Promise<RallyApi.Lookback.Response>;
+    queryLookback(/** @type {Toolkit.Api.Lookback.Request} */ request: any, workspaceId?: number): Promise<Toolkit.Api.Lookback.Response>;
     /**
      * returns an array modified to have additional meta data on it containing the results
      */
-    query(type: any, query?: RallyApi.QueryOptions, params?: {}): Promise<RallyApi.QueryResponse>;
+    query(type: any, query?: Toolkit.Api.QueryOptions, params?: {}): Promise<Toolkit.Api.QueryResponse>;
     /**
      * Saves the current state of the Rally object to Rally.
      * Creating a new object on the server if no _ref is provided in rallyObject
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    save(type: string, rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>;
-    save(rallyObject: Partial<RallyApi.RallyObject>, ...rest: any[]): Promise<RallyApi.RallyObject>;
-    save(rallyObject: Partial<RallyApi.RallyObject>): Promise<RallyApi.RallyObject>;
+    save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>;
+    save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
+    save(rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
+    save(rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>;
     /**
      * Returns a Rally object by ref or by type and ID
      */
-    get(typeOrRef: string, objectID?: number, params?: RallyApi.QueryOptions): Promise<RallyApi.RallyObject>;
+    get(typeOrRef: string, objectID?: number, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
     /**
      * Gets a subcollection stored on the Rally object
      */
-    getCollection(rallyObject: RallyApi.RallyObject, collectionName: string, params?: RallyApi.QueryOptions): Promise<RallyApi.QueryResponse>;
+    getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.QueryResponse>;
     /**
      * @private
      */
@@ -52,18 +53,18 @@ export declare class RallyClient {
      *
      *  Adds the delete and save options to each object
      */
-    _decorateObject(rallyObject: RallyApi.RallyObject): Promise<void>;
+    _decorateObject(rallyObject: Toolkit.Api.RallyObject): Promise<void>;
     /**
      *
      * @param  inputOrRef Either a Rally object or the ref for a Rally object
      * @param  params Optional Params to be sent with the request
      * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
-    delete(inputOrRef: string | RallyApi.RallyObject, params?: {}, ignoreDelay?: boolean): Promise<any>;
+    delete(inputOrRef: string | Toolkit.Api.RallyObject, params?: {}, ignoreDelay?: boolean): Promise<any>;
     /**
      * returns the ref from a rally object or returns the ref is input is passed as a string
      */
-    static getRef(input: string | RallyApi.RallyObject, objectID?: number): string;
+    static getRef(input: string | Toolkit.Api.RallyObject, objectID?: number): string;
     /**
      * Gets the ID portion of a ref
      */
@@ -72,12 +73,12 @@ export declare class RallyClient {
      * Gets the type portion of a ref
      */
     static getTypeFromRef(ref: string): string;
-    readonly defaultOptions: RallyApi.QueryOptions;
-    static readonly defaultLookbackRequest: RallyApi.QueryOptions;
+    readonly defaultOptions: Toolkit.Api.QueryOptions;
+    static readonly defaultLookbackRequest: Toolkit.Api.QueryOptions;
     /**
      * @private
      */
-    static _prepareUrl(server: any, type: string, action?: boolean | string | number, params?: RallyApi.QueryOptions): string;
+    static _prepareUrl(server: any, type: string, action?: boolean | string | number, params?: Toolkit.Api.QueryOptions): string;
     /**
      * @private
      */

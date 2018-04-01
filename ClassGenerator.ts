@@ -2,16 +2,16 @@ import apiKey = require('./apikey.conf');
 import fs = require('fs');
 import _ = require('lodash');
 import * as Types from './Classes';
-import { RallyClient, RallyObject } from './index';
+import * as Toolkit from './index';
 
-const client = new RallyClient(apiKey);
+const client = new Toolkit.Client(apiKey);
 
 const doIt = async () => {
     let typedefs = (await client.query('typedefinition', { fetch: true, pagesize: 2000 }))
         .map(r => r);
 
     let mappedtypes = {};
-    const mapType = (type: RallyObject) => {
+    const mapType = (type: Toolkit.Api.RallyObject) => {
         mappedtypes[type.ObjectID] = type;
     };
     typedefs.forEach(mapType);
@@ -43,13 +43,12 @@ const doIt = async () => {
 };
 
 const getModule = (types: any[]) => `
-import * as RallyApi from './Api';
-
+import * as Toolkit from './index';
+export namespace Classes{
 ${types.map(getClass).join(' ')}
-`;
-
-const getClass = (type: Types.TypeDefinition) => {
-    const parent = type.Parent ? type.Parent.ElementName : 'RallyApi.RallyObject';
+}`;
+const getClass = (type: Toolkit.Classes.TypeDefinition) => {
+    const parent = type.Parent ? type.Parent.ElementName : 'Toolkit.Api.RallyObject';
 
     const template = `
 /**
@@ -64,7 +63,7 @@ export interface ${type.ElementName} extends ${parent} {
     return template;
 };
 
-const getAttribute = (attr: Types.AttributeDefinition) => {
+const getAttribute = (attr: Toolkit.Classes.AttributeDefinition) => {
     const map = {
         integer: 'number',
         date: 'Date',

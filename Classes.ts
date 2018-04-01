@@ -1,13 +1,13 @@
 
-import * as RallyApi from './Api';
-
+import * as Toolkit from './index';
+export namespace Classes{
 
 /**
  * Persistable Object
  * The base type of all persistable objects.
  * 
  */
-export interface PersistableObject extends RallyApi.RallyObject {
+export interface PersistableObject extends Toolkit.Api.RallyObject {
      
     /**
      * Creation Date
@@ -10586,3 +10586,4 @@ export interface ProfileImage extends DomainObject {
     VersionId? : string
 
 } 
+}

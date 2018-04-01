@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { RallyClient } = require('custom-agile-toolkit');
+const { Client } = require('custom-agile-toolkit');
 
 const apiKey = require('../apikey.conf');// just the api key
 
@@ -7,7 +7,7 @@ const project = 199606970176;
 const workspace = 199606969760;
 const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
-const client = new RallyClient(
+const client = new Client(
   apiKey, 
   {   
     project: projectRef, 
@@ -23,9 +23,6 @@ function delay(t, v) {
 const { expect } = chai;
 describe('Rally Client', function requestFoo() {
   this.timeout(5000);
-  beforeEach(() => {
-    console.log('Before delete');
-  });
 
   describe('delete', function getRef() {
     describe('happy path', () => {

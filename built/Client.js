@@ -6,9 +6,9 @@ const _ = require('lodash');
 const url = require('url');
 
 const { URLSearchParams } = url;
-class RallyClient {
+class Client {
     constructor(apiKey, options = {
-        server: RallyClient.defaultRallyServer,
+        server: Client.defaultRallyServer,
         project: undefined,
         workspace: undefined
     }) {
@@ -16,7 +16,7 @@ class RallyClient {
             throw new Error('Api key is required');
         }
         this.options = options;
-        this.options.server = options.server || RallyClient.defaultRallyServer;
+        this.options.server = options.server || Client.defaultRallyServer;
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
@@ -59,10 +59,10 @@ class RallyClient {
     /**
      * Returns a collection of results from the Lookback Api
      */
-    async queryLookback(/** @type {RallyApi.Lookback.Request} */ request, workspaceId = 0) {
+    async queryLookback(/** @type {Toolkit.Api.Lookback.Request} */ request, workspaceId = 0) {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
-        const finalParams = _.defaults(request, RallyClient.defaultLookbackRequest);
+        const finalParams = _.defaults(request, Client.defaultLookbackRequest);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -74,8 +74,8 @@ class RallyClient {
             credentials: 'include',
             body
         });
-        /** @type {Promise<RallyApi.Lookback.Response>} */
-        const resp = await RallyClient.manageResponse(rawResponse);
+        /** @type {Promise<Toolkit.Api.Lookback.Response>} */
+        const resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.$hasMore = resp.$rawResponse.HasMore;
         const firstRawResponse = resp.$rawResponse;
@@ -111,7 +111,7 @@ class RallyClient {
      */
     async query(type, query = {}, params = {}) {
         const finalParams = _.defaults(query, params, this.defaultOptions);
-        const url = RallyClient._prepareUrl(this.options.server, type, false, finalParams);
+        const url = Client._prepareUrl(this.options.server, type, false, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -121,7 +121,7 @@ class RallyClient {
             headers,
             credentials: 'include'
         });
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach(d => this._decorateObject(d));
         return resp;
@@ -132,6 +132,7 @@ class RallyClient {
         if (_.isString(arg1)) {
             type = arg1;
             rallyObject = arg2;
+            params = arg3;
         } else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
             params = arg2;
             rallyObject = arg1;
@@ -146,10 +147,10 @@ class RallyClient {
             rallyObject.Project = this.options.project;
         }
         if (rallyObject._ref) {
-            url = RallyClient._prepareUrl(this.options.server, RallyClient.getTypeFromRef(rallyObject._ref), RallyClient.getIdFromRef(rallyObject._ref), params);
+            url = Client._prepareUrl(this.options.server, Client.getTypeFromRef(rallyObject._ref), Client.getIdFromRef(rallyObject._ref), params);
         } else {
             const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
-            url = RallyClient._prepareUrl(this.options.server, type, action, params);
+            url = Client._prepareUrl(this.options.server, type, action, params);
             if (_.isNumber(rallyObject.ObjectID)) {
                 url = `${url}/${rallyObject.ObjectID}?`;
             } else {
@@ -165,7 +166,7 @@ class RallyClient {
             credentials: 'include',
             body
         });
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp.$params = params;
         this._decorateObject(resp);
         return resp;
@@ -183,11 +184,11 @@ class RallyClient {
      */
     async getCollection(rallyObject, collectionName, params = {}) {
         const finalParams = _.defaults(params, this.defaultOptions);
-        const ref = RallyClient.getRef(rallyObject);
-        const type = RallyClient.getTypeFromRef(ref);
-        const objectId = RallyClient.getIdFromRef(ref);
+        const ref = Client.getRef(rallyObject);
+        const type = Client.getTypeFromRef(ref);
+        const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
-        const url = RallyClient._prepareUrl(this.options.server, type, action, finalParams);
+        const url = Client._prepareUrl(this.options.server, type, action, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -197,7 +198,7 @@ class RallyClient {
             headers,
             credentials: 'include'
         });
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach(d => this._decorateObject(d));
         rallyObject[collectionName] = _.defaults(resp, rallyObject[collectionName]);
@@ -209,13 +210,13 @@ class RallyClient {
     async _request(typeOrRef, objectID = 0, params = {}, action) {
         let type = typeOrRef;
         if (!objectID) {
-            type = RallyClient.getTypeFromRef(typeOrRef);
-            objectID = RallyClient.getIdFromRef(typeOrRef);
+            type = Client.getTypeFromRef(typeOrRef);
+            objectID = Client.getIdFromRef(typeOrRef);
         }
         const finalParams = _.defaults(params, { fetch: true }, this.defaultOptions);
         delete finalParams.project;
         delete finalParams.workspace;
-        const url = RallyClient._prepareUrl(this.options.server, type, objectID, finalParams);
+        const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
             zsessionid: this.apiKey,
             'Access-Control-Allow-Origin': '*'
@@ -225,7 +226,7 @@ class RallyClient {
             headers,
             credentials: 'include'
         });
-        let resp = await RallyClient.manageResponse(rawResponse);
+        let resp = await Client.manageResponse(rawResponse);
         resp = resp[_.keys(resp)[0]];
         resp.$params = finalParams;
         return resp;
@@ -250,7 +251,7 @@ class RallyClient {
         const resp = await this._request(ref, 0, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
-            const delayResult = await RallyClient.delay(500);
+            const delayResult = await Client.delay(500);
         }
         return resp;
     }
@@ -339,5 +340,5 @@ class RallyClient {
         }));
     }
 }
-exports.RallyClient = RallyClient;
+exports.Client = Client;
 // # sourceMappingURL=Client.js.map

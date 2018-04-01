@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { RallyClient } = require('custom-agile-toolkit');
+const { Client } = require('custom-agile-toolkit');
 
 const apiKey = require('../apikey.conf');// just the api key
 
@@ -9,7 +9,7 @@ const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
 const defectId = 206176979708;
 const defectId2 = 206335021952; 
-const client = new RallyClient(
+const client = new Client(
   apiKey, 
   {   
     project: projectRef, 
@@ -37,19 +37,19 @@ describe('Rally Client', function requestFoo() {
  
   describe('getRef', function getRef() {
     it('should use ref when provided', () => {
-      expect(RallyClient.getRef('/project/786')).to.equal('/project/786');
+      expect(Client.getRef('/project/786')).to.equal('/project/786');
     });
     it('should construct a ref our of a type and id', () => {
-      expect(RallyClient.getRef('project', 786)).to.equal('/project/786');
+      expect(Client.getRef('project', 786)).to.equal('/project/786');
     });
     it('should get the ref from a rally object', () => {
       const fakeRallyObject = { _ref: '/defect/1234' };
-      expect(RallyClient.getRef(fakeRallyObject)).to.equal('/defect/1234');
+      expect(Client.getRef(fakeRallyObject)).to.equal('/defect/1234');
     });
     it('should throw an exception if the rally object doesn\'t have a ref', () => {
       const fakeRallyObject = { _notRef: '/defect/1234' };
       try {
-        RallyClient.getRef(fakeRallyObject);
+        Client.getRef(fakeRallyObject);
         expect.fail(null, null, 'Exception should of been thrown by Rally');
       } catch (err) {
         expect(err.message).to.equal('_ref must be specified to use getRef from a RallyObject');
@@ -58,7 +58,7 @@ describe('Rally Client', function requestFoo() {
   });
   describe('prepareUrl', function prepareUrl() {
     it('should use ref when provided', () => {
-      const url = RallyClient._prepareUrl(
+      const url = Client._prepareUrl(
         'https://rally1.rallydev.com',
         'project',
         false,
@@ -70,7 +70,7 @@ describe('Rally Client', function requestFoo() {
 
   describe('query', function queryFoo() {
     it('should show defaulted query info', async () => {
-      const defaultClient = new RallyClient(apiKey);
+      const defaultClient = new Client(apiKey);
       const query = {
         query: '(Name Contains "test")',
         project: projectRef,
@@ -107,7 +107,7 @@ describe('Rally Client', function requestFoo() {
 
     it('should handle http errors', async () => {
       const server = 'https://rally1.ralfdfdlydev.com';
-      const brokenClient = new RallyClient(apiKey, { server });
+      const brokenClient = new Client(apiKey, { server });
 
       try {
         await brokenClient.query('Project', getOptions());
@@ -216,29 +216,29 @@ describe('Rally Client', function requestFoo() {
   describe('Ref Tests', () => {
     describe('getIdFromRef', function getRef() {
       it('Should get the id from shorted ref', () => {
-        expect(RallyClient.getIdFromRef('/type/76894'))
+        expect(Client.getIdFromRef('/type/76894'))
           .to.equal(76894);
       });
       it('Should get the id from long ref', () => {
-        const result = RallyClient.getIdFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894');
+        const result = Client.getIdFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894');
         expect(result).to.equal(76894);
       });
       it('Should return null from random string', () => {
-        expect(RallyClient.getIdFromRef('Who likes tacos I do'))
+        expect(Client.getIdFromRef('Who likes tacos I do'))
           .to.equal(null);
       });
     });
 
     describe('getTypeFromRef', function getRef() {
       it('Should get the type from shorted ref', () => {
-        expect(RallyClient.getTypeFromRef('/type/76894')).to.equal('type');
+        expect(Client.getTypeFromRef('/type/76894')).to.equal('type');
       });
       it('Should get the type from long ref', () => {
-        expect(RallyClient.getTypeFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894'))
+        expect(Client.getTypeFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894'))
           .to.equal('project');
       });
       it('Should return null from random string', () => {
-        expect(RallyClient.getTypeFromRef('Who likes tacos I do')).to.equal(null);
+        expect(Client.getTypeFromRef('Who likes tacos I do')).to.equal(null);
       });
     });
 
