@@ -29,8 +29,9 @@ export namespace ClassClients {
          * returns an array modified to have additional meta data on it containing the results
          */
         async query(type, query: Api.QueryOptions = {}, params = {}):
-            Promise<Api.QueryResponse> {
-            return this.client.query(this.typeName, query, params);
+            Promise<Api.QueryResponse<T>> {
+            let resp: any = this.client.query(this.typeName, query, params);
+            return resp;
         }
 
         /**
@@ -58,8 +59,9 @@ export namespace ClassClients {
         /**
          * Gets a subcollection stored on the Rally object
          */
-        async getCollection(rallyObject: T, collectionName: string, params: Api.QueryOptions = {}): Promise<Api.QueryResponse> {
-            return this.client.getCollection(rallyObject, collectionName, params);
+        async getCollection(rallyObject: T, collectionName: string, params: Api.QueryOptions = {}): Promise<Api.QueryResponse<Api.RallyObject>> {
+            let resp: any = this.client.getCollection(rallyObject, collectionName, params);
+            return resp;
         }
 
         /**

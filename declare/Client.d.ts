@@ -26,7 +26,7 @@ export declare class Client {
     /**
      * returns an array modified to have additional meta data on it containing the results
      */
-    query(type: any, query?: Toolkit.Api.QueryOptions, params?: {}): Promise<Toolkit.Api.QueryResponse>;
+    query(type: any, query?: Toolkit.Api.QueryOptions, params?: {}): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
     /**
      * Saves the current state of the Rally object to Rally.
      * Creating a new object on the server if no _ref is provided in rallyObject
@@ -44,7 +44,7 @@ export declare class Client {
     /**
      * Gets a subcollection stored on the Rally object
      */
-    getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.QueryResponse>;
+    getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
     /**
      * @private
      */

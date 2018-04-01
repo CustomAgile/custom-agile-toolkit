@@ -913,11 +913,23 @@ img { max-width: 100%; }
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.program.html#creationdate" class="tsd-kind-icon">Creation<wbr>Date</a>
 				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.program.html#description" class="tsd-kind-icon">Description</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.program.html#name" class="tsd-kind-icon">Name</a>
+				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.program.html#objectid" class="tsd-kind-icon">ObjectID</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.program.html#objectuuid" class="tsd-kind-icon">ObjectUUID</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.program.html#owner" class="tsd-kind-icon">Owner</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.program.html#releases" class="tsd-kind-icon">Releases</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.program.html#subscription" class="tsd-kind-icon">Subscription</a>
@@ -987,12 +999,16 @@ img { max-width: 100%; }
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
-					<section class="tsd-index-section tsd-is-inherited">
+					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.program.html#creationdate" class="tsd-kind-icon">Creation<wbr>Date</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.program.html#description" class="tsd-kind-icon">Description</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.program.html#name" class="tsd-kind-icon">Name</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.program.html#objectid" class="tsd-kind-icon">ObjectID</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.program.html#objectuuid" class="tsd-kind-icon">ObjectUUID</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.program.html#owner" class="tsd-kind-icon">Owner</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.program.html#releases" class="tsd-kind-icon">Releases</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.program.html#subscription" class="tsd-kind-icon">Subscription</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.program.html#versionid" class="tsd-kind-icon">Version<wbr>Id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.program.html#workspace" class="tsd-kind-icon">Workspace</a></li>
@@ -1007,7 +1023,7 @@ img { max-width: 100%; }
 				</div>
 			</section>
 		</section>
-		<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 				<a name="creationdate" class="tsd-anchor"></a>
@@ -1016,13 +1032,45 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#creationdate">CreationDate</a></p>
 					<ul>
-						<li>Defined in Classes.ts:689</li>
+						<li>Defined in Classes.ts:2051</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Creation Date
 						The creation date of an object.  It is automatically assigned when an object is created, and can never be changed.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="description" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Description</h3>
+				<div class="tsd-signature tsd-kind-icon">Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2417</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Description
+						Program description, which is a rich-text field.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="name" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Name</h3>
+				<div class="tsd-signature tsd-kind-icon">Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2423</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Name
+						Name</p>
 					</div>
 				</div>
 			</section>
@@ -1033,7 +1081,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#objectid">ObjectID</a></p>
 					<ul>
-						<li>Defined in Classes.ts:695</li>
+						<li>Defined in Classes.ts:2057</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1050,13 +1098,45 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#objectuuid">ObjectUUID</a></p>
 					<ul>
-						<li>Defined in Classes.ts:701</li>
+						<li>Defined in Classes.ts:2063</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>ObjectUUID
 						This is the UUID, a universally-unique identifier for the object. It is automatically assigned when an object is created, and can never be changed.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="owner" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Owner</h3>
+				<div class="tsd-signature tsd-kind-icon">Owner<span class="tsd-signature-symbol">:</span> <a href="_classes_.classes.user.html" class="tsd-signature-type">User</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2429</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Owner
+						Program owner, a username (login name).</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="releases" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Releases</h3>
+				<div class="tsd-signature tsd-kind-icon">Releases<span class="tsd-signature-symbol">:</span> <a href="_classes_.classes.release.html" class="tsd-signature-type">Release</a><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2435</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Releases
+						The releases for this program.</p>
 					</div>
 				</div>
 			</section>
@@ -1067,7 +1147,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.domainobject.html">DomainObject</a>.<a href="_classes_.classes.domainobject.html#subscription">Subscription</a></p>
 					<ul>
-						<li>Defined in Classes.ts:501</li>
+						<li>Defined in Classes.ts:1335</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1084,7 +1164,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#versionid">VersionId</a></p>
 					<ul>
-						<li>Defined in Classes.ts:707</li>
+						<li>Defined in Classes.ts:2069</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1101,7 +1181,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.workspacedomainobject.html">WorkspaceDomainObject</a>.<a href="_classes_.classes.workspacedomainobject.html#workspace">Workspace</a></p>
 					<ul>
-						<li>Defined in Classes.ts:1313</li>
+						<li>Defined in Classes.ts:5105</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">

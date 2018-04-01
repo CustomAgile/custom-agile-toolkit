@@ -913,6 +913,18 @@ img { max-width: 100%; }
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.recyclebinentry.html#creationdate" class="tsd-kind-icon">Creation<wbr>Date</a>
 				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.recyclebinentry.html#deletedby" class="tsd-kind-icon">Deleted<wbr>By</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.recyclebinentry.html#deletiondate" class="tsd-kind-icon">Deletion<wbr>Date</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.recyclebinentry.html#id" class="tsd-kind-icon">ID</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.recyclebinentry.html#name" class="tsd-kind-icon">Name</a>
+				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.recyclebinentry.html#objectid" class="tsd-kind-icon">ObjectID</a>
 				</li>
@@ -921,6 +933,9 @@ img { max-width: 100%; }
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.recyclebinentry.html#subscription" class="tsd-kind-icon">Subscription</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="_classes_.classes.recyclebinentry.html#type" class="tsd-kind-icon">Type</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a href="_classes_.classes.recyclebinentry.html#versionid" class="tsd-kind-icon">Version<wbr>Id</a>
@@ -987,13 +1002,18 @@ img { max-width: 100%; }
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
-					<section class="tsd-index-section tsd-is-inherited">
+					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#creationdate" class="tsd-kind-icon">Creation<wbr>Date</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.recyclebinentry.html#deletedby" class="tsd-kind-icon">Deleted<wbr>By</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.recyclebinentry.html#deletiondate" class="tsd-kind-icon">Deletion<wbr>Date</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.recyclebinentry.html#id" class="tsd-kind-icon">ID</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.recyclebinentry.html#name" class="tsd-kind-icon">Name</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#objectid" class="tsd-kind-icon">ObjectID</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#objectuuid" class="tsd-kind-icon">ObjectUUID</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#subscription" class="tsd-kind-icon">Subscription</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_classes_.classes.recyclebinentry.html#type" class="tsd-kind-icon">Type</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#versionid" class="tsd-kind-icon">Version<wbr>Id</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#workspace" class="tsd-kind-icon">Workspace</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_classes_.classes.recyclebinentry.html#_createdat" class="tsd-kind-icon">_<wbr>Created<wbr>At</a></li>
@@ -1007,7 +1027,7 @@ img { max-width: 100%; }
 				</div>
 			</section>
 		</section>
-		<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 				<a name="creationdate" class="tsd-anchor"></a>
@@ -1016,13 +1036,77 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#creationdate">CreationDate</a></p>
 					<ul>
-						<li>Defined in Classes.ts:689</li>
+						<li>Defined in Classes.ts:2051</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Creation Date
 						The creation date of an object.  It is automatically assigned when an object is created, and can never be changed.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="deletedby" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Deleted<wbr>By</h3>
+				<div class="tsd-signature tsd-kind-icon">Deleted<wbr>By<span class="tsd-signature-symbol">:</span> <a href="_classes_.classes.user.html" class="tsd-signature-type">User</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2613</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Deleted By
+						The person who deleted the artifact</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="deletiondate" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Deletion<wbr>Date</h3>
+				<div class="tsd-signature tsd-kind-icon">Deletion<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2619</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Deletion Date
+						The date the object was deleted</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="id" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> ID</h3>
+				<div class="tsd-signature tsd-kind-icon">ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2625</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>ID
+						The identifier for the deleted artifact</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="name" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Name</h3>
+				<div class="tsd-signature tsd-kind-icon">Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2631</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Name
+						The name of the deleted artifact</p>
 					</div>
 				</div>
 			</section>
@@ -1033,7 +1117,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#objectid">ObjectID</a></p>
 					<ul>
-						<li>Defined in Classes.ts:695</li>
+						<li>Defined in Classes.ts:2057</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1050,7 +1134,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#objectuuid">ObjectUUID</a></p>
 					<ul>
-						<li>Defined in Classes.ts:701</li>
+						<li>Defined in Classes.ts:2063</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1067,13 +1151,29 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.domainobject.html">DomainObject</a>.<a href="_classes_.classes.domainobject.html#subscription">Subscription</a></p>
 					<ul>
-						<li>Defined in Classes.ts:501</li>
+						<li>Defined in Classes.ts:1335</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Subscription
 						A read-only reference to the subscription an object is associated with.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="type" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> Type</h3>
+				<div class="tsd-signature tsd-kind-icon">Type<span class="tsd-signature-symbol">:</span> <a href="_classes_.classes.typedefinition.html" class="tsd-signature-type">TypeDefinition</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in Classes.ts:2637</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Type
+						The type of the deleted artifact</p>
 					</div>
 				</div>
 			</section>
@@ -1084,7 +1184,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.persistableobject.html">PersistableObject</a>.<a href="_classes_.classes.persistableobject.html#versionid">VersionId</a></p>
 					<ul>
-						<li>Defined in Classes.ts:707</li>
+						<li>Defined in Classes.ts:2069</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1101,7 +1201,7 @@ img { max-width: 100%; }
 				<aside class="tsd-sources">
 					<p>Inherited from <a href="_classes_.classes.workspacedomainobject.html">WorkspaceDomainObject</a>.<a href="_classes_.classes.workspacedomainobject.html#workspace">Workspace</a></p>
 					<ul>
-						<li>Defined in Classes.ts:1313</li>
+						<li>Defined in Classes.ts:5105</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">

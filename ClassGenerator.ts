@@ -10,7 +10,7 @@ const doIt = async () => {
         .map(r => r);
 
     let mappedtypes = {};
-    const mapType = (type: Toolkit.Api.RallyObject) => {
+    const mapType = (type: Toolkit.Classes.TypeDefinition) => {
         mappedtypes[type.ElementName] = type;
     };
     typedefs.forEach(mapType);
@@ -31,8 +31,9 @@ const doIt = async () => {
     const attributeRequests = typedefs.map(r => client.getCollection(r, 'Attributes', { pagesize: 2000, fetch: true, order: 'Name' }));
     const finished = await Promise.all(attributeRequests);
 
-    typedefs.forEach((t) => {
-        t.Attributes = t.Attributes.filter(a => a.TypeDefinition._ref === t._ref);
+    typedefs.forEach((t: Toolkit.Classes.TypeDefinition) => {
+        t.Attributes = t.Attributes.filter(a => !a.Custom);
+        t.Attributes = t.Attributes.filter(a => a.TypeDefinition._refObjectName === t._refObjectName);
     });
 
     fs.writeFileSync(
@@ -170,8 +171,9 @@ export namespace ClassClients {
          * returns an array modified to have additional meta data on it containing the results
          */
         async query(type, query: Api.QueryOptions = {}, params = {}):
-            Promise<Api.QueryResponse> {
-            return this.client.query(this.typeName, query, params);
+            Promise<Api.QueryResponse<T>> {
+            let resp: any = this.client.query(this.typeName, query, params);
+            return resp;
         }
 
         /**
@@ -199,8 +201,9 @@ export namespace ClassClients {
         /**
          * Gets a subcollection stored on the Rally object
          */
-        async getCollection(rallyObject: T, collectionName: string, params: Api.QueryOptions = {}): Promise<Api.QueryResponse> {
-            return this.client.getCollection(rallyObject, collectionName, params);
+        async getCollection(rallyObject: T, collectionName: string, params: Api.QueryOptions = {}): Promise<Api.QueryResponse<Api.RallyObject>> {
+            let resp: any = this.client.getCollection(rallyObject, collectionName, params);
+            return resp;
         }
 
         /**

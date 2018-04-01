@@ -14,7 +14,7 @@ export declare namespace ClassClients {
         /**
          * returns an array modified to have additional meta data on it containing the results
          */
-        query(type: any, query?: Api.QueryOptions, params?: {}): Promise<Api.QueryResponse>;
+        query(type: any, query?: Api.QueryOptions, params?: {}): Promise<Api.QueryResponse<T>>;
         /**
          * Saves the current state of the Rally object to Rally.
          * Creating a new object on the server if no _ref is provided in rallyObject
@@ -28,7 +28,7 @@ export declare namespace ClassClients {
         /**
          * Gets a subcollection stored on the Rally object
          */
-        getCollection(rallyObject: T, collectionName: string, params?: Api.QueryOptions): Promise<Api.QueryResponse>;
+        getCollection(rallyObject: T, collectionName: string, params?: Api.QueryOptions): Promise<Api.QueryResponse<Api.RallyObject>>;
         /**
          *
          * @param  inputOrRef Either a Rally object or the ref for a Rally object

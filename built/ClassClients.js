@@ -20,7 +20,8 @@ let ClassClients;
          * returns an array modified to have additional meta data on it containing the results
          */
         async query(type, query = {}, params = {}) {
-            return this.client.query(this.typeName, query, params);
+            let resp = this.client.query(this.typeName, query, params);
+            return resp;
         }
         async save(rallyObject, queryOptions = {}) {
             let resp = this.client.save(rallyObject, queryOptions);
@@ -37,7 +38,8 @@ let ClassClients;
          * Gets a subcollection stored on the Rally object
          */
         async getCollection(rallyObject, collectionName, params = {}) {
-            return this.client.getCollection(rallyObject, collectionName, params);
+            let resp = this.client.getCollection(rallyObject, collectionName, params);
+            return resp;
         }
         /**
          *

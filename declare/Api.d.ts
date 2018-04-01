@@ -27,13 +27,13 @@ export declare namespace Api {
         _CreatedAt?: string;
         [x: string]: any;
     }
-    interface QueryResponse extends Array<RallyObject> {
+    interface QueryResponse<T extends RallyObject> extends Array<T> {
         $params: any;
         $hasMore: boolean;
         /** returns all the data from the later pages including this page */
-        $getAll: () => Promise<QueryResponse>;
+        $getAll: () => Promise<QueryResponse<T>>;
         /** returns the data from the next page */
-        $getNextPage: () => Promise<QueryResponse>;
+        $getNextPage: () => Promise<QueryResponse<T>>;
     }
     namespace Lookback {
         interface Request {

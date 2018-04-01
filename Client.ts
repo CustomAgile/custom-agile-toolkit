@@ -129,7 +129,7 @@ export class Client {
      * returns an array modified to have additional meta data on it containing the results
      */
     async query(type, query: Toolkit.Api.QueryOptions = {}, params = {}):
-        Promise<Toolkit.Api.QueryResponse> {
+        Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
         const finalParams = _.defaults(query, params, this.defaultOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
         const headers = {
@@ -230,7 +230,7 @@ export class Client {
     /**
      * Gets a subcollection stored on the Rally object
      */
-    async getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.QueryResponse> {
+    async getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject> {
         const finalParams = _.defaults(params, this.defaultOptions);
         const ref = Client.getRef(rallyObject);
         const type = Client.getTypeFromRef(ref);
