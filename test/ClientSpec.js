@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { Client } = require('custom-agile-toolkit');
+const { Client } = require('../built/index');
 
 const apiKey = require('../apikey.conf');// just the api key
 
@@ -8,13 +8,13 @@ const workspace = 199606969760;
 const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
 const defectId = 206176979708;
-const defectId2 = 206335021952; 
+const defectId2 = 206335021952;
 const client = new Client(
-  apiKey, 
-  {   
-    project: projectRef, 
-    workspace: workspaceRef 
-  } 
+  apiKey,
+  {
+    project: projectRef,
+    workspace: workspaceRef
+  }
 );
 
 const getOptions = () => {
@@ -31,7 +31,7 @@ describe('Rally Client', function requestFoo() {
   it('should default the server to rally1 if no server is given in the options', function testServer() {
     expect(client.options.server).to.equal('https://rally1.rallydev.com');
   });
- 
+
   describe('getRef', function getRef() {
     it('should use ref when provided', () => {
       expect(Client.getRef('/project/786')).to.equal('/project/786');
@@ -53,6 +53,7 @@ describe('Rally Client', function requestFoo() {
       }
     });
   });
+
   describe('prepareUrl', function prepareUrl() {
     it('should use ref when provided', () => {
       const url = Client._prepareUrl(
@@ -125,7 +126,7 @@ describe('Rally Client', function requestFoo() {
       };
 
       const defectObject = await client.save('Defect', defect);
- 
+
       expect(defectObject);
       expect((defectObject.Name)).to.equal(defect.Name);
       expect((defectObject.ObjectID));
@@ -199,7 +200,7 @@ describe('Rally Client', function requestFoo() {
         Project: projectRef,
         Name: 'test defect'
       };
- 
+
       try {
         await client.save('IAMNOTAREALONE', defect);
         expect.fail('exception expected for bad endpoint');
@@ -248,6 +249,9 @@ describe('Rally Client', function requestFoo() {
 
   describe('lookback', function lookback() {
     it('return data', async () => {
+      // lookback is now taking a very long time to respond
+      this.timeout(50000);
+
       const query = {
         find: { ObjectID: defectId },
         fields: true,

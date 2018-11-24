@@ -1,166 +1,132 @@
 [custom-agile-toolkit](../README.md) > ["Api"](../modules/_api_.md) > [Api](../modules/_api_.api.md) > [QueryOptions](../interfaces/_api_.api.queryoptions.md)
 
-
-
 # Interface: QueryOptions
+
+## Hierarchy
+
+**QueryOptions**
 
 ## Indexable
 
 \[key: `string`\]:&nbsp;`any`
+## Index
+
+### Properties
+
+* [compact](_api_.api.queryoptions.md#compact)
+* [fetch](_api_.api.queryoptions.md#fetch)
+* [includePermissions](_api_.api.queryoptions.md#includepermissions)
+* [order](_api_.api.queryoptions.md#order)
+* [pagesize](_api_.api.queryoptions.md#pagesize)
+* [project](_api_.api.queryoptions.md#project)
+* [projectScopeDown](_api_.api.queryoptions.md#projectscopedown)
+* [projectScopeUp](_api_.api.queryoptions.md#projectscopeup)
+* [query](_api_.api.queryoptions.md#query)
+* [start](_api_.api.queryoptions.md#start)
+* [workspace](_api_.api.queryoptions.md#workspace)
+
+---
 
 ## Properties
+
 <a id="compact"></a>
 
-### «Optional» compact
+### `<Optional>` compact
 
-**●  compact**:  *`boolean`* 
+**● compact**: *`boolean`*
 
-*Defined in Api.ts:18*
-
-
-
-
+*Defined in [Api.ts:18](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L18)*
 
 ___
-
 <a id="fetch"></a>
 
-### «Optional» fetch
+### `<Optional>` fetch
 
-**●  fetch**:  *`string`[]⎮`boolean`* 
+**● fetch**: * `string`[] &#124; `boolean`
+*
 
-*Defined in Api.ts:12*
-
-
-
-
+*Defined in [Api.ts:12](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L12)*
 
 ___
-
 <a id="includepermissions"></a>
 
-### «Optional» includePermissions
+### `<Optional>` includePermissions
 
-**●  includePermissions**:  *`boolean`* 
+**● includePermissions**: *`boolean`*
 
-*Defined in Api.ts:19*
-
-
-
-
+*Defined in [Api.ts:19](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L19)*
 
 ___
-
 <a id="order"></a>
 
-### «Optional» order
+### `<Optional>` order
 
-**●  order**:  *`string`* 
+**● order**: *`string`*
 
-*Defined in Api.ts:22*
-
-
-
-
+*Defined in [Api.ts:22](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L22)*
 
 ___
-
 <a id="pagesize"></a>
 
-### «Optional» pagesize
+### `<Optional>` pagesize
 
-**●  pagesize**:  *`number`* 
+**● pagesize**: *`number`*
 
-*Defined in Api.ts:15*
-
-
-
-
+*Defined in [Api.ts:15](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L15)*
 
 ___
-
 <a id="project"></a>
 
-### «Optional» project
+### `<Optional>` project
 
-**●  project**:  *`string`* 
+**● project**: *`string`*
 
-*Defined in Api.ts:20*
-
-
-
-
+*Defined in [Api.ts:20](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L20)*
 
 ___
-
 <a id="projectscopedown"></a>
 
-### «Optional» projectScopeDown
+### `<Optional>` projectScopeDown
 
-**●  projectScopeDown**:  *`boolean`* 
+**● projectScopeDown**: *`boolean`*
 
-*Defined in Api.ts:17*
-
-
-
-
+*Defined in [Api.ts:17](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L17)*
 
 ___
-
 <a id="projectscopeup"></a>
 
-### «Optional» projectScopeUp
+### `<Optional>` projectScopeUp
 
-**●  projectScopeUp**:  *`boolean`* 
+**● projectScopeUp**: *`boolean`*
 
-*Defined in Api.ts:16*
-
-
-
-
+*Defined in [Api.ts:16](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L16)*
 
 ___
-
 <a id="query"></a>
 
-### «Optional» query
+### `<Optional>` query
 
-**●  query**:  *`string`* 
+**● query**: *`string`*
 
-*Defined in Api.ts:13*
-
-
-
-
+*Defined in [Api.ts:13](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L13)*
 
 ___
-
 <a id="start"></a>
 
-### «Optional» start
+### `<Optional>` start
 
-**●  start**:  *`number`* 
+**● start**: *`number`*
 
-*Defined in Api.ts:14*
-
-
-
-
+*Defined in [Api.ts:14](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L14)*
 
 ___
-
 <a id="workspace"></a>
 
-### «Optional» workspace
+### `<Optional>` workspace
 
-**●  workspace**:  *`string`* 
+**● workspace**: *`string`*
 
-*Defined in Api.ts:21*
-
-
-
-
+*Defined in [Api.ts:21](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L21)*
 
 ___
-
 

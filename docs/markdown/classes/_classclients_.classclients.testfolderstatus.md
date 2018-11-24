@@ -1,21 +1,12 @@
 [custom-agile-toolkit](../README.md) > ["ClassClients"](../modules/_classclients_.md) > [ClassClients](../modules/_classclients_.classclients.md) > [TestFolderStatus](../classes/_classclients_.classclients.testfolderstatus.md)
 
-
-
 # Class: TestFolderStatus
 
 ## Hierarchy
 
-
- [ClassClientBase](_classclients_.classclients.classclientbase.md)`TestFolderStatus`
+ [ClassClientBase](_classclients_.classclients.classclientbase.md)<`TestFolderStatus`>
 
 **↳ TestFolderStatus**
-
-
-
-
-
-
 
 ## Index
 
@@ -23,12 +14,10 @@
 
 * [constructor](_classclients_.classclients.testfolderstatus.md#constructor)
 
-
 ### Properties
 
 * [client](_classclients_.classclients.testfolderstatus.md#client)
 * [typeName](_classclients_.classclients.testfolderstatus.md#typename)
-
 
 ### Methods
 
@@ -38,275 +27,181 @@
 * [query](_classclients_.classclients.testfolderstatus.md#query)
 * [save](_classclients_.classclients.testfolderstatus.md#save)
 
-
-
 ---
+
 ## Constructors
+
 <a id="constructor"></a>
 
+###  constructor
 
-### ⊕ **new TestFolderStatus**(apiKey: *`string`*, options: *[ClientOptions](../interfaces/_api_.api.clientoptions.md)*): [TestFolderStatus](_classclients_.classclients.testfolderstatus.md)
+⊕ **new TestFolderStatus**(apiKey: *`string`*, options: *[ClientOptions](../interfaces/_api_.api.clientoptions.md)*): [TestFolderStatus](_classclients_.classclients.testfolderstatus.md)
 
-
-### ⊕ **new TestFolderStatus**(client: *[Client](_client_.client.md)*): [TestFolderStatus](_classclients_.classclients.testfolderstatus.md)
-
+⊕ **new TestFolderStatus**(client: *[Client](_client_.client.md)*): [TestFolderStatus](_classclients_.classclients.testfolderstatus.md)
 
 *Overrides [ClassClientBase](_classclients_.classclients.classclientbase.md).[constructor](_classclients_.classclients.classclientbase.md#constructor)*
 
-*Defined in ClassClients.ts:665*
-
-
+*Defined in [ClassClients.ts:674](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L674)*
 
 **Parameters:**
 
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| apiKey | `string`   |  - |
-| options | [ClientOptions](../interfaces/_api_.api.clientoptions.md)   |  - |
-
-
-
-
+| Name | Type |
+| ------ | ------ |
+| apiKey | `string` |
+| options | [ClientOptions](../interfaces/_api_.api.clientoptions.md) |
 
 **Returns:** [TestFolderStatus](_classclients_.classclients.testfolderstatus.md)
 
 *Overrides [ClassClientBase](_classclients_.classclients.classclientbase.md).[constructor](_classclients_.classclients.classclientbase.md#constructor)*
 
-*Defined in ClassClients.ts:666*
-
-
+*Defined in [ClassClients.ts:675](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L675)*
 
 **Parameters:**
 
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| client | [Client](_client_.client.md)   |  - |
-
-
-
-
+| Name | Type |
+| ------ | ------ |
+| client | [Client](_client_.client.md) |
 
 **Returns:** [TestFolderStatus](_classclients_.classclients.testfolderstatus.md)
 
----
-
+___
 
 ## Properties
+
 <a id="client"></a>
 
-### «Private» client
+### `<Private>` client
 
-**●  client**:  *[Client](_client_.client.md)* 
+**● client**: *[Client](_client_.client.md)*
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[client](_classclients_.classclients.classclientbase.md#client)*
 
-*Defined in ClassClients.ts:23*
-
-
-
-
-
+*Defined in [ClassClients.ts:23](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L23)*
 
 ___
-
 <a id="typename"></a>
 
-### «Private» typeName
+### `<Private>` typeName
 
-**●  typeName**:  *`string`* 
+**● typeName**: *`string`*
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[typeName](_classclients_.classclients.classclientbase.md#typename)*
 
-*Defined in ClassClients.ts:27*
-
-
-
-
-
+*Defined in [ClassClients.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L27)*
 
 ___
 
-
 ## Methods
+
 <a id="delete"></a>
 
 ###  delete
 
-► **delete**(inputOrRef: *`string`⎮[RallyObject](../interfaces/_api_.api.rallyobject.md)*, params?: *`object`*, ignoreDelay?: *`boolean`*): `Promise`.<`any`>
-
-
+▸ **delete**(inputOrRef: * `string` &#124; [RallyObject](../interfaces/_api_.api.rallyobject.md)*, params?: *`object`*, ignoreDelay?: *`boolean`*): `Promise`<`any`>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[delete](_classclients_.classclients.classclientbase.md#delete)*
 
-*Defined in ClassClients.ts:73*
-
-
-
+*Defined in [ClassClients.ts:73](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L73)*
 
 **Parameters:**
 
-| Param | Type | Default value | Description |
+| Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| inputOrRef | `string`⎮[RallyObject](../interfaces/_api_.api.rallyobject.md)  | - |   Either a Rally object or the ref for a Rally object |
-| params | `object`  |  {} |   Optional Params to be sent with the request |
-| ignoreDelay | `boolean`  | false |   Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting |
+| inputOrRef |  `string` &#124; [RallyObject](../interfaces/_api_.api.rallyobject.md)| - |  Either a Rally object or the ref for a Rally object |
+| `Default value` params | `object` |  {} |  Optional Params to be sent with the request |
+| `Default value` ignoreDelay | `boolean` | false |  Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting |
 
-
-
-
-
-**Returns:** `Promise`.<`any`>
-
-
-
-
+**Returns:** `Promise`<`any`>
 
 ___
-
 <a id="get"></a>
 
 ###  get
 
-► **get**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`.<`TestFolderStatus`>
-
-
+▸ **get**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<`TestFolderStatus`>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[get](_classclients_.classclients.classclientbase.md#get)*
 
-*Defined in ClassClients.ts:54*
-
-
+*Defined in [ClassClients.ts:54](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L54)*
 
 Returns a Rally object by ref or by type and ID
 
-
 **Parameters:**
 
-| Param | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| typeOrRef | `string`  | - |   - |
-| objectID | `number`  | 0 |   - |
-| params | [QueryOptions](../interfaces/_api_.api.queryoptions.md)  |  {} |   - |
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| typeOrRef | `string` | - |
+| `Default value` objectID | `number` | 0 |
+| `Default value` params | [QueryOptions](../interfaces/_api_.api.queryoptions.md) |  {} |
 
-
-
-
-
-**Returns:** `Promise`.<`TestFolderStatus`>
-
-
-
-
+**Returns:** `Promise`<`TestFolderStatus`>
 
 ___
-
 <a id="getcollection"></a>
 
 ###  getCollection
 
-► **getCollection**(rallyObject: *`TestFolderStatus`*, collectionName: *`string`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`.<[QueryResponse](../interfaces/_api_.api.queryresponse.md)[RallyObject](../interfaces/_api_.api.rallyobject.md)>
-
-
+▸ **getCollection**(rallyObject: *`TestFolderStatus`*, collectionName: *`string`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<[RallyObject](../interfaces/_api_.api.rallyobject.md)>>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[getCollection](_classclients_.classclients.classclientbase.md#getcollection)*
 
-*Defined in ClassClients.ts:62*
-
-
+*Defined in [ClassClients.ts:62](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L62)*
 
 Gets a subcollection stored on the Rally object
 
-
 **Parameters:**
 
-| Param | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| rallyObject | `TestFolderStatus`  | - |   - |
-| collectionName | `string`  | - |   - |
-| params | [QueryOptions](../interfaces/_api_.api.queryoptions.md)  |  {} |   - |
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| rallyObject | `TestFolderStatus` | - |
+| collectionName | `string` | - |
+| `Default value` params | [QueryOptions](../interfaces/_api_.api.queryoptions.md) |  {} |
 
-
-
-
-
-**Returns:** `Promise`.<[QueryResponse](../interfaces/_api_.api.queryresponse.md)[RallyObject](../interfaces/_api_.api.rallyobject.md)>
-
-
-
-
+**Returns:** `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<[RallyObject](../interfaces/_api_.api.rallyobject.md)>>
 
 ___
-
 <a id="query"></a>
 
 ###  query
 
-► **query**(type: *`any`*, query?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*, params?: *`object`*): `Promise`.<[QueryResponse](../interfaces/_api_.api.queryresponse.md)`TestFolderStatus`>
-
-
+▸ **query**(type: *`any`*, query?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*, params?: *`object`*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`TestFolderStatus`>>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[query](_classclients_.classclients.classclientbase.md#query)*
 
-*Defined in ClassClients.ts:31*
-
-
+*Defined in [ClassClients.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L31)*
 
 returns an array modified to have additional meta data on it containing the results
 
-
 **Parameters:**
 
-| Param | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| type | `any`  | - |   - |
-| query | [QueryOptions](../interfaces/_api_.api.queryoptions.md)  |  {} |   - |
-| params | `object`  |  {} |   - |
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| type | `any` | - |
+| `Default value` query | [QueryOptions](../interfaces/_api_.api.queryoptions.md) |  {} |
+| `Default value` params | `object` |  {} |
 
-
-
-
-
-**Returns:** `Promise`.<[QueryResponse](../interfaces/_api_.api.queryresponse.md)`TestFolderStatus`>
-
-
-
-
+**Returns:** `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`TestFolderStatus`>>
 
 ___
-
 <a id="save"></a>
 
 ###  save
 
-► **save**(rallyObject: *`Partial`.<`TestFolderStatus`>*): `Promise`.<`TestFolderStatus`>
-
-
+▸ **save**(rallyObject: *`Partial`<`TestFolderStatus`>*): `Promise`<`TestFolderStatus`>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[save](_classclients_.classclients.classclientbase.md#save)*
 
-*Defined in ClassClients.ts:42*
+*Defined in [ClassClients.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L42)*
 
-
-
-Saves the current state of the Rally object to Rally. Creating a new object on the server if no _ref is provided in rallyObject
-
+Saves the current state of the Rally object to Rally. Creating a new object on the server if no \_ref is provided in rallyObject
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
-| rallyObject | `Partial`.<`TestFolderStatus`>   |  A new or existing Rally object |
+| rallyObject | `Partial`<`TestFolderStatus`> |  A new or existing Rally object |
 
-
-
-
-
-**Returns:** `Promise`.<`TestFolderStatus`>
-
-
-
-
+**Returns:** `Promise`<`TestFolderStatus`>
 
 ___
-
 

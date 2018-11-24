@@ -1,7 +1,5 @@
 [custom-agile-toolkit](../README.md) > ["Api"](../modules/_api_.md)
 
-
-
 # External module: "Api"
 
 ## Index
@@ -10,6 +8,5 @@
 
 * [Api](_api_.api.md)
 
-
-
 ---
+

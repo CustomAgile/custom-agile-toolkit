@@ -1,51 +1,48 @@
 [custom-agile-toolkit](../README.md) > ["Api"](../modules/_api_.md) > [Api](../modules/_api_.api.md) > [ClientOptions](../interfaces/_api_.api.clientoptions.md)
 
-
-
 # Interface: ClientOptions
 
+## Hierarchy
+
+**ClientOptions**
+
+## Index
+
+### Properties
+
+* [project](_api_.api.clientoptions.md#project)
+* [server](_api_.api.clientoptions.md#server)
+* [workspace](_api_.api.clientoptions.md#workspace)
+
+---
 
 ## Properties
+
 <a id="project"></a>
 
-### «Optional» project
+### `<Optional>` project
 
-**●  project**:  *`string`* 
+**● project**: *`string`*
 
-*Defined in Api.ts:7*
-
-
-
-
+*Defined in [Api.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L7)*
 
 ___
-
 <a id="server"></a>
 
-### «Optional» server
+### `<Optional>` server
 
-**●  server**:  *`string`* 
+**● server**: *`string`*
 
-*Defined in Api.ts:6*
-
-
-
-
+*Defined in [Api.ts:6](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L6)*
 
 ___
-
 <a id="workspace"></a>
 
-### «Optional» workspace
+### `<Optional>` workspace
 
-**●  workspace**:  *`string`* 
+**● workspace**: *`string`*
 
-*Defined in Api.ts:8*
-
-
-
-
+*Defined in [Api.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L8)*
 
 ___
-
 

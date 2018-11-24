@@ -1,93 +1,79 @@
 [custom-agile-toolkit](../README.md) > ["Api"](../modules/_api_.md) > [Api](../modules/_api_.api.md) > [Lookback](../modules/_api_.api.lookback.md) > [Request](../interfaces/_api_.api.lookback.request.md)
 
-
-
 # Interface: Request
 
+## Hierarchy
+
+**Request**
+
+## Index
+
+### Properties
+
+* [fields](_api_.api.lookback.request.md#fields)
+* [find](_api_.api.lookback.request.md#find)
+* [hydrate](_api_.api.lookback.request.md#hydrate)
+* [pagesize](_api_.api.lookback.request.md#pagesize)
+* [removeUnauthorizedSnapshots](_api_.api.lookback.request.md#removeunauthorizedsnapshots)
+* [start](_api_.api.lookback.request.md#start)
+
+---
 
 ## Properties
+
 <a id="fields"></a>
 
-### «Optional» fields
+### `<Optional>` fields
 
-**●  fields**:  *`string`[]⎮`boolean`* 
+**● fields**: * `string`[] &#124; `boolean`
+*
 
-*Defined in Api.ts:49*
-
-
-
-
+*Defined in [Api.ts:49](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L49)*
 
 ___
-
 <a id="find"></a>
 
 ###  find
 
-**●  find**:  *`any`* 
+**● find**: *`any`*
 
-*Defined in Api.ts:48*
-
-
-
-
+*Defined in [Api.ts:48](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L48)*
 
 ___
-
 <a id="hydrate"></a>
 
-### «Optional» hydrate
+### `<Optional>` hydrate
 
-**●  hydrate**:  *`string`[]* 
+**● hydrate**: *`string`[]*
 
-*Defined in Api.ts:50*
-
-
-
-
+*Defined in [Api.ts:50](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L50)*
 
 ___
-
 <a id="pagesize"></a>
 
-### «Optional» pagesize
+### `<Optional>` pagesize
 
-**●  pagesize**:  *`number`* 
+**● pagesize**: *`number`*
 
-*Defined in Api.ts:52*
-
-
-
-
+*Defined in [Api.ts:52](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L52)*
 
 ___
-
 <a id="removeunauthorizedsnapshots"></a>
 
-### «Optional» removeUnauthorizedSnapshots
+### `<Optional>` removeUnauthorizedSnapshots
 
-**●  removeUnauthorizedSnapshots**:  *`boolean`* 
+**● removeUnauthorizedSnapshots**: *`boolean`*
 
-*Defined in Api.ts:53*
-
-
-
-
+*Defined in [Api.ts:53](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L53)*
 
 ___
-
 <a id="start"></a>
 
-### «Optional» start
+### `<Optional>` start
 
-**●  start**:  *`number`* 
+**● start**: *`number`*
 
-*Defined in Api.ts:51*
-
-
-
-
+*Defined in [Api.ts:51](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Api.ts#L51)*
 
 ___
-
 

@@ -1,31 +1,31 @@
-[custom-agile-toolkit](../README.md) > ["ClassClients"](../modules/_classclients_.md) > [ClassClients](../modules/_classclients_.classclients.md) > [CumulativeFlowData](../classes/_classclients_.classclients.cumulativeflowdata.md)
+[custom-agile-toolkit](../README.md) > ["ClassClients"](../modules/_classclients_.md) > [ClassClients](../modules/_classclients_.classclients.md) > [Risk](../classes/_classclients_.classclients.risk.md)
 
-# Class: CumulativeFlowData
+# Class: Risk
 
 ## Hierarchy
 
- [ClassClientBase](_classclients_.classclients.classclientbase.md)<`CumulativeFlowData`>
+ [ClassClientBase](_classclients_.classclients.classclientbase.md)<`Risk`>
 
-**↳ CumulativeFlowData**
+**↳ Risk**
 
 ## Index
 
 ### Constructors
 
-* [constructor](_classclients_.classclients.cumulativeflowdata.md#constructor)
+* [constructor](_classclients_.classclients.risk.md#constructor)
 
 ### Properties
 
-* [client](_classclients_.classclients.cumulativeflowdata.md#client)
-* [typeName](_classclients_.classclients.cumulativeflowdata.md#typename)
+* [client](_classclients_.classclients.risk.md#client)
+* [typeName](_classclients_.classclients.risk.md#typename)
 
 ### Methods
 
-* [delete](_classclients_.classclients.cumulativeflowdata.md#delete)
-* [get](_classclients_.classclients.cumulativeflowdata.md#get)
-* [getCollection](_classclients_.classclients.cumulativeflowdata.md#getcollection)
-* [query](_classclients_.classclients.cumulativeflowdata.md#query)
-* [save](_classclients_.classclients.cumulativeflowdata.md#save)
+* [delete](_classclients_.classclients.risk.md#delete)
+* [get](_classclients_.classclients.risk.md#get)
+* [getCollection](_classclients_.classclients.risk.md#getcollection)
+* [query](_classclients_.classclients.risk.md#query)
+* [save](_classclients_.classclients.risk.md#save)
 
 ---
 
@@ -35,13 +35,13 @@
 
 ###  constructor
 
-⊕ **new CumulativeFlowData**(apiKey: *`string`*, options: *[ClientOptions](../interfaces/_api_.api.clientoptions.md)*): [CumulativeFlowData](_classclients_.classclients.cumulativeflowdata.md)
+⊕ **new Risk**(apiKey: *`string`*, options: *[ClientOptions](../interfaces/_api_.api.clientoptions.md)*): [Risk](_classclients_.classclients.risk.md)
 
-⊕ **new CumulativeFlowData**(client: *[Client](_client_.client.md)*): [CumulativeFlowData](_classclients_.classclients.cumulativeflowdata.md)
+⊕ **new Risk**(client: *[Client](_client_.client.md)*): [Risk](_classclients_.classclients.risk.md)
 
 *Overrides [ClassClientBase](_classclients_.classclients.classclientbase.md).[constructor](_classclients_.classclients.classclientbase.md#constructor)*
 
-*Defined in [ClassClients.ts:215](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L215)*
+*Defined in [ClassClients.ts:530](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L530)*
 
 **Parameters:**
 
@@ -50,11 +50,11 @@
 | apiKey | `string` |
 | options | [ClientOptions](../interfaces/_api_.api.clientoptions.md) |
 
-**Returns:** [CumulativeFlowData](_classclients_.classclients.cumulativeflowdata.md)
+**Returns:** [Risk](_classclients_.classclients.risk.md)
 
 *Overrides [ClassClientBase](_classclients_.classclients.classclientbase.md).[constructor](_classclients_.classclients.classclientbase.md#constructor)*
 
-*Defined in [ClassClients.ts:216](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L216)*
+*Defined in [ClassClients.ts:531](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L531)*
 
 **Parameters:**
 
@@ -62,7 +62,7 @@
 | ------ | ------ |
 | client | [Client](_client_.client.md) |
 
-**Returns:** [CumulativeFlowData](_classclients_.classclients.cumulativeflowdata.md)
+**Returns:** [Risk](_classclients_.classclients.risk.md)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 ###  get
 
-▸ **get**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<`CumulativeFlowData`>
+▸ **get**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<`Risk`>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[get](_classclients_.classclients.classclientbase.md#get)*
 
@@ -134,14 +134,14 @@ Returns a Rally object by ref or by type and ID
 | `Default value` objectID | `number` | 0 |
 | `Default value` params | [QueryOptions](../interfaces/_api_.api.queryoptions.md) |  {} |
 
-**Returns:** `Promise`<`CumulativeFlowData`>
+**Returns:** `Promise`<`Risk`>
 
 ___
 <a id="getcollection"></a>
 
 ###  getCollection
 
-▸ **getCollection**(rallyObject: *`CumulativeFlowData`*, collectionName: *`string`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<[RallyObject](../interfaces/_api_.api.rallyobject.md)>>
+▸ **getCollection**(rallyObject: *`Risk`*, collectionName: *`string`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<[RallyObject](../interfaces/_api_.api.rallyobject.md)>>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[getCollection](_classclients_.classclients.classclientbase.md#getcollection)*
 
@@ -153,7 +153,7 @@ Gets a subcollection stored on the Rally object
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| rallyObject | `CumulativeFlowData` | - |
+| rallyObject | `Risk` | - |
 | collectionName | `string` | - |
 | `Default value` params | [QueryOptions](../interfaces/_api_.api.queryoptions.md) |  {} |
 
@@ -164,7 +164,7 @@ ___
 
 ###  query
 
-▸ **query**(type: *`any`*, query?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*, params?: *`object`*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`CumulativeFlowData`>>
+▸ **query**(type: *`any`*, query?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*, params?: *`object`*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`Risk`>>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[query](_classclients_.classclients.classclientbase.md#query)*
 
@@ -180,14 +180,14 @@ returns an array modified to have additional meta data on it containing the resu
 | `Default value` query | [QueryOptions](../interfaces/_api_.api.queryoptions.md) |  {} |
 | `Default value` params | `object` |  {} |
 
-**Returns:** `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`CumulativeFlowData`>>
+**Returns:** `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`Risk`>>
 
 ___
 <a id="save"></a>
 
 ###  save
 
-▸ **save**(rallyObject: *`Partial`<`CumulativeFlowData`>*): `Promise`<`CumulativeFlowData`>
+▸ **save**(rallyObject: *`Partial`<`Risk`>*): `Promise`<`Risk`>
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[save](_classclients_.classclients.classclientbase.md#save)*
 
@@ -199,9 +199,9 @@ Saves the current state of the Rally object to Rally. Creating a new object on t
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| rallyObject | `Partial`<`CumulativeFlowData`> |  A new or existing Rally object |
+| rallyObject | `Partial`<`Risk`> |  A new or existing Rally object |
 
-**Returns:** `Promise`<`CumulativeFlowData`>
+**Returns:** `Promise`<`Risk`>
 
 ___
 

@@ -1,7 +1,5 @@
 [custom-agile-toolkit](../README.md) > ["Api"](../modules/_api_.md) > [Api](../modules/_api_.api.md) > [Lookback](../modules/_api_.api.lookback.md)
 
-
-
 # Module: Lookback
 
 ## Index
@@ -17,6 +15,5 @@
 * [Timings](../interfaces/_api_.api.lookback.timings.md)
 * [ValidFrom](../interfaces/_api_.api.lookback.validfrom.md)
 
-
-
 ---
+

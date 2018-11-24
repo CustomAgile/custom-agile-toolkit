@@ -1,7 +1,5 @@
 [custom-agile-toolkit](../README.md) > ["ClassClients"](../modules/_classclients_.md) > [ClassClients](../modules/_classclients_.classclients.md)
 
-
-
 # Module: ClassClients
 
 ## Index
@@ -33,13 +31,14 @@
 * [Feature](../classes/_classclients_.classclients.feature.md)
 * [FeatureToggleEntity](../classes/_classclients_.classclients.featuretoggleentity.md)
 * [FlowState](../classes/_classclients_.classclients.flowstate.md)
-* [FundingIncrement](../classes/_classclients_.classclients.fundingincrement.md)
 * [HierarchicalRequirement](../classes/_classclients_.classclients.hierarchicalrequirement.md)
 * [HierarchicalRequirementPredecessorRelationship](../classes/_classclients_.classclients.hierarchicalrequirementpredecessorrelationship.md)
 * [Initiative](../classes/_classclients_.classclients.initiative.md)
+* [Investment](../classes/_classclients_.classclients.investment.md)
 * [Iteration](../classes/_classclients_.classclients.iteration.md)
 * [IterationCumulativeFlowData](../classes/_classclients_.classclients.iterationcumulativeflowdata.md)
 * [Milestone](../classes/_classclients_.classclients.milestone.md)
+* [PPMConnection](../classes/_classclients_.classclients.ppmconnection.md)
 * [Panel](../classes/_classclients_.classclients.panel.md)
 * [PanelDefinitionConfigProperty](../classes/_classclients_.classclients.paneldefinitionconfigproperty.md)
 * [PersistableObject](../classes/_classclients_.classclients.persistableobject.md)
@@ -48,7 +47,6 @@
 * [Preference](../classes/_classclients_.classclients.preference.md)
 * [PreliminaryEstimate](../classes/_classclients_.classclients.preliminaryestimate.md)
 * [ProfileImage](../classes/_classclients_.classclients.profileimage.md)
-* [Program](../classes/_classclients_.classclients.program.md)
 * [Project](../classes/_classclients_.classclients.project.md)
 * [ProjectPermission](../classes/_classclients_.classclients.projectpermission.md)
 * [PullRequest](../classes/_classclients_.classclients.pullrequest.md)
@@ -59,6 +57,7 @@
 * [Requirement](../classes/_classclients_.classclients.requirement.md)
 * [Revision](../classes/_classclients_.classclients.revision.md)
 * [RevisionHistory](../classes/_classclients_.classclients.revisionhistory.md)
+* [Risk](../classes/_classclients_.classclients.risk.md)
 * [SCMRepository](../classes/_classclients_.classclients.scmrepository.md)
 * [SchedulableArtifact](../classes/_classclients_.classclients.schedulableartifact.md)
 * [ScheduledTestCase](../classes/_classclients_.classclients.scheduledtestcase.md)
@@ -90,6 +89,5 @@
 * [WorkspaceDomainObject](../classes/_classclients_.classclients.workspacedomainobject.md)
 * [WorkspacePermission](../classes/_classclients_.classclients.workspacepermission.md)
 
-
-
 ---
+

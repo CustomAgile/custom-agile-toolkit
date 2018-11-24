@@ -1,5 +1,5 @@
 let chai = require('chai');
-const { Client } = require('custom-agile-toolkit');
+const { Client } = require('../built/index');
 
 const apiKey = require('../apikey.conf');// just the api key
 

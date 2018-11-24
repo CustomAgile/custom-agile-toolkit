@@ -131,6 +131,12 @@
         Connections? : Connection[]
       
         /**
+         * Created By
+         * User who created the artifact
+         */
+        CreatedBy? : User
+      
+        /**
          * Description
          * Artifact description, which is a rich-text field.
          */
@@ -774,12 +780,6 @@
          */
         export interface Connection extends WorkspaceDomainObject {
              
-        /**
-         * Artifact
-         * The artifact this connection belongs to.
-         */
-        Artifact? : Artifact
-      
         /**
          * Description
          * Connection description
@@ -1486,98 +1486,6 @@
     
         }  
         /**
-         * FundingIncrement
-         * null
-         * 
-         */
-        export interface FundingIncrement extends Slice {
-             
-        /**
-         * Accepted Leaf Story Plan Estimate Total
-         * Sum of the plan estimates of all accepted leaf user stories (stories without children) for the Portfolio Items associated with this Funding Increment.
-         */
-        AcceptedLeafStoryPlanEstimateTotal? : number
-      
-        /**
-         * Amount
-         * Amount for funding increment
-         */
-        Amount? : number
-      
-        /**
-         * Artifacts
-         * The artifacts associated with this FundingIncrement
-         */
-        Artifacts? : PortfolioItem[]
-      
-        /**
-         * Dependency Count For Lowest Level Portfolio Items
-         * The number of dependency relationships among lowest level portfolio items associated to this FundingIncrement.
-         */
-        DependencyCountForLowestLevelPortfolioItems? : number
-      
-        /**
-         * End Date
-         * Funding Increment End Date
-         */
-        EndDate? : Date
-      
-        /**
-         * Leaf Story Plan Estimate Total
-         * Sum of the plan estimates of all leaf user stories (stories without children) associated with this Portfolio Item.
-         */
-        LeafStoryPlanEstimateTotal? : number
-      
-        /**
-         * Percent Child Artifacts Scheduled
-         * Percentage of artifacts that are scheduled for this Funding Increment.
-         */
-        PercentChildArtifactsScheduled? : number
-      
-        /**
-         * Percent Done By Story Plan Estimate
-         * Percentage of plan estimates for accepted leaf user stories (i.e. stories without children) of the Portfolio Items that are associated with this Funding Increment.
-         */
-        PercentDoneByStoryPlanEstimate? : number
-      
-        /**
-         * Percent Done By Workdays
-         * Percentage of Workdays ( as configured on the workspace ) that have elapsed in the current Funding Increment.
-         */
-        PercentDoneByWorkdays? : number
-      
-        /**
-         * Start Date
-         * Funding Increment Start Date
-         */
-        StartDate? : Date
-      
-        /**
-         * Total Artifact Count
-         * The total number of artifacts associated to this FundingIncrement.
-         */
-        TotalArtifactCount? : number
-      
-        /**
-         * Total Scheduled Artifacts Count
-         * Sum of the number of scheduled artifacts associated with this Funding Increment.
-         */
-        TotalScheduledArtifactsCount? : number
-      
-        /**
-         * Total Workdays
-         * Sum of the number of workdays ( as configured on the workspace ) in the Funding Increment.
-         */
-        TotalWorkdays? : number
-      
-        /**
-         * Total Workdays Elapsed
-         * Sum of the number of workdays ( as configured on the workspace ) that have elapsed in the Funding Increment since the Start Date.
-         */
-        TotalWorkdaysElapsed? : number
-    
-        }  
-        /**
          * Hierarchical Requirement
          * The hierarchical requirement type.
          * 
@@ -1711,6 +1619,12 @@
         Release? : Release
       
         /**
+         * Risks
+         * The Risks affecting this work item
+         */
+        Risks? : Risk[]
+      
+        /**
          * Successors
          * Temporal successors of this requirement.  Successors cannot be completed before this requirement is completed.
          */
@@ -1809,6 +1723,98 @@
          * The Initiative successors of this Initiative
          */
         Successors? : Initiative[]
+    
+        }  
+        /**
+         * Investment
+         * null
+         * 
+         */
+        export interface Investment extends Slice {
+             
+        /**
+         * Accepted Leaf Story Plan Estimate Total
+         * Sum of the plan estimates of all accepted leaf user stories (stories without children) for the Portfolio Items associated with this Investment.
+         */
+        AcceptedLeafStoryPlanEstimateTotal? : number
+      
+        /**
+         * Amount
+         * Amount for investment
+         */
+        Amount? : number
+      
+        /**
+         * Artifacts
+         * The artifacts associated with this Investment
+         */
+        Artifacts? : PortfolioItem[]
+      
+        /**
+         * Dependency Count For Lowest Level Portfolio Items
+         * The number of dependency relationships among lowest level portfolio items associated to this Investment.
+         */
+        DependencyCountForLowestLevelPortfolioItems? : number
+      
+        /**
+         * End Date
+         * Investment End Date
+         */
+        EndDate? : Date
+      
+        /**
+         * Leaf Story Plan Estimate Total
+         * Sum of the plan estimates of all leaf user stories (stories without children) associated with this Portfolio Item.
+         */
+        LeafStoryPlanEstimateTotal? : number
+      
+        /**
+         * Percent Child Artifacts Scheduled
+         * Percentage of artifacts that are scheduled for this Investment.
+         */
+        PercentChildArtifactsScheduled? : number
+      
+        /**
+         * Percent Done By Story Plan Estimate
+         * Percentage of plan estimates for accepted leaf user stories (i.e. stories without children) of the Portfolio Items that are associated with this Investment.
+         */
+        PercentDoneByStoryPlanEstimate? : number
+      
+        /**
+         * Percent Done By Workdays
+         * Percentage of Workdays ( as configured on the workspace ) that have elapsed in the current Investment.
+         */
+        PercentDoneByWorkdays? : number
+      
+        /**
+         * Start Date
+         * Investment Start Date
+         */
+        StartDate? : Date
+      
+        /**
+         * Total Artifact Count
+         * The total number of artifacts associated to this Investment.
+         */
+        TotalArtifactCount? : number
+      
+        /**
+         * Total Scheduled Artifacts Count
+         * Sum of the number of scheduled artifacts associated with this Investment.
+         */
+        TotalScheduledArtifactsCount? : number
+      
+        /**
+         * Total Workdays
+         * Sum of the number of workdays ( as configured on the workspace ) in the Investment.
+         */
+        TotalWorkdays? : number
+      
+        /**
+         * Total Workdays Elapsed
+         * Sum of the number of workdays ( as configured on the workspace ) that have elapsed in the Investment since the Start Date.
+         */
+        TotalWorkdaysElapsed? : number
     
         }  
         /**
@@ -1986,6 +1992,26 @@
     
         }  
         /**
+         * PPM Connection
+         * PPMConnection
+         * 
+         */
+        export interface PPMConnection extends Connection {
+             
+        /**
+         * Url
+         * Connection url
+         */
+        Url? : string
+      
+        /**
+         * Workspace Config
+         * Workspace configuration the connection is tied to
+         */
+        WorkspaceConfig? : WorkspaceConfiguration
+    
+        }  
+        /**
          * Panel
          * Panel
          * 
@@ -2143,16 +2169,16 @@
         DragAndDropRank? : string
       
         /**
-         * Funding Increments
-         * The funding increments associated with this artifact
-         */
-        FundingIncrements? : FundingIncrement[]
-      
-        /**
          * Investment Category
          * What Investment Category this Portfolio Item belongs to.
          */
         InvestmentCategory? : string
+      
+        /**
+         * Investments
+         * The investments associated with this artifact
+         */
+        Investments? : Investment[]
       
         /**
          * Job Size
@@ -2237,6 +2263,12 @@
          * A Non-Negative Integer representing risk.
          */
         RiskScore? : number
+      
+        /**
+         * Risks
+         * The Risks affecting this work item
+         */
+        Risks? : Risk[]
       
         /**
          * RR/OE Value
@@ -2404,38 +2436,6 @@
     
         }  
         /**
-         * Program
-         * Program
-         * 
-         */
-        export interface Program extends WorkspaceDomainObject {
-             
-        /**
-         * Description
-         * Program description, which is a rich-text field.
-         */
-        Description? : string
-      
-        /**
-         * Name
-         * Name
-         */
-        Name? : string
-      
-        /**
-         * Owner
-         * Program owner, a username (login name).
-         */
-        Owner? : User
-      
-        /**
-         * Releases
-         * The releases for this program.
-         */
-        Releases? : Release[]
-    
-        }  
-        /**
          * Project
          * null
          * 
@@ -2573,6 +2573,12 @@
         export interface PullRequest extends Connection {
              
         /**
+         * Artifact
+         * The artifact this connection belongs to.
+         */
+        Artifact? : Artifact
+      
+        /**
          * External FormattedId
          * Pull Request externalFormattedId
          */
@@ -2583,6 +2589,12 @@
          * Pull Request External ID
          */
         ExternalID? : string
+      
+        /**
+         * Project
+         * The project this connection is associated with.
+         */
+        Project? : Project
     
         }  
         /**
@@ -2840,6 +2852,92 @@
     
         }  
         /**
+         * Risk
+         * null
+         * 
+         */
+        export interface Risk extends SchedulableArtifact {
+             
+        /**
+         * Attachments
+         * Attachments associated with this risk
+         */
+        Attachments? : Attachment[]
+      
+        /**
+         * Calculated Risk
+         * The product of the Risk's Probability and Impact.
+         */
+        CalculatedRisk? : number
+      
+        /**
+         * Exposure
+         * Exposure of the risk in days as a product of probability percent and size of loss.
+         */
+        Exposure? : number
+      
+        /**
+         * Impact
+         * Risk Impact
+         */
+        Impact? : string
+      
+        /**
+         * Probability
+         * Risk Probability
+         */
+        Probability? : string
+      
+        /**
+         * Recycled
+         * Moved to Recycle Bin
+         */
+        Recycled? : boolean
+      
+        /**
+         * Resolution
+         * Risk resolution.
+         */
+        Resolution? : string
+      
+        /**
+         * Response
+         * Risk Response: Resolved, Owned, Accepted, or Mitigated
+         */
+        Response? : string
+      
+        /**
+         * Size Of Loss
+         * The size of loss in days that this risk poses to the train.
+         */
+        SizeOfLoss? : number
+      
+        /**
+         * State
+         * Risk State: Open or Closed
+         */
+        State? : string
+      
+        /**
+         * Submitted By
+         * The user that submitted this risk
+         */
+        SubmittedBy? : User
+      
+        /**
+         * Tasks
+         * Tasks associated with this Risk. Can be thought of as actions to be taken on a risk.
+         */
+        Tasks? : Task[]
+      
+        /**
+         * Work Items Affected
+         * The work items affected by this risk
+         */
+        WorkItemsAffected? : RankableArtifact[]
+    
+        }  
+        /**
          * SCMRepository
          * SCMRepository
          * 
@@ -3029,6 +3127,12 @@
          * The test case that has been scheduled.
          */
         TestCase? : TestCase
+      
+        /**
+         * Test Set
+         * The parent test set.
+         */
+        TestSet? : TestSet
     
         }  
         /**
@@ -3185,6 +3289,12 @@
          * The formatted ID for an object.  This is automatically assigned when an object is created and can never be changed.
          */
         FormattedID? : number
+      
+        /**
+         * Last Update Date
+         * The last update date of a slice.  It is automatically assigned when an object is created or updated.
+         */
+        LastUpdateDate? : Date
       
         /**
          * Name
@@ -3429,6 +3539,12 @@
          * Whether project hierarchies are allowed for this subscription.
          */
         ProjectHierarchyEnabled? : boolean
+      
+        /**
+         * RallyNext
+         * Whether subscription is using WSAPI Version 4.
+         */
+        RallyNext? : boolean
       
         /**
          * Revision History
@@ -3826,7 +3942,7 @@
          * Work Product
          * The work product that is is the subject of this test case (can only be a Requirement or a Defect).
          */
-        WorkProduct? : Artifact
+        WorkProduct? : SchedulableArtifact
     
         }  
         /**
@@ -4381,6 +4497,18 @@
         AccountLockedUntil? : Date
       
         /**
+         * Artifacts Created
+         * The artifacts Created by this User
+         */
+        ArtifactsCreated? : Artifact[]
+      
+        /**
+         * Artifacts Owned
+         * The artifacts owned by this User
+         */
+        ArtifactsOwned? : Artifact[]
+      
+        /**
          * Cost Center
          * Cost Center for User
          */
@@ -4459,10 +4587,10 @@
         FirstName? : string
       
         /**
-         * Funding Increment Admin
-         * Flag to determine if the user is a funding increment admin
+         * Investment Admin
+         * Flag to determine if the user is an investment admin
          */
-        FundingIncrementAdmin? : boolean
+        InvestmentAdmin? : boolean
       
         /**
          * is on SSO Exception List
@@ -4523,6 +4651,12 @@
          * User's last known system timezone name.
          */
         LastSystemTimeZoneName? : string
+      
+        /**
+         * Ldap Uuid
+         * The LDAP UUID for a User.
+         */
+        LdapUuid? : string
       
         /**
          * Locale
@@ -5059,6 +5193,12 @@
          * Release-level estimation unit name
          */
         IterationEstimateUnitName? : string
+      
+        /**
+         * Ppm Connection
+         * A reference to the ppm connection
+         */
+        PpmConnection? : PPMConnection
       
         /**
          * Release Estimate Unit Name

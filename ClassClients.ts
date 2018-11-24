@@ -293,15 +293,6 @@ export namespace ClassClients {
         }
     }
          
-    export class FundingIncrement extends ClassClientBase<Classes.FundingIncrement> {
-        constructor(apiKey: string, options: Api.ClientOptions)
-        constructor(client: Client)
-        constructor(...params: any[]) {
-            const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
-            super("FundingIncrement",client);                
-        }
-    }
-         
     export class HierarchicalRequirement extends ClassClientBase<Classes.HierarchicalRequirement> {
         constructor(apiKey: string, options: Api.ClientOptions)
         constructor(client: Client)
@@ -329,6 +320,15 @@ export namespace ClassClients {
         }
     }
          
+    export class Investment extends ClassClientBase<Classes.Investment> {
+        constructor(apiKey: string, options: Api.ClientOptions)
+        constructor(client: Client)
+        constructor(...params: any[]) {
+            const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
+            super("Investment",client);                
+        }
+    }
+         
     export class Iteration extends ClassClientBase<Classes.Iteration> {
         constructor(apiKey: string, options: Api.ClientOptions)
         constructor(client: Client)
@@ -353,6 +353,15 @@ export namespace ClassClients {
         constructor(...params: any[]) {
             const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
             super("Milestone",client);                
+        }
+    }
+         
+    export class PPMConnection extends ClassClientBase<Classes.PPMConnection> {
+        constructor(apiKey: string, options: Api.ClientOptions)
+        constructor(client: Client)
+        constructor(...params: any[]) {
+            const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
+            super("PPMConnection",client);                
         }
     }
          
@@ -425,15 +434,6 @@ export namespace ClassClients {
         constructor(...params: any[]) {
             const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
             super("ProfileImage",client);                
-        }
-    }
-         
-    export class Program extends ClassClientBase<Classes.Program> {
-        constructor(apiKey: string, options: Api.ClientOptions)
-        constructor(client: Client)
-        constructor(...params: any[]) {
-            const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
-            super("Program",client);                
         }
     }
          
@@ -524,6 +524,15 @@ export namespace ClassClients {
         constructor(...params: any[]) {
             const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
             super("RevisionHistory",client);                
+        }
+    }
+         
+    export class Risk extends ClassClientBase<Classes.Risk> {
+        constructor(apiKey: string, options: Api.ClientOptions)
+        constructor(client: Client)
+        constructor(...params: any[]) {
+            const client = _.isObject(params[0])?params[0]:new Client(params[0],params[1]);
+            super("Risk",client);                
         }
     }
          
