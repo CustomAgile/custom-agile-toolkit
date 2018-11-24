@@ -133,10 +133,6 @@ export declare namespace ClassClients {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
     }
-    class FundingIncrement extends ClassClientBase<Classes.FundingIncrement> {
-        constructor(apiKey: string, options: Api.ClientOptions);
-        constructor(client: Client);
-    }
     class HierarchicalRequirement extends ClassClientBase<Classes.HierarchicalRequirement> {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
@@ -149,6 +145,10 @@ export declare namespace ClassClients {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
     }
+    class Investment extends ClassClientBase<Classes.Investment> {
+        constructor(apiKey: string, options: Api.ClientOptions);
+        constructor(client: Client);
+    }
     class Iteration extends ClassClientBase<Classes.Iteration> {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
@@ -158,6 +158,10 @@ export declare namespace ClassClients {
         constructor(client: Client);
     }
     class Milestone extends ClassClientBase<Classes.Milestone> {
+        constructor(apiKey: string, options: Api.ClientOptions);
+        constructor(client: Client);
+    }
+    class PPMConnection extends ClassClientBase<Classes.PPMConnection> {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
     }
@@ -190,10 +194,6 @@ export declare namespace ClassClients {
         constructor(client: Client);
     }
     class ProfileImage extends ClassClientBase<Classes.ProfileImage> {
-        constructor(apiKey: string, options: Api.ClientOptions);
-        constructor(client: Client);
-    }
-    class Program extends ClassClientBase<Classes.Program> {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
     }
@@ -234,6 +234,10 @@ export declare namespace ClassClients {
         constructor(client: Client);
     }
     class RevisionHistory extends ClassClientBase<Classes.RevisionHistory> {
+        constructor(apiKey: string, options: Api.ClientOptions);
+        constructor(client: Client);
+    }
+    class Risk extends ClassClientBase<Classes.Risk> {
         constructor(apiKey: string, options: Api.ClientOptions);
         constructor(client: Client);
     }

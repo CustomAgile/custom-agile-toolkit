@@ -22,7 +22,7 @@
 
 **● URLSearchParams**: *`URLSearchParams`*
 
-*Defined in [Client.ts:6](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/Client.ts#L6)*
+*Defined in [Client.ts:6](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Client.ts#L6)*
 
 ___
 

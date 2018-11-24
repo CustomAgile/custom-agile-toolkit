@@ -220,13 +220,6 @@ let ClassClients;
         }
     }
     ClassClients.FlowState = FlowState;
-    class FundingIncrement extends ClassClientBase {
-        constructor(...params) {
-            const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
-            super('FundingIncrement', client);
-        }
-    }
-    ClassClients.FundingIncrement = FundingIncrement;
     class HierarchicalRequirement extends ClassClientBase {
         constructor(...params) {
             const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
@@ -248,6 +241,13 @@ let ClassClients;
         }
     }
     ClassClients.Initiative = Initiative;
+    class Investment extends ClassClientBase {
+        constructor(...params) {
+            const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
+            super('Investment', client);
+        }
+    }
+    ClassClients.Investment = Investment;
     class Iteration extends ClassClientBase {
         constructor(...params) {
             const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
@@ -269,6 +269,13 @@ let ClassClients;
         }
     }
     ClassClients.Milestone = Milestone;
+    class PPMConnection extends ClassClientBase {
+        constructor(...params) {
+            const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
+            super('PPMConnection', client);
+        }
+    }
+    ClassClients.PPMConnection = PPMConnection;
     class Panel extends ClassClientBase {
         constructor(...params) {
             const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
@@ -325,13 +332,6 @@ let ClassClients;
         }
     }
     ClassClients.ProfileImage = ProfileImage;
-    class Program extends ClassClientBase {
-        constructor(...params) {
-            const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
-            super('Program', client);
-        }
-    }
-    ClassClients.Program = Program;
     class Project extends ClassClientBase {
         constructor(...params) {
             const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
@@ -402,6 +402,13 @@ let ClassClients;
         }
     }
     ClassClients.RevisionHistory = RevisionHistory;
+    class Risk extends ClassClientBase {
+        constructor(...params) {
+            const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);
+            super('Risk', client);
+        }
+    }
+    ClassClients.Risk = Risk;
     class SCMRepository extends ClassClientBase {
         constructor(...params) {
             const client = _.isObject(params[0]) ? params[0] : new index_1.Client(params[0], params[1]);

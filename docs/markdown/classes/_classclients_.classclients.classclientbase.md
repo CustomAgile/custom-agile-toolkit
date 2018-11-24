@@ -201,7 +201,7 @@
 
 ⊕ **new ClassClientBase**(typeName: *`string`*, client: *[Client](_client_.client.md)*): [ClassClientBase](_classclients_.classclients.classclientbase.md)
 
-*Defined in [ClassClients.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L8)*
+*Defined in [ClassClients.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L8)*
 
 **Parameters:**
 
@@ -213,7 +213,7 @@
 
 **Returns:** [ClassClientBase](_classclients_.classclients.classclientbase.md)
 
-*Defined in [ClassClients.ts:9](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L9)*
+*Defined in [ClassClients.ts:9](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L9)*
 
 **Parameters:**
 
@@ -234,7 +234,7 @@ ___
 
 **● client**: *[Client](_client_.client.md)*
 
-*Defined in [ClassClients.ts:23](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L23)*
+*Defined in [ClassClients.ts:23](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L23)*
 
 ___
 <a id="typename"></a>
@@ -243,7 +243,7 @@ ___
 
 **● typeName**: *`string`*
 
-*Defined in [ClassClients.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L27)*
+*Defined in [ClassClients.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L27)*
 
 ___
 
@@ -255,7 +255,7 @@ ___
 
 ▸ **delete**(inputOrRef: * `string` &#124; [RallyObject](../interfaces/_api_.api.rallyobject.md)*, params?: *`object`*, ignoreDelay?: *`boolean`*): `Promise`<`any`>
 
-*Defined in [ClassClients.ts:73](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L73)*
+*Defined in [ClassClients.ts:73](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L73)*
 
 **Parameters:**
 
@@ -274,7 +274,7 @@ ___
 
 ▸ **get**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<`T`>
 
-*Defined in [ClassClients.ts:54](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L54)*
+*Defined in [ClassClients.ts:54](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L54)*
 
 Returns a Rally object by ref or by type and ID
 
@@ -295,7 +295,7 @@ ___
 
 ▸ **getCollection**(rallyObject: *`T`*, collectionName: *`string`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<[RallyObject](../interfaces/_api_.api.rallyobject.md)>>
 
-*Defined in [ClassClients.ts:62](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L62)*
+*Defined in [ClassClients.ts:62](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L62)*
 
 Gets a subcollection stored on the Rally object
 
@@ -316,7 +316,7 @@ ___
 
 ▸ **query**(type: *`any`*, query?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*, params?: *`object`*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<`T`>>
 
-*Defined in [ClassClients.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L31)*
+*Defined in [ClassClients.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L31)*
 
 returns an array modified to have additional meta data on it containing the results
 
@@ -337,7 +337,7 @@ ___
 
 ▸ **save**(rallyObject: *`Partial`<`T`>*): `Promise`<`T`>
 
-*Defined in [ClassClients.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/45aae0f/ClassClients.ts#L42)*
+*Defined in [ClassClients.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/ClassClients.ts#L42)*
 
 Saves the current state of the Rally object to Rally. Creating a new object on the server if no \_ref is provided in rallyObject
 
