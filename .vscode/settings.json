@@ -1,5 +1,6 @@
 {
     "eslint.enable": true,
     "eslint.autoFixOnSave": true,
-    "eslint.run": "onType"
+    "eslint.run": "onType",
+    "eslint.alwaysShowStatus": true
 }

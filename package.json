@@ -15,7 +15,6 @@
     "@types/node": "^9.6.39",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
-    "custom-agile-toolkit": "file:../custom-agile-toolkit",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",
