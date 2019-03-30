@@ -1,8 +1,8 @@
 
-Custom Agile Toolkit
---------------------
+rally-node-sdk
+--------------
 
-### A toolkit for interacting with ALM tools in a modern JavaScript and TypeScript Fashion
+### A poorly named toolkit for interacting with Rally (CA? Broadcom? heck who knows) ALM tools in a modern JavaScript and TypeScript Fashion
 
 * * *
 

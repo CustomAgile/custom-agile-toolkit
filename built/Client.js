@@ -59,7 +59,7 @@ class Client {
     /**
      * Returns a collection of results from the Lookback Api
      */
-    async queryLookback(/** @type {Toolkit.Api.Lookback.Request} */ request, workspaceId = 0) {
+    async queryLookback(request, workspaceId = 0) {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, Client.defaultLookbackRequest);

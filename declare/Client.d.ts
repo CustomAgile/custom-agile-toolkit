@@ -18,15 +18,20 @@ export declare class Client {
     /**
      * The default server for Rally to be used
      */
-    static manageResponse(response: any): Promise<any>;
+    static manageResponse(response: {
+        ok: any;
+        statusText: any;
+        status: any;
+        json: () => void;
+    }): Promise<any>;
     /**
      * Returns a collection of results from the Lookback Api
      */
-    queryLookback(/** @type {Toolkit.Api.Lookback.Request} */ request: any, workspaceId?: number): Promise<Toolkit.Api.Lookback.Response>;
+    queryLookback(request: Toolkit.Api.Lookback.Request, workspaceId?: number): Promise<Toolkit.Api.Lookback.Response>;
     /**
      * returns an array modified to have additional meta data on it containing the results
      */
-    query(type: any, query?: Toolkit.Api.QueryOptions, params?: {}): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
+    query(type: string, query?: Toolkit.Api.QueryOptions, params?: {}): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
     /**
      * Saves the current state of the Rally object to Rally.
      * Creating a new object on the server if no _ref is provided in rallyObject
@@ -48,7 +53,7 @@ export declare class Client {
     /**
      * @private
      */
-    _request(typeOrRef: any, objectID: number, params: {}, action: any): Promise<any>;
+    _request(typeOrRef: string, objectID: number, params: {}, action: string): Promise<any>;
     /**
      *
      *  Adds the delete and save options to each object
@@ -78,7 +83,7 @@ export declare class Client {
     /**
      * @private
      */
-    static _prepareUrl(server: any, type: string, action?: boolean | string | number, params?: Toolkit.Api.QueryOptions): string;
+    static _prepareUrl(server: string, type: string, action?: boolean | string | number, params?: Toolkit.Api.QueryOptions): string;
     /**
      * @private
      */

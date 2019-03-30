@@ -70,7 +70,7 @@
 
 **● $getAll**: *`function`*
 
-*Defined in [Api.ts:40](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L40)*
+*Defined in [Api.ts:40](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L40)*
 
 returns all the data from the later pages including this page
 
@@ -86,7 +86,7 @@ ___
 
 **● $getNextPage**: *`function`*
 
-*Defined in [Api.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L42)*
+*Defined in [Api.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L42)*
 
 returns the data from the next page
 
@@ -102,7 +102,7 @@ ___
 
 **● $hasMore**: *`boolean`*
 
-*Defined in [Api.ts:38](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L38)*
+*Defined in [Api.ts:38](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L38)*
 
 ___
 <a id="_params"></a>
@@ -111,7 +111,7 @@ ___
 
 **● $params**: *`any`*
 
-*Defined in [Api.ts:37](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L37)*
+*Defined in [Api.ts:37](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L37)*
 
 ___
 <a id="array"></a>
@@ -175,7 +175,7 @@ ___
 
 ▸ **concat**(...items: *`ConcatArray`<`T`>[]*): `T`[]
 
-▸ **concat**(...items: *( `T` &#124; `ConcatArray`<`T`>)[]*): `T`[]
+▸ **concat**(...items: *(`T` \| `ConcatArray`<`T`>)[]*): `T`[]
 
 *Inherited from Array.concat*
 
@@ -201,7 +201,7 @@ Combines two or more arrays.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Rest` items | ( `T` &#124; `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
+| `Rest` items | (`T` \| `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
 
 **Returns:** `T`[]
 
@@ -335,9 +335,9 @@ ___
 
 ###  find
 
-▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*):  `S` &#124; `undefined`
+▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*): `S` \| `undefined`
 
-▸ **find**(predicate: *`function`*, thisArg?: *`any`*):  `T` &#124; `undefined`
+▸ **find**(predicate: *`function`*, thisArg?: *`any`*): `T` \| `undefined`
 
 *Inherited from Array.find*
 
@@ -355,7 +355,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, find immediately returns that element value. Otherwise, find returns undefined. |
 | `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
 
-**Returns:**  `S` &#124; `undefined`
+**Returns:** `S` \| `undefined`
 
 *Inherited from Array.find*
 
@@ -368,7 +368,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |
 | `Optional` thisArg | `any` |
 
-**Returns:**  `T` &#124; `undefined`
+**Returns:** `T` \| `undefined`
 
 ___
 <a id="findindex"></a>
@@ -756,7 +756,7 @@ ___
 
 ###  pop
 
-▸ **pop**():  `T` &#124; `undefined`
+▸ **pop**(): `T` \| `undefined`
 
 *Inherited from Array.pop*
 
@@ -764,7 +764,7 @@ ___
 
 Removes the last element from an array and returns it.
 
-**Returns:**  `T` &#124; `undefined`
+**Returns:** `T` \| `undefined`
 
 ___
 <a id="push"></a>
@@ -919,7 +919,7 @@ ___
 
 ###  shift
 
-▸ **shift**():  `T` &#124; `undefined`
+▸ **shift**(): `T` \| `undefined`
 
 *Inherited from Array.shift*
 
@@ -927,7 +927,7 @@ ___
 
 Removes the first element from an array and returns it.
 
-**Returns:**  `T` &#124; `undefined`
+**Returns:** `T` \| `undefined`
 
 ___
 <a id="slice"></a>

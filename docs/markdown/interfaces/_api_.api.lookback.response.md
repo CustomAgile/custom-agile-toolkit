@@ -69,7 +69,7 @@
 
 **● $getAll**: *`function`*
 
-*Defined in [Api.ts:61](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L61)*
+*Defined in [Api.ts:61](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L61)*
 
 returns all the data from the later pages including this page
 
@@ -85,7 +85,7 @@ ___
 
 **● $getNextPage**: *`function`*
 
-*Defined in [Api.ts:63](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L63)*
+*Defined in [Api.ts:63](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L63)*
 
 returns the data from the next page
 
@@ -101,7 +101,7 @@ ___
 
 **● $hasMore**: *`boolean`*
 
-*Defined in [Api.ts:58](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L58)*
+*Defined in [Api.ts:58](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L58)*
 
 ___
 <a id="_params"></a>
@@ -110,7 +110,7 @@ ___
 
 **● $params**: *`any`*
 
-*Defined in [Api.ts:57](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L57)*
+*Defined in [Api.ts:57](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L57)*
 
 ___
 <a id="_rawresponse"></a>
@@ -119,7 +119,7 @@ ___
 
 **● $rawResponse**: *[RawResponse](_api_.api.lookback.rawresponse.md)*
 
-*Defined in [Api.ts:59](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L59)*
+*Defined in [Api.ts:59](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L59)*
 
 ___
 <a id="array"></a>
@@ -183,7 +183,7 @@ ___
 
 ▸ **concat**(...items: *`ConcatArray`<`any`>[]*): `any`[]
 
-▸ **concat**(...items: *( `T` &#124; `ConcatArray`<`T`>)[]*): `any`[]
+▸ **concat**(...items: *(`T` \| `ConcatArray`<`T`>)[]*): `any`[]
 
 *Inherited from Array.concat*
 
@@ -209,7 +209,7 @@ Combines two or more arrays.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Rest` items | ( `T` &#124; `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
+| `Rest` items | (`T` \| `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
 
 **Returns:** `any`[]
 
@@ -343,9 +343,9 @@ ___
 
 ###  find
 
-▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*):  `S` &#124; `undefined`
+▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*): `S` \| `undefined`
 
-▸ **find**(predicate: *`function`*, thisArg?: *`any`*):  `any` &#124; `undefined`
+▸ **find**(predicate: *`function`*, thisArg?: *`any`*): `any` \| `undefined`
 
 *Inherited from Array.find*
 
@@ -363,7 +363,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, find immediately returns that element value. Otherwise, find returns undefined. |
 | `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
 
-**Returns:**  `S` &#124; `undefined`
+**Returns:** `S` \| `undefined`
 
 *Inherited from Array.find*
 
@@ -376,7 +376,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |
 | `Optional` thisArg | `any` |
 
-**Returns:**  `any` &#124; `undefined`
+**Returns:** `any` \| `undefined`
 
 ___
 <a id="findindex"></a>
@@ -764,7 +764,7 @@ ___
 
 ###  pop
 
-▸ **pop**():  `any` &#124; `undefined`
+▸ **pop**(): `any` \| `undefined`
 
 *Inherited from Array.pop*
 
@@ -772,7 +772,7 @@ ___
 
 Removes the last element from an array and returns it.
 
-**Returns:**  `any` &#124; `undefined`
+**Returns:** `any` \| `undefined`
 
 ___
 <a id="push"></a>
@@ -927,7 +927,7 @@ ___
 
 ###  shift
 
-▸ **shift**():  `any` &#124; `undefined`
+▸ **shift**(): `any` \| `undefined`
 
 *Inherited from Array.shift*
 
@@ -935,7 +935,7 @@ ___
 
 Removes the first element from an array and returns it.
 
-**Returns:**  `any` &#124; `undefined`
+**Returns:** `any` \| `undefined`
 
 ___
 <a id="slice"></a>
