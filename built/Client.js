@@ -1,11 +1,12 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
-const fetch = require('node-fetch');
+const f = require('node-fetch');
 const _ = require('lodash');
 const url = require('url');
 
 const { URLSearchParams } = url;
+const fetch = f;
 class Client {
     constructor(apiKey, options = {
         server: Client.defaultRallyServer,

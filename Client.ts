@@ -1,10 +1,10 @@
 import * as Toolkit from './index';
 
-import fetch = require('node-fetch');
+import f = require('node-fetch');
+const fetch: any = f;
 import _ = require('lodash');
 import url = require('url');
-const { URLSearchParams } = url;
-
+let URLSearchParams: any = url.URLSearchParams || url;
 export class Client {
     constructor(
         apiKey: string,
@@ -50,7 +50,7 @@ export class Client {
         if (!response.ok) {
             throw new Error(`${response.statusText} Code:${response.status}`);
         }
-        const resp:any = await response.json();
+        const resp: any = await response.json();
         const unwrappedResponse = resp[_.keys(resp)[0]];
         const errors = unwrappedResponse.Errors || resp.Errors;
         if (errors && errors.length) {
@@ -80,14 +80,15 @@ export class Client {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, Client.defaultLookbackRequest);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         const body = JSON.stringify(request, null, 2);
 
         const rawResponse = await fetch(url, {
             method: 'POST',
+            mode: "cors",
             headers,
             credentials: 'include',
             body
@@ -132,12 +133,13 @@ export class Client {
         Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
         const finalParams = _.defaults(query, params, this.defaultOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         const rawResponse = await fetch(url, {
             method: 'GET',
+            mode: "cors",
             headers,
             credentials: 'include'
         });
@@ -174,10 +176,10 @@ export class Client {
         } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         if (!rallyObject.Project && this.options.project) {
             rallyObject.Project = this.options.project;
         }
@@ -206,6 +208,7 @@ export class Client {
             url,
             {
                 method: 'PUT',
+                mode: "cors",
                 headers,
                 credentials: 'include',
                 body
@@ -237,12 +240,13 @@ export class Client {
         const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
         const url = Client._prepareUrl(this.options.server, type, action, finalParams);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         const rawResponse = await fetch(url, {
             method: 'GET',
+            mode: "cors",
             headers,
             credentials: 'include'
         });
@@ -268,11 +272,11 @@ export class Client {
         delete finalParams.workspace;
         const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
+            zsessionid: this.apiKey
         };
         const rawResponse = await fetch(url, {
             method: action,
+            mode: "cors",
             headers,
             credentials: 'include'
         });
