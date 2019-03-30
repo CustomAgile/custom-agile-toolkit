@@ -30,7 +30,7 @@
 
 **● TOTAL**: *`number`*
 
-*Defined in [Api.ts:90](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L90)*
+*Defined in [Api.ts:90](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L90)*
 
 ___
 <a id="allowedvaluesdisambiguation"></a>
@@ -39,7 +39,7 @@ ___
 
 **● allowedValuesDisambiguation**: *`number`*
 
-*Defined in [Api.ts:84](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L84)*
+*Defined in [Api.ts:84](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L84)*
 
 ___
 <a id="allowedvalueshydration"></a>
@@ -48,7 +48,7 @@ ___
 
 **● allowedValuesHydration**: *`number`*
 
-*Defined in [Api.ts:89](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L89)*
+*Defined in [Api.ts:89](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L89)*
 
 ___
 <a id="authorization"></a>
@@ -57,7 +57,7 @@ ___
 
 **● authorization**: *`number`*
 
-*Defined in [Api.ts:86](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L86)*
+*Defined in [Api.ts:86](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L86)*
 
 ___
 <a id="compresssnapshots"></a>
@@ -66,7 +66,7 @@ ___
 
 **● compressSnapshots**: *`number`*
 
-*Defined in [Api.ts:88](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L88)*
+*Defined in [Api.ts:88](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L88)*
 
 ___
 <a id="findetldate"></a>
@@ -75,7 +75,7 @@ ___
 
 **● findEtlDate**: *`number`*
 
-*Defined in [Api.ts:83](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L83)*
+*Defined in [Api.ts:83](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L83)*
 
 ___
 <a id="mongoquery"></a>
@@ -84,7 +84,7 @@ ___
 
 **● mongoQuery**: *`number`*
 
-*Defined in [Api.ts:85](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L85)*
+*Defined in [Api.ts:85](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L85)*
 
 ___
 <a id="preprocess"></a>
@@ -93,7 +93,7 @@ ___
 
 **● preProcess**: *`number`*
 
-*Defined in [Api.ts:82](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L82)*
+*Defined in [Api.ts:82](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L82)*
 
 ___
 <a id="suppressnonrequested"></a>
@@ -102,7 +102,7 @@ ___
 
 **● suppressNonRequested**: *`number`*
 
-*Defined in [Api.ts:87](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Api.ts#L87)*
+*Defined in [Api.ts:87](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L87)*
 
 ___
 

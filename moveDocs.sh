@@ -1,4 +1,5 @@
 eslint built/*.js --fix > /dev/null&
+webpack&
 git submodule init
 git submodule update
 ts-node ClassGenerator.ts> /dev/null

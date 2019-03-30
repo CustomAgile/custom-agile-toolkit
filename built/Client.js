@@ -2,11 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 const f = require('node-fetch');
+
+const fetch = f;
 const _ = require('lodash');
 const url = require('url');
 
-const { URLSearchParams } = url;
-const fetch = f;
+let inBrowser = false;
+let URLSearchParams = url;
+if (url.URLSearchParams) {
+    URLSearchParams = url.URLSearchParams || url;
+}
 class Client {
     constructor(apiKey, options = {
         server: Client.defaultRallyServer,
@@ -64,13 +69,14 @@ class Client {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, Client.defaultLookbackRequest);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
         const body = JSON.stringify(request, null, 2);
         const rawResponse = await fetch(url, {
             method: 'POST',
+            mode: 'cors',
             headers,
             credentials: 'include',
             body
@@ -113,12 +119,13 @@ class Client {
     async query(type, query = {}, params = {}) {
         const finalParams = _.defaults(query, params, this.defaultOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
         const rawResponse = await fetch(url, {
             method: 'GET',
+            mode: 'cors',
             headers,
             credentials: 'include'
         });
@@ -140,10 +147,10 @@ class Client {
         } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
         if (!rallyObject.Project && this.options.project) {
             rallyObject.Project = this.options.project;
         }
@@ -163,6 +170,7 @@ class Client {
         const body = JSON.stringify(wrapper);
         const rawResponse = await fetch(url, {
             method: 'PUT',
+            mode: 'cors',
             headers,
             credentials: 'include',
             body
@@ -190,12 +198,13 @@ class Client {
         const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
         const url = Client._prepareUrl(this.options.server, type, action, finalParams);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
         const rawResponse = await fetch(url, {
             method: 'GET',
+            mode: 'cors',
             headers,
             credentials: 'include'
         });
@@ -219,11 +228,11 @@ class Client {
         delete finalParams.workspace;
         const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
+            zsessionid: this.apiKey
         };
         const rawResponse = await fetch(url, {
             method: action,
+            mode: 'cors',
             headers,
             credentials: 'include'
         });

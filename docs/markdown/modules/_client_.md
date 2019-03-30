@@ -11,6 +11,8 @@
 ### Variables
 
 * [URLSearchParams](_client_.md#urlsearchparams)
+* [fetch](_client_.md#fetch)
+* [inBrowser](_client_.md#inbrowser)
 
 ---
 
@@ -18,11 +20,29 @@
 
 <a id="urlsearchparams"></a>
 
-###  URLSearchParams
+### `<Let>` URLSearchParams
 
-**● URLSearchParams**: *`URLSearchParams`*
+**● URLSearchParams**: *`any`* =  url
 
-*Defined in [Client.ts:6](https://github.com/ferentchak/rally-node-sdk/blob/88a0ac6/Client.ts#L6)*
+*Defined in [Client.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L8)*
+
+___
+<a id="fetch"></a>
+
+### `<Const>` fetch
+
+**● fetch**: *`any`* =  f
+
+*Defined in [Client.ts:4](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L4)*
+
+___
+<a id="inbrowser"></a>
+
+### `<Let>` inBrowser
+
+**● inBrowser**: *`boolean`* = false
+
+*Defined in [Client.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L7)*
 
 ___
 

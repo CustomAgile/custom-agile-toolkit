@@ -4,7 +4,13 @@ import f = require('node-fetch');
 const fetch: any = f;
 import _ = require('lodash');
 import url = require('url');
-let URLSearchParams: any = url.URLSearchParams || url;
+let inBrowser = false;
+let URLSearchParams: any = url;
+
+if (url.URLSearchParams) {
+    inBrowser = true;
+    URLSearchParams = url.URLSearchParams || url;
+}
 export class Client {
     constructor(
         apiKey: string,
@@ -15,7 +21,7 @@ export class Client {
             workspace: undefined
         }
     ) {
-        if (!_.isString(apiKey)) {
+        if (!_.isString(apiKey) && !inBrowser) {
             throw new Error('Api key is required');
         }
         this.options = options;
