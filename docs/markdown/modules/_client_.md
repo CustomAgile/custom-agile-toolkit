@@ -24,7 +24,7 @@
 
 **● URLSearchParams**: *`any`* =  url
 
-*Defined in [Client.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L8)*
+*Defined in [Client.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L8)*
 
 ___
 <a id="fetch"></a>
@@ -33,7 +33,7 @@ ___
 
 **● fetch**: *`any`* =  f
 
-*Defined in [Client.ts:4](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L4)*
+*Defined in [Client.ts:4](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L4)*
 
 ___
 <a id="inbrowser"></a>
@@ -42,7 +42,7 @@ ___
 
 **● inBrowser**: *`boolean`* = false
 
-*Defined in [Client.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L7)*
+*Defined in [Client.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L7)*
 
 ___
 

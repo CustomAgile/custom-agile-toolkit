@@ -52,7 +52,7 @@
 
 ⊕ **new Client**(apiKey: *`string`*, options?: *[ClientOptions](../interfaces/_api_.api.clientoptions.md)*): [Client](_client_.client.md)
 
-*Defined in [Client.ts:13](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L13)*
+*Defined in [Client.ts:14](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L14)*
 
 **Parameters:**
 
@@ -73,7 +73,7 @@ ___
 
 **● apiKey**: *`string`*
 
-*Defined in [Client.ts:36](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L36)*
+*Defined in [Client.ts:37](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L37)*
 
 ___
 <a id="options"></a>
@@ -82,7 +82,7 @@ ___
 
 **● options**: *[ClientOptions](../interfaces/_api_.api.clientoptions.md)*
 
-*Defined in [Client.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L42)*
+*Defined in [Client.ts:43](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L43)*
 
 ___
 <a id="project"></a>
@@ -91,7 +91,7 @@ ___
 
 **● project**: *`string`*
 
-*Defined in [Client.ts:38](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L38)*
+*Defined in [Client.ts:39](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L39)*
 
 ___
 <a id="workspace"></a>
@@ -100,7 +100,7 @@ ___
 
 **● workspace**: *`string`*
 
-*Defined in [Client.ts:37](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L37)*
+*Defined in [Client.ts:38](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L38)*
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 getdefaultOptions(): [QueryOptions](../interfaces/_api_.api.queryoptions.md)
 
-*Defined in [Client.ts:357](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L357)*
+*Defined in [Client.ts:358](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L358)*
 
 **Returns:** [QueryOptions](../interfaces/_api_.api.queryoptions.md)
 
@@ -123,7 +123,7 @@ ___
 
 getdefaultLookbackRequest(): [QueryOptions](../interfaces/_api_.api.queryoptions.md)
 
-*Defined in [Client.ts:372](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L372)*
+*Defined in [Client.ts:373](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L373)*
 
 **Returns:** [QueryOptions](../interfaces/_api_.api.queryoptions.md)
 
@@ -134,7 +134,7 @@ ___
 
 getdefaultRallyServer(): `string`
 
-*Defined in [Client.ts:47](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L47)*
+*Defined in [Client.ts:48](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L48)*
 
 The default Rally server Rally to be used
 
@@ -150,7 +150,7 @@ ___
 
 ▸ **_decorateObject**(rallyObject: *[RallyObject](../interfaces/_api_.api.rallyobject.md)*): `Promise`<`void`>
 
-*Defined in [Client.ts:299](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L299)*
+*Defined in [Client.ts:300](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L300)*
 
 Adds the delete and save options to each object
 
@@ -169,7 +169,7 @@ ___
 
 ▸ **_request**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *`object`*, action: *`string`*): `Promise`<`any`>
 
-*Defined in [Client.ts:269](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L269)*
+*Defined in [Client.ts:270](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L270)*
 
 **Parameters:**
 
@@ -189,7 +189,7 @@ ___
 
 ▸ **delete**(inputOrRef: *`string` \| [RallyObject](../interfaces/_api_.api.rallyobject.md)*, params?: *`object`*, ignoreDelay?: *`boolean`*): `Promise`<`any`>
 
-*Defined in [Client.ts:310](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L310)*
+*Defined in [Client.ts:311](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L311)*
 
 **Parameters:**
 
@@ -208,7 +208,7 @@ ___
 
 ▸ **get**(typeOrRef: *`string`*, objectID?: *`number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>
 
-*Defined in [Client.ts:232](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L232)*
+*Defined in [Client.ts:233](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L233)*
 
 Returns a Rally object by ref or by type and ID
 
@@ -229,7 +229,7 @@ ___
 
 ▸ **getCollection**(rallyObject: *[RallyObject](../interfaces/_api_.api.rallyobject.md)*, collectionName: *`string`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `Promise`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>
 
-*Defined in [Client.ts:241](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L241)*
+*Defined in [Client.ts:242](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L242)*
 
 Gets a subcollection stored on the Rally object
 
@@ -250,7 +250,7 @@ ___
 
 ▸ **query**(type: *`string`*, query?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*, params?: *`object`*): `Promise`<[QueryResponse](../interfaces/_api_.api.queryresponse.md)<[RallyObject](../interfaces/_api_.api.rallyobject.md)>>
 
-*Defined in [Client.ts:137](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L137)*
+*Defined in [Client.ts:138](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L138)*
 
 returns an array modified to have additional meta data on it containing the results
 
@@ -271,7 +271,7 @@ ___
 
 ▸ **queryLookback**(request: *[Request](../interfaces/_api_.api.lookback.request.md)*, workspaceId?: *`number`*): `Promise`<[Response](../interfaces/_api_.api.lookback.response.md)>
 
-*Defined in [Client.ts:84](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L84)*
+*Defined in [Client.ts:85](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L85)*
 
 Returns a collection of results from the Lookback Api
 
@@ -297,7 +297,7 @@ ___
 
 ▸ **save**(rallyObject: *`Partial`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>*): `Promise`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>
 
-*Defined in [Client.ts:163](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L163)*
+*Defined in [Client.ts:164](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L164)*
 
 Saves the current state of the Rally object to Rally. Creating a new object on the server if no \_ref is provided in rallyObject
 
@@ -310,7 +310,7 @@ Saves the current state of the Rally object to Rally. Creating a new object on t
 
 **Returns:** `Promise`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>
 
-*Defined in [Client.ts:164](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L164)*
+*Defined in [Client.ts:165](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L165)*
 
 **Parameters:**
 
@@ -322,7 +322,7 @@ Saves the current state of the Rally object to Rally. Creating a new object on t
 
 **Returns:** `Promise`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>
 
-*Defined in [Client.ts:165](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L165)*
+*Defined in [Client.ts:166](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L166)*
 
 **Parameters:**
 
@@ -333,7 +333,7 @@ Saves the current state of the Rally object to Rally. Creating a new object on t
 
 **Returns:** `Promise`<[RallyObject](../interfaces/_api_.api.rallyobject.md)>
 
-*Defined in [Client.ts:166](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L166)*
+*Defined in [Client.ts:167](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L167)*
 
 **Parameters:**
 
@@ -350,7 +350,7 @@ ___
 
 ▸ **_prepareUrl**(server: *`string`*, type: *`string`*, action?: *`boolean` \| `string` \| `number`*, params?: *[QueryOptions](../interfaces/_api_.api.queryoptions.md)*): `string`
 
-*Defined in [Client.ts:387](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L387)*
+*Defined in [Client.ts:388](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L388)*
 
 **Parameters:**
 
@@ -370,7 +370,7 @@ ___
 
 ▸ **delay**(millisecondsOfDelay: *`number`*, scopeFuction?: *`Function`*): `Promise`<`Object`>
 
-*Defined in [Client.ts:406](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L406)*
+*Defined in [Client.ts:407](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L407)*
 
 **Parameters:**
 
@@ -388,7 +388,7 @@ ___
 
 ▸ **getIdFromRef**(ref: *`string`*): `number`
 
-*Defined in [Client.ts:342](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L342)*
+*Defined in [Client.ts:343](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L343)*
 
 Gets the ID portion of a ref
 
@@ -407,7 +407,7 @@ ___
 
 ▸ **getRef**(input: *`string` \| [RallyObject](../interfaces/_api_.api.rallyobject.md)*, objectID?: *`number`*): `string`
 
-*Defined in [Client.ts:324](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L324)*
+*Defined in [Client.ts:325](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L325)*
 
 returns the ref from a rally object or returns the ref is input is passed as a string
 
@@ -427,7 +427,7 @@ ___
 
 ▸ **getTypeFromRef**(ref: *`string`*): `string`
 
-*Defined in [Client.ts:351](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L351)*
+*Defined in [Client.ts:352](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L352)*
 
 Gets the type portion of a ref
 
@@ -446,7 +446,7 @@ ___
 
 ▸ **manageResponse**(response: *`object`*): `Promise`<`any`>
 
-*Defined in [Client.ts:54](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Client.ts#L54)*
+*Defined in [Client.ts:55](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L55)*
 
 The default server for Rally to be used
 

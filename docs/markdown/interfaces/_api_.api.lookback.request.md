@@ -27,7 +27,7 @@
 
 **● fields**: *`string`[] \| `boolean`*
 
-*Defined in [Api.ts:49](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L49)*
+*Defined in [Api.ts:49](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L49)*
 
 ___
 <a id="find"></a>
@@ -36,7 +36,7 @@ ___
 
 **● find**: *`any`*
 
-*Defined in [Api.ts:48](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L48)*
+*Defined in [Api.ts:48](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L48)*
 
 ___
 <a id="hydrate"></a>
@@ -45,7 +45,7 @@ ___
 
 **● hydrate**: *`string`[]*
 
-*Defined in [Api.ts:50](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L50)*
+*Defined in [Api.ts:50](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L50)*
 
 ___
 <a id="pagesize"></a>
@@ -54,7 +54,7 @@ ___
 
 **● pagesize**: *`number`*
 
-*Defined in [Api.ts:52](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L52)*
+*Defined in [Api.ts:52](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L52)*
 
 ___
 <a id="removeunauthorizedsnapshots"></a>
@@ -63,7 +63,7 @@ ___
 
 **● removeUnauthorizedSnapshots**: *`boolean`*
 
-*Defined in [Api.ts:53](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L53)*
+*Defined in [Api.ts:53](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L53)*
 
 ___
 <a id="start"></a>
@@ -72,7 +72,7 @@ ___
 
 **● start**: *`number`*
 
-*Defined in [Api.ts:51](https://github.com/ferentchak/rally-node-sdk/blob/e12497b/Api.ts#L51)*
+*Defined in [Api.ts:51](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L51)*
 
 ___
 

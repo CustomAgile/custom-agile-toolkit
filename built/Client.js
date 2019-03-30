@@ -10,6 +10,7 @@ const url = require('url');
 let inBrowser = false;
 let URLSearchParams = url;
 if (url.URLSearchParams) {
+    inBrowser = true;
     URLSearchParams = url.URLSearchParams || url;
 }
 class Client {
@@ -18,7 +19,7 @@ class Client {
         project: undefined,
         workspace: undefined
     }) {
-        if (!_.isString(apiKey)) {
+        if (!_.isString(apiKey) && !inBrowser) {
             throw new Error('Api key is required');
         }
         this.options = options;

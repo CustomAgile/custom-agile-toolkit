@@ -1,8 +1,8 @@
 module.exports = {
     entry: './index.ts',
     output: {
-        filename: 'bundle.js',
-        path: `${__dirname}/tempapp`,
+        filename: 'web.js',
+        path: `${__dirname}`,
         library: 'CustomAgile'
     },
 
