@@ -1,6 +1,6 @@
 {
   "name": "custom-agile-toolkit",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "built/index.js",
   "types": "declare/index.d.ts",
   "author": "Charles Ferentchak",
@@ -40,7 +40,7 @@
     "test": "./node_modules/mocha/bin/mocha",
     "posttest": "./moveDocs.sh",
     "generate": "ts-node ClassGenerator.ts",
-    "preversion":"webpack"
+    "preversion": "webpack"
   },
   "directories": {
     "test": "test"
