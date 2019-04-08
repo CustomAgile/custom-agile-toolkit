@@ -1825,6 +1825,12 @@
         export interface Iteration extends WorkspaceDomainObject {
              
         /**
+         * CascadedToChildren
+         * Whether this iteration is cascaded to iterations in children projects. Derived field.
+         */
+        CascadedToChildren? : boolean
+      
+        /**
          * Children Planned Velocity
          * Planned velocity for all "like iterations" in child projects
          */
@@ -1889,6 +1895,12 @@
          * State of this iteration
          */
         State? : string
+      
+        /**
+         * SyncedWithParent
+         * Whether this iteration is synced with an iteration belonging to the parent project. Derived field.
+         */
+        SyncedWithParent? : boolean
       
         /**
          * Task Actual Total
@@ -2663,6 +2675,12 @@
         Accepted? : number
       
         /**
+         * CascadedToChildren
+         * Whether this release is cascaded to releases in children projects. Derived field.
+         */
+        CascadedToChildren? : boolean
+      
+        /**
          * Children Planned Velocity
          * Planned velocity for all "like releases" in child projects
          */
@@ -2733,6 +2751,12 @@
          * State of this release
          */
         State? : string
+      
+        /**
+         * SyncedWithParent
+         * Whether this release is synced with an release belonging to the parent project. Derived field.
+         */
+        SyncedWithParent? : boolean
       
         /**
          * Task Actual Total

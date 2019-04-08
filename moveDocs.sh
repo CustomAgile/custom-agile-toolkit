@@ -1,3 +1,4 @@
+npm version patch --force
 eslint built/*.js --fix > /dev/null&
 git submodule init
 git submodule update

@@ -1,10 +1,16 @@
 import * as Toolkit from './index';
 
-import fetch = require('node-fetch');
+import f = require('node-fetch');
+const fetch: any = f;
 import _ = require('lodash');
 import url = require('url');
-const { URLSearchParams } = url;
+let inBrowser = false;
+let URLSearchParams: any = url;
 
+if (url.URLSearchParams) {
+    inBrowser = true;
+    URLSearchParams = url.URLSearchParams || url;
+}
 export class Client {
     constructor(
         apiKey: string,
@@ -15,7 +21,7 @@ export class Client {
             workspace: undefined
         }
     ) {
-        if (!_.isString(apiKey)) {
+        if (!_.isString(apiKey) && !inBrowser) {
             throw new Error('Api key is required');
         }
         this.options = options;
@@ -46,15 +52,15 @@ export class Client {
     /**
      * The default server for Rally to be used
      */
-    static async manageResponse(response) {
+    static async manageResponse(response: { ok: any; statusText: any; status: any; json: () => void; }) {
         if (!response.ok) {
             throw new Error(`${response.statusText} Code:${response.status}`);
         }
-        const resp = await response.json();
+        const resp: any = await response.json();
         const unwrappedResponse = resp[_.keys(resp)[0]];
         const errors = unwrappedResponse.Errors || resp.Errors;
         if (errors && errors.length) {
-            throw new Error(errors.map(e => `Rally Server Error: ${e}`).join(','));
+            throw new Error(errors.map((e: any) => `Rally Server Error: ${e}`).join(','));
         }
         let returnedValue = resp;
         if (resp.QueryResult) {
@@ -76,18 +82,19 @@ export class Client {
     /**
      * Returns a collection of results from the Lookback Api
      */
-    async queryLookback(/** @type {Toolkit.Api.Lookback.Request} */request, workspaceId = 0): Promise<Toolkit.Api.Lookback.Response> {
+    async queryLookback(request: Toolkit.Api.Lookback.Request, workspaceId = 0): Promise<Toolkit.Api.Lookback.Response> {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
         const finalParams = _.defaults(request, Client.defaultLookbackRequest);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         const body = JSON.stringify(request, null, 2);
 
         const rawResponse = await fetch(url, {
             method: 'POST',
+            mode: "cors",
             headers,
             credentials: 'include',
             body
@@ -128,22 +135,23 @@ export class Client {
     /**
      * returns an array modified to have additional meta data on it containing the results
      */
-    async query(type, query: Toolkit.Api.QueryOptions = {}, params = {}):
+    async query(type: string, query: Toolkit.Api.QueryOptions = {}, params = {}):
         Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
         const finalParams = _.defaults(query, params, this.defaultOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         const rawResponse = await fetch(url, {
             method: 'GET',
+            mode: "cors",
             headers,
             credentials: 'include'
         });
         let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
-        resp.forEach(d => this._decorateObject(d));
+        resp.forEach((d: Toolkit.Api.RallyObject) => this._decorateObject(d));
         return resp;
     }
 
@@ -162,7 +170,7 @@ export class Client {
         arg2: Partial<Toolkit.Api.RallyObject> | Toolkit.Api.QueryOptions = {},
         arg3: Toolkit.Api.QueryOptions = {}
     ): Promise<Toolkit.Api.RallyObject> {
-        let type, url, rallyObject, params;
+        let type: string, url: string, rallyObject: any, params: Toolkit.Api.QueryOptions | Partial<Toolkit.Api.RallyObject>;
         rallyObject = _.isObject(arg1) ? arg1 : arg2;
         if (_.isString(arg1)) {
             type = arg1;
@@ -174,10 +182,10 @@ export class Client {
         } else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         if (!rallyObject.Project && this.options.project) {
             rallyObject.Project = this.options.project;
         }
@@ -206,6 +214,7 @@ export class Client {
             url,
             {
                 method: 'PUT',
+                mode: "cors",
                 headers,
                 credentials: 'include',
                 body
@@ -237,18 +246,19 @@ export class Client {
         const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
         const url = Client._prepareUrl(this.options.server, type, action, finalParams);
-        const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
-        };
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey
+        }
         const rawResponse = await fetch(url, {
             method: 'GET',
+            mode: "cors",
             headers,
             credentials: 'include'
         });
         let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
-        resp.forEach(d => this._decorateObject(d));
+        resp.forEach((d: Toolkit.Api.RallyObject) => this._decorateObject(d));
         rallyObject[collectionName] = _.defaults(resp, rallyObject[collectionName]);
 
         return resp;
@@ -257,7 +267,7 @@ export class Client {
     /**
      * @private
      */
-    async _request(typeOrRef, objectID = 0, params = {}, action) {
+    async _request(typeOrRef: string, objectID = 0, params = {}, action: string) {
         let type = typeOrRef;
         if (!objectID) {
             type = Client.getTypeFromRef(typeOrRef);
@@ -268,11 +278,11 @@ export class Client {
         delete finalParams.workspace;
         const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
         const headers = {
-            zsessionid: this.apiKey,
-            'Access-Control-Allow-Origin': '*'
+            zsessionid: this.apiKey
         };
         const rawResponse = await fetch(url, {
             method: action,
+            mode: "cors",
             headers,
             credentials: 'include'
         });
@@ -313,7 +323,7 @@ export class Client {
      * returns the ref from a rally object or returns the ref is input is passed as a string
      */
     static getRef(input: string | Toolkit.Api.RallyObject, objectID: number = 0): string {
-        let obj;
+        let obj: any;
         if (_.isObject(input)) {
             obj = input;
             if (_.isString(obj._ref)) {
@@ -375,7 +385,7 @@ export class Client {
     /**
      * @private
      */
-    static _prepareUrl(server, type: string, action: boolean | string | number = '', params: Toolkit.Api.QueryOptions = {}) {
+    static _prepareUrl(server: string, type: string, action: boolean | string | number = '', params: Toolkit.Api.QueryOptions = {}) {
         if (_.isNumber(action)) action = action.toString();
         if (!params.workspace) {
             delete params.workspace;

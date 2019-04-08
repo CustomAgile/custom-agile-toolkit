@@ -30,7 +30,7 @@
 
 **● _CreatedAt**: *`string`*
 
-*Defined in [Api.ts:32](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L32)*
+*Defined in [Api.ts:32](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L32)*
 
 ___
 <a id="_rallyapimajor"></a>
@@ -39,7 +39,7 @@ ___
 
 **● _rallyAPIMajor**: *`number`*
 
-*Defined in [Api.ts:30](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L30)*
+*Defined in [Api.ts:30](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L30)*
 
 ___
 <a id="_rallyapiminor"></a>
@@ -48,7 +48,7 @@ ___
 
 **● _rallyAPIMinor**: *`number`*
 
-*Defined in [Api.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L31)*
+*Defined in [Api.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L31)*
 
 ___
 <a id="_ref"></a>
@@ -57,7 +57,7 @@ ___
 
 **● _ref**: *`string`*
 
-*Defined in [Api.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L27)*
+*Defined in [Api.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L27)*
 
 ___
 <a id="_refobjectname"></a>
@@ -66,7 +66,7 @@ ___
 
 **● _refObjectName**: *`string`*
 
-*Defined in [Api.ts:28](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L28)*
+*Defined in [Api.ts:28](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L28)*
 
 ___
 <a id="_type"></a>
@@ -75,7 +75,7 @@ ___
 
 **● _type**: *`string`*
 
-*Defined in [Api.ts:29](https://github.com/ferentchak/rally-node-sdk/blob/8064b9a/Api.ts#L29)*
+*Defined in [Api.ts:29](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L29)*
 
 ___
 

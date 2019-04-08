@@ -1,6 +1,6 @@
 {
   "name": "custom-agile-toolkit",
-  "version": "0.2.0",
+  "version": "0.3.11",
   "main": "built/index.js",
   "types": "declare/index.d.ts",
   "author": "Charles Ferentchak",
@@ -13,7 +13,9 @@
   },
   "devDependencies": {
     "@types/node": "^9.6.39",
+    "@types/node-fetch": "^2.1.7",
     "assert": "^1.4.1",
+    "awesome-typescript-loader": "^5.2.1",
     "chai": "^4.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -25,16 +27,20 @@
     "karma": "^3.1.1",
     "karma-mocha": "^1.3.0",
     "mocha": "^4.1.0",
+    "source-map-loader": "^0.2.4",
     "typedoc": "^0.11.1",
     "typedoc-plugin-markdown": "^1.1.19",
     "typescript": "^2.9.2",
-    "typescript-eslint-parser": "^14.0.0"
+    "typescript-eslint-parser": "^14.0.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "scripts": {
     "pretest": "tsc",
-    "test": " ./node_modules/mocha/bin/mocha",
+    "test": "./node_modules/mocha/bin/mocha",
     "posttest": "./moveDocs.sh",
-    "generate": "ts-node ClassGenerator.ts"
+    "generate": "ts-node ClassGenerator.ts",
+    "postversion": "webpack&"
   },
   "directories": {
     "test": "test"
