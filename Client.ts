@@ -1,15 +1,16 @@
 import * as Toolkit from './index';
 
 import f = require('node-fetch');
-const fetch: any = f;
 import _ = require('lodash');
-import url = require('url');
-let inBrowser = false;
-let URLSearchParams: any = url;
+import urlModule = require('url');
 
-if (url.URLSearchParams) {
+const fetch: any = f;
+let inBrowser = false;
+let URLSearchParams: any = urlModule;
+
+if (urlModule.URLSearchParams) {
     inBrowser = true;
-    URLSearchParams = url.URLSearchParams || url;
+    URLSearchParams = urlModule.URLSearchParams || urlModule;
 }
 export class Client {
     constructor(
@@ -57,7 +58,7 @@ export class Client {
             throw new Error(`${response.statusText} Code:${response.status}`);
         }
         const resp: any = await response.json();
-        const unwrappedResponse = resp[_.keys(resp)[0]];
+        const unwrappedResponse = resp[_.keys(resp)[0]] || '';
         const errors = unwrappedResponse.Errors || resp.Errors;
         if (errors && errors.length) {
             throw new Error(errors.map((e: any) => `Rally Server Error: ${e}`).join(','));
@@ -65,13 +66,13 @@ export class Client {
         let returnedValue = resp;
         if (resp.QueryResult) {
             returnedValue = resp.QueryResult.Results;
+            resp.TotalResultCount = resp.QueryResult.TotalResultCount;
+            resp.PageSize = resp.QueryResult.PageSize;
             delete resp.QueryResult;
-        }
-        if (resp.Results) {
+        } else if (resp.Results) {
             returnedValue = resp.Results;
             delete resp.Results;
-        }
-        if (unwrappedResponse.Object) {
+        } else if (unwrappedResponse.Object) {
             returnedValue = unwrappedResponse.Object;
             delete resp.Object;
         }
@@ -94,7 +95,7 @@ export class Client {
 
         const rawResponse = await fetch(url, {
             method: 'POST',
-            mode: "cors",
+            mode: 'cors',
             headers,
             credentials: 'include',
             body
@@ -104,31 +105,33 @@ export class Client {
         resp.$params = finalParams;
         resp.$hasMore = resp.$rawResponse.HasMore;
         const firstRawResponse = resp.$rawResponse;
-        if (resp.$hasMore) {
-            resp.$getNextPage = async () => {
-                const newRequest = _.cloneDeep(request);
-                newRequest.start += newRequest.pagesize;
-                return this.queryLookback(newRequest, workspaceId);
-            };
-            resp.$getAll = async () => {
-                // TODO: eventually make this more concurrent
-                let currentResponse = resp;
-                currentResponse.$hasMore = resp.$hasMore;
-                let allResponses = currentResponse;
-                while (currentResponse.$hasMore) {
-                    currentResponse = await currentResponse.$getNextPage();
-                    allResponses = [...currentResponse, ...allResponses];
-                }
-                allResponses.$getNextPage = async () => { throw new Error('No more pages in this request'); };
-                allResponses.$getAll = async () => allResponses;
-                allResponses.$hasMore = false;
-                allResponses.$rawResponse = firstRawResponse;
-                return allResponses;
-            };
-        } else {
-            resp.$getNextPage = async () => { throw new Error('No more pages in this request'); };
-            resp.$getAll = async () => _.cloneDeep(resp);
-        }
+        resp.$getNextPage = async () => {
+            if (resp.$hasMore) {
+            const newRequest = _.cloneDeep(request);
+            newRequest.start += newRequest.pagesize;
+            return this.queryLookback(newRequest, workspaceId);
+            }
+            else {
+                throw new Error('No more pages in this request');
+            }
+        };
+        resp.$getAll = async () => {
+            // TODO: eventually make this more concurrent
+            // await Promise.all([who(), what(), where()]);
+            let currentResponse = resp;
+            currentResponse.$hasMore = resp.$hasMore;
+            let allResponses = currentResponse;
+            while (currentResponse.$hasMore) {
+                currentResponse = await currentResponse.$getNextPage();
+                allResponses = [...currentResponse, ...allResponses];
+            }
+            allResponses.$getNextPage = async () => { throw new Error('No more pages in this request'); };
+            allResponses.$getAll = async () => allResponses;
+            allResponses.$hasMore = false;
+            allResponses.$rawResponse = firstRawResponse;
+            return allResponses;
+        };
+
         return resp;
     }
 
@@ -145,12 +148,24 @@ export class Client {
         }
         const rawResponse = await fetch(url, {
             method: 'GET',
-            mode: "cors",
+            mode: 'cors',
             headers,
             credentials: 'include'
         });
+        /** @type {Promise<Toolkit.Api.QueryResponse>}  */
         let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
+        resp.$hasMore = resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
+        resp.$getNextPage = async () => {
+            if (resp.$hasMore) {
+                let newQuery = _.cloneDeep(query);
+                newQuery.start += query.pagesize;
+                return this.query(type, newQuery, params);
+            }
+            else {
+                throw new Error('No more pages in this request');
+            }
+        };
         resp.forEach((d: Toolkit.Api.RallyObject) => this._decorateObject(d));
         return resp;
     }

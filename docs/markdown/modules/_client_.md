@@ -22,9 +22,9 @@
 
 ### `<Let>` URLSearchParams
 
-**● URLSearchParams**: *`any`* =  url
+**● URLSearchParams**: *`any`* =  urlModule
 
-*Defined in [Client.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L8)*
+*Defined in [Client.ts:9](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Client.ts#L9)*
 
 ___
 <a id="fetch"></a>
@@ -33,7 +33,7 @@ ___
 
 **● fetch**: *`any`* =  f
 
-*Defined in [Client.ts:4](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L4)*
+*Defined in [Client.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Client.ts#L7)*
 
 ___
 <a id="inbrowser"></a>
@@ -42,7 +42,7 @@ ___
 
 **● inBrowser**: *`boolean`* = false
 
-*Defined in [Client.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Client.ts#L7)*
+*Defined in [Client.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Client.ts#L8)*
 
 ___
 

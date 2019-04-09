@@ -69,7 +69,7 @@
 
 **● $getAll**: *`function`*
 
-*Defined in [Api.ts:61](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L61)*
+*Defined in [Api.ts:61](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L61)*
 
 returns all the data from the later pages including this page
 
@@ -85,7 +85,7 @@ ___
 
 **● $getNextPage**: *`function`*
 
-*Defined in [Api.ts:63](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L63)*
+*Defined in [Api.ts:63](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L63)*
 
 returns the data from the next page
 
@@ -101,7 +101,7 @@ ___
 
 **● $hasMore**: *`boolean`*
 
-*Defined in [Api.ts:58](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L58)*
+*Defined in [Api.ts:58](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L58)*
 
 ___
 <a id="_params"></a>
@@ -110,7 +110,7 @@ ___
 
 **● $params**: *`any`*
 
-*Defined in [Api.ts:57](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L57)*
+*Defined in [Api.ts:57](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L57)*
 
 ___
 <a id="_rawresponse"></a>
@@ -119,7 +119,7 @@ ___
 
 **● $rawResponse**: *[RawResponse](_api_.api.lookback.rawresponse.md)*
 
-*Defined in [Api.ts:59](https://github.com/ferentchak/rally-node-sdk/blob/6b35ab1/Api.ts#L59)*
+*Defined in [Api.ts:59](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L59)*
 
 ___
 <a id="array"></a>

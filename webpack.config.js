@@ -31,6 +31,6 @@ module.exports = {
     externals: {
         'node-fetch': 'fetch',
         url: 'URLSearchParams',
-        lodash: "_"
+        lodash: '_'
     }
 };

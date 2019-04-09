@@ -86,8 +86,47 @@ describe('Rally Client', function requestFoo() {
 
     it('should get a page of story data', async () => {
       const query = client.defaultOptions;
-      let projects = await client.query('Project', query);
-      expect(projects.length).to.not.equal(0);
+      const pagesize = 1;
+      query.pagesize = pagesize;
+      let stories = await client.query('hierarchicalrequirement', query);
+      expect(stories.length).to.equal(pagesize);
+      expect(stories.$getNextPage).to.be.a('function');
+      expect(stories.$hasMore).to.be.a('boolean');
+    });
+
+    it('should properly set $hasMore', async () => {
+      client.query('hierarchicalrequirement', { pagesize: 1 })
+        .then((result) => {
+          expect(result.$hasMore);
+        });
+
+      client.query('project', { pagesize: 2000 })
+        .then((result) => {
+          expect(!result.$hasMore);
+        });
+    });
+
+    it('should properly return more results with $getNextPage', async () => {
+      client.query('hierarchicalrequirement', { pagesize: 1 })
+        .then((result) => {
+          result.$getNextPage().then((nextResult) => {
+            expect(nextResult);
+            expect(nextResult.length > 0);
+          });
+        });
+    });
+
+    it('should handle getNextPage error', async () => {
+      client.query('project', { pagesize: 2000 })
+        .then((result) => {
+          try {
+            result.$getNextPage();
+            expect.fail('Error not caught');
+          } catch (err) {
+            expect(err);
+            expect(err.message).to.equal('No more pages in this request');
+          }
+        });
     });
 
     it('should handle rally errors', async () => {
