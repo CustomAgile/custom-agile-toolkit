@@ -256,6 +256,10 @@ describe('Rally Client', function requestFoo() {
         expect(Client.getIdFromRef('/type/76894'))
           .to.equal(76894);
       });
+      it('Should get the id from weird permission ref', () => {
+        const result = Client.getIdFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/projectpermission/12345u23456');
+        expect(result).to.equal('12345u23456');
+      });
       it('Should get the id from long ref', () => {
         const result = Client.getIdFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894');
         expect(result).to.equal(76894);
@@ -273,6 +277,10 @@ describe('Rally Client', function requestFoo() {
       it('Should get the type from long ref', () => {
         expect(Client.getTypeFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/project/76894'))
           .to.equal('project');
+      });
+      it('Should get the type from weird permission ref', () => {
+        const result = Client.getTypeFromRef('https://rally1.rallydev.com/slm/webservice/v2.0/projectpermission/12345u23456');
+        expect(result).to.equal('projectpermission');
       });
       it('Should return null from random string', () => {
         expect(Client.getTypeFromRef('Who likes tacos I do')).to.equal(null);
