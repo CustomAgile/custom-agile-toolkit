@@ -45,7 +45,7 @@ export declare class Client {
     /**
      * Returns a Rally object by ref or by type and ID
      */
-    get(typeOrRef: string, objectID?: number, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
+    get(typeOrRef: string, objectID?: any, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
     /**
      * Gets a subcollection stored on the Rally object
      */
@@ -53,7 +53,7 @@ export declare class Client {
     /**
      * @private
      */
-    _request(typeOrRef: string, objectID: number, params: {}, action: string): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: {}, action: string): Promise<any>;
     /**
      *
      *  Adds the delete and save options to each object
@@ -73,7 +73,7 @@ export declare class Client {
     /**
      * Gets the ID portion of a ref
      */
-    static getIdFromRef(ref: string): number;
+    static getIdFromRef(ref: string): string;
     /**
      * Gets the type portion of a ref
      */

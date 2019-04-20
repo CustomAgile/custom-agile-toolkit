@@ -38,7 +38,7 @@
   "scripts": {
     "pretest": "tsc",
     "test": "./node_modules/mocha/bin/mocha",
-    "posttest": "./moveDocs.sh",
+    "movedocs": "./moveDocs.sh",
     "generate": "ts-node ClassGenerator.ts",
     "postversion": "webpack&"
   },

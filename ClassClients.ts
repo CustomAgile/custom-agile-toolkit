@@ -51,7 +51,7 @@ export namespace ClassClients {
         /**
          * Returns a Rally object by ref or by type and ID
          */
-        async get(typeOrRef: string, objectID = 0, params: Api.QueryOptions = {}): Promise<T> {
+        async get(typeOrRef: string, objectID = "0", params: Api.QueryOptions = {}): Promise<T> {
             let resp: any = this.client.get(typeOrRef, objectID, params);
             return resp;
         }

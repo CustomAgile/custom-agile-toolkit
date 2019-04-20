@@ -3,6 +3,7 @@ import * as Toolkit from './index';
 import f = require('node-fetch');
 import _ = require('lodash');
 import urlModule = require('url');
+import { Ref } from './Ref';
 
 const fetch: any = f;
 let inBrowser = false;
@@ -245,7 +246,7 @@ export class Client {
     /**
      * Returns a Rally object by ref or by type and ID
      */
-    async get(typeOrRef: string, objectID = 0, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject> {
+    async get(typeOrRef: string, objectID = null, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject> {
         const result = await this._request(typeOrRef, objectID, params, 'GET');
         this._decorateObject(result);
         return result;
@@ -282,9 +283,9 @@ export class Client {
     /**
      * @private
      */
-    async _request(typeOrRef: string, objectID = 0, params = {}, action: string) {
+    async _request(typeOrRef: string, objectID = null, params = {}, action: string) {
         let type = typeOrRef;
-        if (!objectID) {
+        if (Ref.isRef(typeOrRef)) {
             type = Client.getTypeFromRef(typeOrRef);
             objectID = Client.getIdFromRef(typeOrRef);
         }
@@ -326,7 +327,7 @@ export class Client {
     async delete(inputOrRef: string | Toolkit.Api.RallyObject, params = {}, ignoreDelay = false) {
         let ref: any = inputOrRef;
         ref = _.isObject(ref) ? ref._ref : ref;
-        const resp = await this._request(ref, 0, params, 'DELETE');
+        const resp = await this._request(ref, null, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
             const delayResult = await Client.delay(500);
@@ -355,19 +356,15 @@ export class Client {
     /**
      * Gets the ID portion of a ref
      */
-    static getIdFromRef(ref: string): number {
-        if (!_.isString(ref)) return null;
-        const [id] = ref.split('/').reverse();
-        return Number(id) || null;
+    static getIdFromRef(ref: string): string {
+        return Ref.getId(ref);
     }
 
     /**
      * Gets the type portion of a ref
      */
     static getTypeFromRef(ref: string): string {
-        if (!_.isString(ref)) return null;
-        const [, type = null] = ref.split('/').reverse();
-        return type;
+        return Ref.getType(ref);
     }
 
     get defaultOptions(): Toolkit.Api.QueryOptions {
