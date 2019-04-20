@@ -23,7 +23,7 @@
 
 **● ObjectID**: *`number`*
 
-*Defined in [Api.ts:109](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L109)*
+*Defined in [Api.ts:109](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L109)*
 
 ___
 <a id="_validfrom"></a>
@@ -32,7 +32,7 @@ ___
 
 **● _ValidFrom**: *[ValidFrom](_api_.api.lookback.validfrom.md)*
 
-*Defined in [Api.ts:110](https://github.com/ferentchak/rally-node-sdk/blob/55b3a40/Api.ts#L110)*
+*Defined in [Api.ts:110](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L110)*
 
 ___
 
