@@ -15,22 +15,25 @@ class Common {
         if (!allRoots.length) {
             return [];
         }
-        const promises = allRoots
+        const allClosed = allRoots
             .filter(r => {
             if (!r.Children) {
                 return true;
             }
             return !!r.Children.Count;
-        })
-            .map(async (r) => {
+        });
+        let children = [];
+        while (allClosed.length) {
+            const project = allClosed.pop();
+            let result = [];
             try {
-                return this.client.getCollection(r, 'Children', { fetch: requiredFetchFields });
+                result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
             }
             catch (err) {
-                return this.client.getCollection(r, 'Children', { fetch: requiredFetchFields });
+                result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
             }
-        });
-        const children = _.flatten(await Promise.all(promises));
+            children = _.flatten([...children, ...result]);
+        }
         onEachPageComplete([...allRoots, ...children]);
         const decendents = await this.getAllChildProjects(children, fetch, onEachPageComplete);
         let finalResponse = _.flatten([...decendents, ...allRoots, ...children]);
