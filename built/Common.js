@@ -23,18 +23,36 @@ class Common {
             return !!r.Children.Count;
         });
         let children = [];
-        while (allClosed.length) {
+        let getNext = async () => {
+            if (!allClosed.length) {
+                return;
+            }
             const project = allClosed.pop();
             let result = [];
             try {
                 result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
             }
             catch (err) {
-                result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
+                allClosed.unshift(project);
             }
-            children = _.flatten([...children, ...result]);
-        }
-        onEachPageComplete([...allRoots, ...children]);
+            finally {
+                children = _.flatten([...children, ...result]);
+                onEachPageComplete(children);
+                if (allClosed.length) {
+                    return getNext();
+                }
+            }
+        };
+        //start some workers
+        const respAll = await Promise.all([
+            getNext(),
+            getNext(),
+            getNext(),
+            getNext(),
+            getNext(),
+            getNext(),
+            getNext()
+        ]);
         const decendents = await this.getAllChildProjects(children, fetch, onEachPageComplete);
         let finalResponse = _.flatten([...decendents, ...allRoots, ...children]);
         const removeDupes = {};
