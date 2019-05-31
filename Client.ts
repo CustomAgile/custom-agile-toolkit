@@ -374,7 +374,7 @@ export class Client {
             pagesize: 2000,
             projectScopeUp: true,
             projectScopeDown: true,
-            compact: true,
+            compact: false,
             includePermissions: true,
             project: undefined,
             workspace: this.workspace
