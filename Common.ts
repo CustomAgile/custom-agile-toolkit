@@ -40,7 +40,8 @@ export class Common {
             catch (err) {
                 result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
             }
-            children = _.flatten([...children,...result]);
+            children = _.flatten([...children, ...result]);
+            onEachPageComplete([...allRoots, ...children]);
         }
 
         onEachPageComplete([...allRoots, ...children]);
