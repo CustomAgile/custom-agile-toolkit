@@ -23,7 +23,12 @@ class Common {
             return !!r.Children.Count;
         })
             .map(async (r) => {
-            return this.client.getCollection(r, 'Children', { fetch: requiredFetchFields });
+            try {
+                return this.client.getCollection(r, 'Children', { fetch: requiredFetchFields });
+            }
+            catch (err) {
+                return this.client.getCollection(r, 'Children', { fetch: requiredFetchFields });
+            }
         });
         const children = _.flattenDeep(await Promise.all(promises));
         onEachPageComplete([...allRoots, ...children]);

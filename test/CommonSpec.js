@@ -22,7 +22,7 @@ const common = new Common(client);
 
 const { expect } = chai;
 describe('Rally Common', function requestFoo() {
-  this.timeout(5000);
+  this.timeout(50000);
 
   describe('getCollection', function getCollection() {
     let projectObject, projectObject2;
@@ -48,7 +48,8 @@ describe('Rally Common', function requestFoo() {
     });
 
     it('Should getAllChildProjects with multi inputs', async () => {
-      // let countedLength = 0;
+      // eslint-disable-next-line no-unused-vars
+      let countedLength = 0;
       // make sure Children is not required
       delete projectObject.Children;
       const allProjects = await common.getAllChildProjects(
