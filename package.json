@@ -40,7 +40,7 @@
     "test": "./node_modules/mocha/bin/mocha",
     "movedocs": "./moveDocs.sh",
     "generate": "ts-node ClassGenerator.ts",
-    "preversion": "webpack"
+    "preversion": "webpack&"
   },
   "directories": {
     "test": "test"
