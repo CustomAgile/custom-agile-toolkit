@@ -41,7 +41,7 @@
 
 *Overrides [ClassClientBase](_classclients_.classclients.classclientbase.md).[constructor](_classclients_.classclients.classclientbase.md#constructor)*
 
-*Defined in [ClassClients.ts:521](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L521)*
+*Defined in [ClassClients.ts:521](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L521)*
 
 **Parameters:**
 
@@ -54,7 +54,7 @@
 
 *Overrides [ClassClientBase](_classclients_.classclients.classclientbase.md).[constructor](_classclients_.classclients.classclientbase.md#constructor)*
 
-*Defined in [ClassClients.ts:522](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L522)*
+*Defined in [ClassClients.ts:522](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L522)*
 
 **Parameters:**
 
@@ -76,7 +76,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[client](_classclients_.classclients.classclientbase.md#client)*
 
-*Defined in [ClassClients.ts:23](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L23)*
+*Defined in [ClassClients.ts:23](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L23)*
 
 ___
 <a id="typename"></a>
@@ -87,7 +87,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[typeName](_classclients_.classclients.classclientbase.md#typename)*
 
-*Defined in [ClassClients.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L27)*
+*Defined in [ClassClients.ts:27](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L27)*
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[delete](_classclients_.classclients.classclientbase.md#delete)*
 
-*Defined in [ClassClients.ts:73](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L73)*
+*Defined in [ClassClients.ts:73](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L73)*
 
 **Parameters:**
 
@@ -122,7 +122,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[get](_classclients_.classclients.classclientbase.md#get)*
 
-*Defined in [ClassClients.ts:54](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L54)*
+*Defined in [ClassClients.ts:54](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L54)*
 
 Returns a Rally object by ref or by type and ID
 
@@ -145,7 +145,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[getCollection](_classclients_.classclients.classclientbase.md#getcollection)*
 
-*Defined in [ClassClients.ts:62](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L62)*
+*Defined in [ClassClients.ts:62](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L62)*
 
 Gets a subcollection stored on the Rally object
 
@@ -168,7 +168,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[query](_classclients_.classclients.classclientbase.md#query)*
 
-*Defined in [ClassClients.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L31)*
+*Defined in [ClassClients.ts:31](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L31)*
 
 returns an array modified to have additional meta data on it containing the results
 
@@ -191,7 +191,7 @@ ___
 
 *Inherited from [ClassClientBase](_classclients_.classclients.classclientbase.md).[save](_classclients_.classclients.classclientbase.md#save)*
 
-*Defined in [ClassClients.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/ClassClients.ts#L42)*
+*Defined in [ClassClients.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/181a180/ClassClients.ts#L42)*
 
 Saves the current state of the Rally object to Rally. Creating a new object on the server if no \_ref is provided in rallyObject
 

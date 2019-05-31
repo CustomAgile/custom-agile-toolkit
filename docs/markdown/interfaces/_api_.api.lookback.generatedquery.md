@@ -25,7 +25,7 @@
 
 **● fields**: *`boolean`*
 
-*Defined in [Api.ts:105](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L105)*
+*Defined in [Api.ts:105](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L105)*
 
 ___
 <a id="find"></a>
@@ -34,7 +34,7 @@ ___
 
 **● find**: *[Find](_api_.api.lookback.find.md)*
 
-*Defined in [Api.ts:102](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L102)*
+*Defined in [Api.ts:102](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L102)*
 
 ___
 <a id="limit"></a>
@@ -43,7 +43,7 @@ ___
 
 **● limit**: *`number`*
 
-*Defined in [Api.ts:103](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L103)*
+*Defined in [Api.ts:103](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L103)*
 
 ___
 <a id="skip"></a>
@@ -52,7 +52,7 @@ ___
 
 **● skip**: *`number`*
 
-*Defined in [Api.ts:104](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L104)*
+*Defined in [Api.ts:104](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L104)*
 
 ___
 

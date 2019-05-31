@@ -26,7 +26,7 @@
 
 **● blockedCount**: *`string`*
 
-*Defined in [Api.ts:98](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L98)*
+*Defined in [Api.ts:98](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L98)*
 
 ___
 <a id="blockedtime"></a>
@@ -35,7 +35,7 @@ ___
 
 **● blockedTime**: *`string`*
 
-*Defined in [Api.ts:97](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L97)*
+*Defined in [Api.ts:97](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L97)*
 
 ___
 <a id="cputime"></a>
@@ -44,7 +44,7 @@ ___
 
 **● cpuTime**: *`string`*
 
-*Defined in [Api.ts:94](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L94)*
+*Defined in [Api.ts:94](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L94)*
 
 ___
 <a id="waitcount"></a>
@@ -53,7 +53,7 @@ ___
 
 **● waitCount**: *`string`*
 
-*Defined in [Api.ts:96](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L96)*
+*Defined in [Api.ts:96](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L96)*
 
 ___
 <a id="waittime"></a>
@@ -62,7 +62,7 @@ ___
 
 **● waitTime**: *`string`*
 
-*Defined in [Api.ts:95](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L95)*
+*Defined in [Api.ts:95](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L95)*
 
 ___
 

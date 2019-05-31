@@ -262,8 +262,6 @@ export class Client {
         const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
         const url = Client._prepareUrl(this.options.server, type, action, finalParams);
-        console.error(url);
-        console.error(finalParams);
         let headers: any = {};
         if (this.apiKey) {
             headers.zsessionid = this.apiKey

@@ -731,10 +731,22 @@
         Builds? : Build[]
       
         /**
+         * Builds Data
+         * The Builds associated with this Changeset
+         */
+        BuildsData? : string
+      
+        /**
          * Changes
          * Changes included in this Changeset
          */
         Changes? : Change[]
+      
+        /**
+         * Changes Data
+         * The Changes associated with this Changeset
+         */
+        ChangesData? : string
       
         /**
          * Commit Timestamp
@@ -2151,6 +2163,24 @@
         Attachments? : Attachment[]
       
         /**
+         * Blocked
+         * Flag to determine if this artifact is blocked
+         */
+        Blocked? : boolean
+      
+        /**
+         * Blocked Reason
+         * The reason this artifact is blocked
+         */
+        BlockedReason? : string
+      
+        /**
+         * Blocker
+         * The blocker blocking this artifact.
+         */
+        Blocker? : Blocker
+      
+        /**
          * Child Story Predecessor Not Scheduled
          * Indicates whether any of the stories that roll up to this Portfolio Item have predecessors that are not scheduled in any Iteration
          */
@@ -3553,6 +3583,12 @@
         PasswordExpirationDays? : number
       
         /**
+         * PLA
+         * Product License Agreement
+         */
+        PLA? : boolean
+      
+        /**
          * Previous Password Count
          * The number of previous passwords to remember. 0 means none.
          */
@@ -3587,6 +3623,12 @@
          * Subscription-level user session timeout time in seconds.
          */
         SessionTimeoutSeconds? : number
+      
+        /**
+         * SiteId
+         * Customer support ID
+         */
+        SiteId? : string
       
         /**
          * SSO Redirect Enabled

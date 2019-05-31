@@ -35,7 +35,7 @@
 
 **● compact**: *`boolean`*
 
-*Defined in [Api.ts:18](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L18)*
+*Defined in [Api.ts:18](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L18)*
 
 ___
 <a id="fetch"></a>
@@ -44,7 +44,7 @@ ___
 
 **● fetch**: *`string`[] \| `boolean`*
 
-*Defined in [Api.ts:12](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L12)*
+*Defined in [Api.ts:12](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L12)*
 
 ___
 <a id="includepermissions"></a>
@@ -53,7 +53,7 @@ ___
 
 **● includePermissions**: *`boolean`*
 
-*Defined in [Api.ts:19](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L19)*
+*Defined in [Api.ts:19](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L19)*
 
 ___
 <a id="order"></a>
@@ -62,7 +62,7 @@ ___
 
 **● order**: *`string`*
 
-*Defined in [Api.ts:22](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L22)*
+*Defined in [Api.ts:22](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L22)*
 
 ___
 <a id="pagesize"></a>
@@ -71,7 +71,7 @@ ___
 
 **● pagesize**: *`number`*
 
-*Defined in [Api.ts:15](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L15)*
+*Defined in [Api.ts:15](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L15)*
 
 ___
 <a id="project"></a>
@@ -80,7 +80,7 @@ ___
 
 **● project**: *`string`*
 
-*Defined in [Api.ts:20](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L20)*
+*Defined in [Api.ts:20](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L20)*
 
 ___
 <a id="projectscopedown"></a>
@@ -89,7 +89,7 @@ ___
 
 **● projectScopeDown**: *`boolean`*
 
-*Defined in [Api.ts:17](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L17)*
+*Defined in [Api.ts:17](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L17)*
 
 ___
 <a id="projectscopeup"></a>
@@ -98,7 +98,7 @@ ___
 
 **● projectScopeUp**: *`boolean`*
 
-*Defined in [Api.ts:16](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L16)*
+*Defined in [Api.ts:16](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L16)*
 
 ___
 <a id="query"></a>
@@ -107,7 +107,7 @@ ___
 
 **● query**: *`string`*
 
-*Defined in [Api.ts:13](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L13)*
+*Defined in [Api.ts:13](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L13)*
 
 ___
 <a id="start"></a>
@@ -116,7 +116,7 @@ ___
 
 **● start**: *`number`*
 
-*Defined in [Api.ts:14](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L14)*
+*Defined in [Api.ts:14](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L14)*
 
 ___
 <a id="workspace"></a>
@@ -125,7 +125,7 @@ ___
 
 **● workspace**: *`string`*
 
-*Defined in [Api.ts:21](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L21)*
+*Defined in [Api.ts:21](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L21)*
 
 ___
 

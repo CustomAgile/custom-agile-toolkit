@@ -70,7 +70,7 @@
 
 **● $getAll**: *`function`*
 
-*Defined in [Api.ts:40](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L40)*
+*Defined in [Api.ts:40](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L40)*
 
 returns all the data from the later pages including this page
 
@@ -86,7 +86,7 @@ ___
 
 **● $getNextPage**: *`function`*
 
-*Defined in [Api.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L42)*
+*Defined in [Api.ts:42](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L42)*
 
 returns the data from the next page
 
@@ -102,7 +102,7 @@ ___
 
 **● $hasMore**: *`boolean`*
 
-*Defined in [Api.ts:38](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L38)*
+*Defined in [Api.ts:38](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L38)*
 
 ___
 <a id="_params"></a>
@@ -111,7 +111,7 @@ ___
 
 **● $params**: *`any`*
 
-*Defined in [Api.ts:37](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L37)*
+*Defined in [Api.ts:37](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L37)*
 
 ___
 <a id="array"></a>

@@ -24,7 +24,7 @@
 
 **● project**: *`string`*
 
-*Defined in [Api.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L7)*
+*Defined in [Api.ts:7](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L7)*
 
 ___
 <a id="server"></a>
@@ -33,7 +33,7 @@ ___
 
 **● server**: *`string`*
 
-*Defined in [Api.ts:6](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L6)*
+*Defined in [Api.ts:6](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L6)*
 
 ___
 <a id="workspace"></a>
@@ -42,7 +42,7 @@ ___
 
 **● workspace**: *`string`*
 
-*Defined in [Api.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/52b036e/Api.ts#L8)*
+*Defined in [Api.ts:8](https://github.com/ferentchak/rally-node-sdk/blob/181a180/Api.ts#L8)*
 
 ___
 
