@@ -41,10 +41,9 @@ export class Common {
                 result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
             }
             children = _.flatten([...children, ...result]);
-            onEachPageComplete([...allRoots, ...children]);
+            onEachPageComplete(children);
         }
 
-        onEachPageComplete([...allRoots, ...children]);
         const decendents = await this.getAllChildProjects(children, fetch, onEachPageComplete);
         let finalResponse = _.flatten([...decendents, ...allRoots, ...children]);
 
