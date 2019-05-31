@@ -39,7 +39,7 @@ export class Common {
                     return this.client.getCollection(r, 'Children', { fetch: requiredFetchFields });
                 }
             });
-        const children = _.flattenDeep(await Promise.all(promises));
+        const children = _.flatten(await Promise.all(promises));
         onEachPageComplete([...allRoots, ...children]);
         const decendents = await this.getAllChildProjects(children, fetch, onEachPageComplete);
         let finalResponse = _.flatten([...decendents, ...allRoots, ...children]);
