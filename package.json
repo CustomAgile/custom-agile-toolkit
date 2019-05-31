@@ -1,6 +1,6 @@
 {
   "name": "custom-agile-toolkit",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "main": "built/index.js",
   "types": "declare/index.d.ts",
   "author": "Charles Ferentchak",
