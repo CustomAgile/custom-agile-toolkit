@@ -49,7 +49,7 @@ export declare class Client {
     /**
      * Gets a subcollection stored on the Rally object
      */
-    getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
+    getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject[]>;
     /**
      * @private
      */

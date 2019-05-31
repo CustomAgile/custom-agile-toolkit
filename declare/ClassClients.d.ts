@@ -24,7 +24,7 @@ export declare namespace ClassClients {
         /**
          * Returns a Rally object by ref or by type and ID
          */
-        get(typeOrRef: string, objectID?: string, params?: Api.QueryOptions): Promise<T>;
+        get(typeOrRef: string, objectID?: number, params?: Api.QueryOptions): Promise<T>;
         /**
          * Gets a subcollection stored on the Rally object
          */

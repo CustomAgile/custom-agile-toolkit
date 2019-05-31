@@ -255,13 +255,15 @@ export class Client {
     /**
      * Gets a subcollection stored on the Rally object
      */
-    async getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject> {
+    async getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject[]> {
         const finalParams = _.defaults(params, this.defaultOptions);
         const ref = Client.getRef(rallyObject);
         const type = Client.getTypeFromRef(ref);
         const objectId = Client.getIdFromRef(ref);
         const action = `${objectId}/${collectionName}`;
         const url = Client._prepareUrl(this.options.server, type, action, finalParams);
+        console.error(url);
+        console.error(finalParams);
         let headers: any = {};
         if (this.apiKey) {
             headers.zsessionid = this.apiKey
@@ -275,7 +277,7 @@ export class Client {
         let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
         resp.forEach((d: Toolkit.Api.RallyObject) => this._decorateObject(d));
-        rallyObject[collectionName] = _.defaults(resp, rallyObject[collectionName]);
+        rallyObject[collectionName] = _.cloneDeep(_.defaults(resp, rallyObject[collectionName]));
 
         return resp;
     }

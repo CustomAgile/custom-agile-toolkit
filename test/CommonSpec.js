@@ -350,7 +350,7 @@ describe('Rally Client', function requestFoo() {
       };
 
       const children = await client.getCollection(projectObject, 'Children', options);
-      expect(children.length).to.equal(2, 'Expected child projects returned from sub collection');
+      expect(children.length).to.equal(2, 'Expected two tags returned from sub collection');
       expect(projectObject.Children.length).to.equal(2, 'Expect the object to have it\'s subcollection filled');
       const [openProject, closedProject] = children;
 
