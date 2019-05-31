@@ -7,5 +7,5 @@ export declare class Common {
      * @param allRoots The list of root projects that the child projects will be returned from
      * @param  fetch The list of fields you want fetched on the children. The children field will be added to the user selection
      */
-    getAllChildProjects(allRoots: Toolkit.Api.RallyObject[], fetch?: string[]): any;
+    getAllChildProjects(allRoots: Toolkit.Api.RallyObject[], fetch?: string[], onEachPageComplete?: (onePage: any) => any[]): any;
 }

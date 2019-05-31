@@ -1,11 +1,9 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-const f = require('node-fetch');
-const _ = require('lodash');
-const urlModule = require('url');
-const Ref_1 = require('./Ref');
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const f = require("node-fetch");
+const _ = require("lodash");
+const urlModule = require("url");
+const Ref_1 = require("./Ref");
 const fetch = f;
 let inBrowser = false;
 let URLSearchParams = urlModule;
@@ -45,7 +43,7 @@ class Client {
         const unwrappedResponse = resp[_.keys(resp)[0]] || '';
         const errors = unwrappedResponse.Errors || resp.Errors;
         if (errors && errors.length) {
-            throw new Error(errors.map(e => `Rally Server Error: ${e}`).join(','));
+            throw new Error(errors.map((e) => `Rally Server Error: ${e}`).join(','));
         }
         let returnedValue = resp;
         if (resp.QueryResult) {
@@ -53,10 +51,12 @@ class Client {
             resp.TotalResultCount = resp.QueryResult.TotalResultCount;
             resp.PageSize = resp.QueryResult.PageSize;
             delete resp.QueryResult;
-        } else if (resp.Results) {
+        }
+        else if (resp.Results) {
             returnedValue = resp.Results;
             delete resp.Results;
-        } else if (unwrappedResponse.Object) {
+        }
+        else if (unwrappedResponse.Object) {
             returnedValue = unwrappedResponse.Object;
             delete resp.Object;
         }
@@ -93,8 +93,9 @@ class Client {
                 newRequest.start += newRequest.pagesize;
                 return this.queryLookback(newRequest, workspaceId);
             }
-            
+            else {
                 throw new Error('No more pages in this request');
+            }
         };
         resp.$getAll = async () => {
             // TODO: eventually make this more concurrent
@@ -140,10 +141,11 @@ class Client {
                 newQuery.start += query.pagesize;
                 return this.query(type, newQuery, params);
             }
-            
+            else {
                 throw new Error('No more pages in this request');
+            }
         };
-        resp.forEach(d => this._decorateObject(d));
+        resp.forEach((d) => this._decorateObject(d));
         return resp;
     }
     async save(arg1, arg2 = {}, arg3 = {}) {
@@ -153,10 +155,12 @@ class Client {
             type = arg1;
             rallyObject = arg2;
             params = arg3;
-        } else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
+        }
+        else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
             params = arg2;
             rallyObject = arg1;
-        } else {
+        }
+        else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
         let headers = {};
@@ -168,12 +172,14 @@ class Client {
         }
         if (rallyObject._ref) {
             url = Client._prepareUrl(this.options.server, Client.getTypeFromRef(rallyObject._ref), Client.getIdFromRef(rallyObject._ref), params);
-        } else {
+        }
+        else {
             const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
             url = Client._prepareUrl(this.options.server, type, action, params);
             if (_.isNumber(rallyObject.ObjectID)) {
                 url = `${url}/${rallyObject.ObjectID}?`;
-            } else {
+            }
+            else {
                 url = `${url}/create?`;
             }
         }
@@ -182,7 +188,7 @@ class Client {
         const body = JSON.stringify(wrapper);
         const rawResponse = await fetch(url, {
             method: 'PUT',
-            mode: 'cors',
+            mode: "cors",
             headers,
             credentials: 'include',
             body
@@ -216,13 +222,13 @@ class Client {
         }
         const rawResponse = await fetch(url, {
             method: 'GET',
-            mode: 'cors',
+            mode: "cors",
             headers,
             credentials: 'include'
         });
         let resp = await Client.manageResponse(rawResponse);
         resp.$params = finalParams;
-        resp.forEach(d => this._decorateObject(d));
+        resp.forEach((d) => this._decorateObject(d));
         rallyObject[collectionName] = _.cloneDeep(_.defaults(resp, rallyObject[collectionName]));
         return resp;
     }
@@ -244,7 +250,7 @@ class Client {
         };
         const rawResponse = await fetch(url, {
             method: action,
-            mode: 'cors',
+            mode: "cors",
             headers,
             credentials: 'include'
         });
@@ -335,7 +341,8 @@ class Client {
      * @private
      */
     static _prepareUrl(server, type, action = '', params = {}) {
-        if (_.isNumber(action)) { action = action.toString(); }
+        if (_.isNumber(action))
+            action = action.toString();
         if (!params.workspace) {
             delete params.workspace;
         }
@@ -359,4 +366,4 @@ class Client {
     }
 }
 exports.Client = Client;
-// # sourceMappingURL=Client.js.map
+//# sourceMappingURL=Client.js.map

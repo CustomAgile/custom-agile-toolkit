@@ -27,7 +27,7 @@ const getOptions = () => {
 };
 
 const { expect } = chai;
-xdescribe('Rally Client', function requestFoo() {
+describe('Rally Client', function requestFoo() {
   this.timeout(5000);
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
