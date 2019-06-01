@@ -1,4 +1,4 @@
-import * as Toolkit from './index';
+import * as Toolkit from '../index';
 
 import f = require('node-fetch');
 import _ = require('lodash');

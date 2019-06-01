@@ -1,7 +1,7 @@
-eslint built/*.js --fix > /dev/null&
+eslint built/**/*.js --fix > /dev/null&
 git submodule init
 git submodule update
-ts-node ClassGenerator.ts> /dev/null
+# ts-node ClassGenerator.ts> /dev/null
 node_modules/.bin/typedoc --theme minimal -out tempDocs --tsconfig docsTsConfig.jsonc --ignoreCompilerErrors --mode modules --includeDeclarations --excludeExternals
 rm -rf docs/
 mv  tempDocs/ docs/

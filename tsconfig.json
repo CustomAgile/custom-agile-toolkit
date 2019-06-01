@@ -14,10 +14,10 @@
     "node_modules"
   ],
   "files": [
-    "Client.ts",
+    "./src/Client.ts",
     "index.ts",
-    "Api.ts",
-    "ClassClients.ts"    
+    "./src/Api.ts",
+    "./src/ClassClients.ts"    
   ],
   "compileOnSave": true
 }

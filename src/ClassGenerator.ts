@@ -1,7 +1,7 @@
 import apiKey = require('./apikey.conf');
 import fs = require('fs');
 import _ = require('lodash');
-import * as Toolkit from './index';
+import * as Toolkit from '../index';
 
 const client = new Toolkit.ClassClients.TypeDefinition(apiKey,{});
 

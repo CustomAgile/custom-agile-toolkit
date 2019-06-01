@@ -1,5 +1,5 @@
 import _ = require('lodash');
-import * as Toolkit from './index';
+import * as Toolkit from '../index';
 
 export class Common {
 
