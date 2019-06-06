@@ -1,7 +1,6 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-const _ = require('lodash');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const _ = require("lodash");
 /**
  @module Ref
 
@@ -69,4 +68,4 @@ class Ref {
     }
 }
 exports.Ref = Ref;
-// # sourceMappingURL=Ref.js.map
+//# sourceMappingURL=Ref.js.map

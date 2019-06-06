@@ -4,3 +4,4 @@ export * from './src/Api';
 export * from './src/ClassClients';
 export * from './src/Ref';
 export * from './src/Common';
+export * from './src/Throttle';

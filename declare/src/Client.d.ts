@@ -7,6 +7,8 @@ export declare class Client {
     apiKey: string;
     workspace: string;
     project: string;
+    /** Maximum concurrent requests that a client can make */
+    maxConcurrentRequests: number;
     /**
      * @private
      */
@@ -15,22 +17,16 @@ export declare class Client {
      * The default Rally server Rally to be used
      */
     static readonly defaultRallyServer: string;
-    /**
-     * The default server for Rally to be used
-     */
+    /** The default server for Rally to be used*/
     static manageResponse(response: {
         ok: any;
         statusText: any;
         status: any;
         json: () => void;
     }): Promise<any>;
-    /**
-     * Returns a collection of results from the Lookback Api
-     */
+    /** Returns a collection of results from the Lookback Api */
     queryLookback(request: Toolkit.Api.Lookback.Request, workspaceId?: number): Promise<Toolkit.Api.Lookback.Response>;
-    /**
-     * returns an array modified to have additional meta data on it containing the results
-     */
+    /** returns an array modified to have additional meta data on it containing the results */
     query(type: string, query?: Toolkit.Api.QueryOptions, params?: {}): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
     /**
      * Saves the current state of the Rally object to Rally.

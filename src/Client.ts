@@ -20,7 +20,8 @@ export class Client {
         options: Toolkit.Api.ClientOptions = {
             server: Client.defaultRallyServer,
             project: undefined,
-            workspace: undefined
+            workspace: undefined,
+            maxConcurrentRequests: 10
         }
     ) {
         if (!_.isString(apiKey) && !inBrowser) {
@@ -31,6 +32,8 @@ export class Client {
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
+        this.maxConcurrentRequests = _.isNumber(options.maxConcurrentRequests) ? options.maxConcurrentRequests : 10;
+        ;
     }
 
     /**
@@ -39,6 +42,8 @@ export class Client {
     apiKey: string
     workspace: string
     project: string
+    /** Maximum concurrent requests that a client can make */
+    maxConcurrentRequests: number
     /**
      * @private
      */
@@ -51,9 +56,7 @@ export class Client {
         return 'https://rally1.rallydev.com';
     }
 
-    /**
-     * The default server for Rally to be used
-     */
+    /** The default server for Rally to be used*/
     static async manageResponse(response: { ok: any; statusText: any; status: any; json: () => void; }) {
         if (!response.ok) {
             throw new Error(`${response.statusText} Code:${response.status}`);
@@ -81,9 +84,7 @@ export class Client {
         return returnedValue;
     }
 
-    /**
-     * Returns a collection of results from the Lookback Api
-     */
+    /** Returns a collection of results from the Lookback Api */
     async queryLookback(request: Toolkit.Api.Lookback.Request, workspaceId = 0): Promise<Toolkit.Api.Lookback.Response> {
         const workspace = workspaceId ? `/workspace/${workspaceId}` : this.workspace;
         const url = `${this.options.server}/analytics/v2.0/service/rally${workspace}/artifact/snapshot/query`;
@@ -108,9 +109,9 @@ export class Client {
         const firstRawResponse = resp.$rawResponse;
         resp.$getNextPage = async () => {
             if (resp.$hasMore) {
-            const newRequest = _.cloneDeep(request);
-            newRequest.start += newRequest.pagesize;
-            return this.queryLookback(newRequest, workspaceId);
+                const newRequest = _.cloneDeep(request);
+                newRequest.start += newRequest.pagesize;
+                return this.queryLookback(newRequest, workspaceId);
             }
             else {
                 throw new Error('No more pages in this request');
@@ -136,9 +137,7 @@ export class Client {
         return resp;
     }
 
-    /**
-     * returns an array modified to have additional meta data on it containing the results
-     */
+    /** returns an array modified to have additional meta data on it containing the results */
     async query(type: string, query: Toolkit.Api.QueryOptions = {}, params = {}):
         Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
         const finalParams = _.defaults(query, params, this.defaultOptions);
@@ -416,7 +415,7 @@ export class Client {
     /**
      * @private
      */
-    static delay(millisecondsOfDelay: number, scopeFuction: Function = () => { }) {
+    static async delay(millisecondsOfDelay: number, scopeFuction: Function = () => { }) {
         return new Promise(((resolve) => {
             setTimeout(resolve.bind(null, scopeFuction), millisecondsOfDelay);
         }));

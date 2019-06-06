@@ -21,7 +21,7 @@ function delay(t, v) {
   }));
 }
 const { expect } = chai;
-describe('Rally Client', function requestFoo() {
+xdescribe('Rally Client', function requestFoo() {
   this.timeout(5000);
 
   describe('delete', function getRef() {

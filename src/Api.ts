@@ -3,9 +3,14 @@ import * as Classes from './classes';
 export namespace Api {
 
   export interface ClientOptions {
+    /** The Rally server that requests will be made against */
     server?: string,
+    /** The Rally projects ref `"/project/1234/"` that requests will be made against by default */
     project?: string,
+    /** The Rally workspace ref `"/workspace/1234/"` that requests will be made against by default */  
     workspace?: string
+    /** Maximum concurrent requests that a client can make */  
+    maxConcurrentRequests?: number
   }
 
   export interface QueryOptions {
