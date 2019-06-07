@@ -24,7 +24,7 @@ const getOptions = () => {
 };
 
 const { expect } = chai;
-xdescribe('Rally Client Lookback', function requestFoo() {
+describe('Rally Client Lookback', function requestFoo() {
   this.timeout(5000);
 
   describe('lookback', function lookback() {

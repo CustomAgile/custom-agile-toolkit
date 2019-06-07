@@ -21,7 +21,7 @@ const client = new Client(
 const common = new Common(client);
 
 const { expect } = chai;
-xdescribe('Rally Common', function requestFoo() {
+describe('Rally Common', function requestFoo() {
   this.timeout(50000);
 
   describe('getCollection', function getCollection() {

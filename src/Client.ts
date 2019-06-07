@@ -4,7 +4,7 @@ import f = require('node-fetch');
 import _ = require('lodash');
 import urlModule = require('url');
 import { Ref } from './Ref';
-
+import { Throttle } from './Throttle';
 const fetch: any = f;
 let inBrowser = false;
 let URLSearchParams: any = urlModule;
@@ -13,6 +13,13 @@ if (urlModule.URLSearchParams) {
     inBrowser = true;
     URLSearchParams = urlModule.URLSearchParams || urlModule;
 }
+type ResponseData = {
+    ok: any;
+    statusText: any;
+    status: any;
+    json: () => void;
+};
+
 export class Client {
     constructor(
         apiKey: string,
@@ -21,18 +28,28 @@ export class Client {
             server: Client.defaultRallyServer,
             project: undefined,
             workspace: undefined,
-            maxConcurrentRequests: 10
+            maxConcurrentRequests: 5,
+            maxReadRetrys: 5,
+            maxWriteRetrys: 0
         }
     ) {
         if (!_.isString(apiKey) && !inBrowser) {
             throw new Error('Api key is required');
         }
-        this.options = options;
+        this.options = _.defaults(options,{
+            server: Client.defaultRallyServer,
+            project: undefined,
+            workspace: undefined,
+            maxConcurrentRequests: 5,
+            maxReadRetrys: 5,
+            maxWriteRetrys: 0
+        });
+        console.log(this.options);
         this.options.server = options.server || Client.defaultRallyServer;
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
-        this.maxConcurrentRequests = _.isNumber(options.maxConcurrentRequests) ? options.maxConcurrentRequests : 10;
+        this.maxConcurrentRequests = _.isNumber(options.maxConcurrentRequests) ? options.maxConcurrentRequests : 5;
         ;
     }
 
@@ -57,7 +74,7 @@ export class Client {
     }
 
     /** The default server for Rally to be used*/
-    static async manageResponse(response: { ok: any; statusText: any; status: any; json: () => void; }) {
+    static async manageResponse(response: ResponseData) {
         if (!response.ok) {
             throw new Error(`${response.statusText} Code:${response.status}`);
         }
@@ -140,7 +157,7 @@ export class Client {
     /** returns an array modified to have additional meta data on it containing the results */
     async query(type: string, query: Toolkit.Api.QueryOptions = {}, params = {}):
         Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
-        const finalParams = _.defaults(query, params, this.defaultOptions);
+        const finalParams = _.defaults(query, params, this.defaultQueryOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
         let headers: any = {};
         if (this.apiKey) {
@@ -255,7 +272,7 @@ export class Client {
      * Gets a subcollection stored on the Rally object
      */
     async getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params: Toolkit.Api.QueryOptions = {}): Promise<Toolkit.Api.RallyObject[]> {
-        const finalParams = _.defaults(params, this.defaultOptions);
+        const finalParams = _.defaults(params, this.defaultQueryOptions);
         const ref = Client.getRef(rallyObject);
         const type = Client.getTypeFromRef(ref);
         const objectId = Client.getIdFromRef(ref);
@@ -288,7 +305,7 @@ export class Client {
             type = Client.getTypeFromRef(typeOrRef);
             objectID = Client.getIdFromRef(typeOrRef);
         }
-        const finalParams = _.defaults(params, { fetch: true }, this.defaultOptions);
+        const finalParams = _.defaults(params, { fetch: true }, this.defaultQueryOptions);
         delete finalParams.project;
         delete finalParams.workspace;
         const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
@@ -366,7 +383,7 @@ export class Client {
         return Ref.getType(ref);
     }
 
-    get defaultOptions(): Toolkit.Api.QueryOptions {
+    get defaultQueryOptions(): Toolkit.Api.QueryOptions {
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
             start: 1,

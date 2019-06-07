@@ -8,6 +8,10 @@ export declare namespace Api {
         workspace?: string;
         /** Maximum concurrent requests that a client can make */
         maxConcurrentRequests?: number;
+        /** Maximum number of retry attempts made by a request */
+        maxReadRetrys?: number;
+        /** Maximum number of retry attempts made by a request */
+        maxWriteRetrys?: number;
     }
     interface QueryOptions {
         fetch?: string[] | boolean;

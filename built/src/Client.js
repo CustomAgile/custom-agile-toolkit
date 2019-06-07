@@ -16,17 +16,27 @@ class Client {
         server: Client.defaultRallyServer,
         project: undefined,
         workspace: undefined,
-        maxConcurrentRequests: 10
+        maxConcurrentRequests: 5,
+        maxReadRetrys: 5,
+        maxWriteRetrys: 0
     }) {
         if (!_.isString(apiKey) && !inBrowser) {
             throw new Error('Api key is required');
         }
-        this.options = options;
+        this.options = _.defaults(options, {
+            server: Client.defaultRallyServer,
+            project: undefined,
+            workspace: undefined,
+            maxConcurrentRequests: 5,
+            maxReadRetrys: 5,
+            maxWriteRetrys: 0
+        });
+        console.log(this.options);
         this.options.server = options.server || Client.defaultRallyServer;
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
-        this.maxConcurrentRequests = _.isNumber(options.maxConcurrentRequests) ? options.maxConcurrentRequests : 10;
+        this.maxConcurrentRequests = _.isNumber(options.maxConcurrentRequests) ? options.maxConcurrentRequests : 5;
         ;
     }
     /**
@@ -116,7 +126,7 @@ class Client {
     }
     /** returns an array modified to have additional meta data on it containing the results */
     async query(type, query = {}, params = {}) {
-        const finalParams = _.defaults(query, params, this.defaultOptions);
+        const finalParams = _.defaults(query, params, this.defaultQueryOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
         let headers = {};
         if (this.apiKey) {
@@ -207,7 +217,7 @@ class Client {
      * Gets a subcollection stored on the Rally object
      */
     async getCollection(rallyObject, collectionName, params = {}) {
-        const finalParams = _.defaults(params, this.defaultOptions);
+        const finalParams = _.defaults(params, this.defaultQueryOptions);
         const ref = Client.getRef(rallyObject);
         const type = Client.getTypeFromRef(ref);
         const objectId = Client.getIdFromRef(ref);
@@ -238,7 +248,7 @@ class Client {
             type = Client.getTypeFromRef(typeOrRef);
             objectID = Client.getIdFromRef(typeOrRef);
         }
-        const finalParams = _.defaults(params, { fetch: true }, this.defaultOptions);
+        const finalParams = _.defaults(params, { fetch: true }, this.defaultQueryOptions);
         delete finalParams.project;
         delete finalParams.workspace;
         const url = Client._prepareUrl(this.options.server, type, objectID, finalParams);
@@ -309,7 +319,7 @@ class Client {
     static getTypeFromRef(ref) {
         return Ref_1.Ref.getType(ref);
     }
-    get defaultOptions() {
+    get defaultQueryOptions() {
         const defaultRequest = {
             fetch: ['ObjectID', 'Name'],
             start: 1,

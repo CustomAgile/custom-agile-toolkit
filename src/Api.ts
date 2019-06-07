@@ -7,10 +7,14 @@ export namespace Api {
     server?: string,
     /** The Rally projects ref `"/project/1234/"` that requests will be made against by default */
     project?: string,
-    /** The Rally workspace ref `"/workspace/1234/"` that requests will be made against by default */  
+    /** The Rally workspace ref `"/workspace/1234/"` that requests will be made against by default */
     workspace?: string
-    /** Maximum concurrent requests that a client can make */  
+    /** Maximum concurrent requests that a client can make */
     maxConcurrentRequests?: number
+    /** Maximum number of retry attempts made by a request */
+    maxReadRetrys?: number
+    /** Maximum number of retry attempts made by a request */
+    maxWriteRetrys?: number
   }
 
   export interface QueryOptions {

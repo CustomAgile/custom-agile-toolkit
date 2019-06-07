@@ -1,4 +1,10 @@
 import * as Toolkit from '../index';
+declare type ResponseData = {
+    ok: any;
+    statusText: any;
+    status: any;
+    json: () => void;
+};
 export declare class Client {
     constructor(apiKey: string, options?: Toolkit.Api.ClientOptions);
     /**
@@ -18,12 +24,7 @@ export declare class Client {
      */
     static readonly defaultRallyServer: string;
     /** The default server for Rally to be used*/
-    static manageResponse(response: {
-        ok: any;
-        statusText: any;
-        status: any;
-        json: () => void;
-    }): Promise<any>;
+    static manageResponse(response: ResponseData): Promise<any>;
     /** Returns a collection of results from the Lookback Api */
     queryLookback(request: Toolkit.Api.Lookback.Request, workspaceId?: number): Promise<Toolkit.Api.Lookback.Response>;
     /** returns an array modified to have additional meta data on it containing the results */
@@ -74,7 +75,7 @@ export declare class Client {
      * Gets the type portion of a ref
      */
     static getTypeFromRef(ref: string): string;
-    readonly defaultOptions: Toolkit.Api.QueryOptions;
+    readonly defaultQueryOptions: Toolkit.Api.QueryOptions;
     static readonly defaultLookbackRequest: Toolkit.Api.QueryOptions;
     /**
      * @private
@@ -85,3 +86,4 @@ export declare class Client {
      */
     static delay(millisecondsOfDelay: number, scopeFuction?: Function): Promise<{}>;
 }
+export {};

@@ -53,7 +53,7 @@ describe('Throttle', function requestFoo() {
           maxAttained++;
           expect(maxAttained, 'enough actions created').lte(maxPromises);
 
-          await Client.delay(50 + (5 * current));
+          await Client.delay(50 + (2 * current));
           maxAttained--;
 
           completed++;
@@ -61,7 +61,7 @@ describe('Throttle', function requestFoo() {
         };
         return throttle.queueAction(action);
       }
-      let totalActions = 30;
+      let totalActions = 8;
       let actions = [];
       _.times(totalActions, () => actions.push(createAction()));
       expect(actions.length, 'enough actions created').equal(totalActions);

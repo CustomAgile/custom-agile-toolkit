@@ -3,7 +3,7 @@ const CustomAgile = require('../built/index');
 const { Ref } = CustomAgile;
 const { expect } = require('chai');
 
-xdescribe('Ref', () => {
+describe('Ref', () => {
     describe('#isRef', () => {
         it('should handle invalid refs', () => {
             expect(Ref.isRef(6786876)).to.equal(false);

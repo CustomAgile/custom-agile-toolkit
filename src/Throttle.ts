@@ -21,10 +21,6 @@ export class Throttle {
     this.bottleneck = new Bottleneck({
       maxConcurrent: maxPromises
     });
-    // this.bottleneck.on('failed', (...args) => {
-    //   console.error("failed");
-    //   throw new Error("Error")
-    // })
   }
 
   /** Adds and action to the queue, attempts to execute the next action 

@@ -20,14 +20,14 @@ const client = new Client(
 );
 
 const getOptions = () => {
-  const options = client.defaultOptions;
+  const options = client.defaultQueryOptions;
   options.project = projectRef;
   options.workspace = workspaceRef;
   return options;
 };
 
 const { expect } = chai;
-xdescribe('Rally Client', function requestFoo() {
+describe('Rally Client', function requestFoo() {
   this.timeout(5000);
 
   it('should default the server to rally1 if no server is given in the options', function testServer() {
@@ -77,7 +77,7 @@ xdescribe('Rally Client', function requestFoo() {
         workspace: workspaceRef,
         pagesize: 1
       };
-      const options = client.defaultOptions;
+      const options = client.defaultQueryOptions;
       options.query = query.query;
       options.project = projectRef;
       options.workspace = workspaceRef;
@@ -87,7 +87,7 @@ xdescribe('Rally Client', function requestFoo() {
     });
 
     it('should get a page of story data', async () => {
-      const query = client.defaultOptions;
+      const query = client.defaultQueryOptions;
       const pagesize = 1;
       query.pagesize = pagesize;
       let stories = await client.query('hierarchicalrequirement', query);
