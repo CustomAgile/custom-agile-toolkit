@@ -84,6 +84,6 @@ export declare class Client {
     /**
      * @private
      */
-    static delay(millisecondsOfDelay: number, scopeFuction?: Function): Promise<{}>;
+    static delay(millisecondsOfDelay: number, scopeFuction?: Function): Promise<unknown>;
 }
 export {};

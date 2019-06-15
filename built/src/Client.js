@@ -290,7 +290,7 @@ class Client {
      */
     async delete(inputOrRef, params = {}, ignoreDelay = false) {
         let ref = inputOrRef;
-        ref = _.isObject(ref) ? ref._ref : ref;
+        ref = _.isObject(inputOrRef) ? ref._ref : ref;
         const resp = await this._request(ref, null, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 

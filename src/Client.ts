@@ -199,7 +199,7 @@ export class Client {
         arg2: Partial<Toolkit.Api.RallyObject> | Toolkit.Api.QueryOptions = {},
         arg3: Toolkit.Api.QueryOptions = {}
     ): Promise<Toolkit.Api.RallyObject> {
-        let type: string, url: string, rallyObject: any, params: Toolkit.Api.QueryOptions | Partial<Toolkit.Api.RallyObject>;
+        let type: string, url: string, rallyObject: Partial<Toolkit.Api.RallyObject>, params: Toolkit.Api.QueryOptions | Partial<Toolkit.Api.RallyObject>;
         rallyObject = _.isObject(arg1) ? arg1 : arg2;
         if (_.isString(arg1)) {
             type = arg1;
@@ -353,8 +353,8 @@ export class Client {
      * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     async delete(inputOrRef: string | Toolkit.Api.RallyObject, params = {}, ignoreDelay = false) {
-        let ref: any = inputOrRef;
-        ref = _.isObject(ref) ? ref._ref : ref;
+        let ref:any = inputOrRef;
+        ref = _.isObject(inputOrRef) ? ref._ref : ref;
         const resp = await this._request(ref, null, params, 'DELETE');
         if (!ignoreDelay) {
             // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
