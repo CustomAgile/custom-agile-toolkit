@@ -7,17 +7,11 @@ declare type ResponseData = {
 };
 export declare class Client {
     constructor(apiKey: string, options?: Toolkit.Api.ClientOptions);
-    /**
-     * @private
-     */
+    /** @private */
     apiKey: string;
+    throttle: Toolkit.Throttle;
     workspace: string;
     project: string;
-    /** Maximum concurrent requests that a client can make */
-    maxConcurrentRequests: number;
-    /**
-     * @private
-     */
     options: Toolkit.Api.ClientOptions;
     /**
      * The default Rally server Rally to be used
@@ -49,8 +43,14 @@ export declare class Client {
     getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject[]>;
     /**
      * @private
+     * @param typeOrRef The string name for a type `defect` or a string ref object `/defect/1234/`
+     * @param objectID
+     * @param params
+     * @param action
      */
-    _request(typeOrRef: string, objectID: any, params: {}, action: string): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "DELETE"): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "PUT"): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "GET"): Promise<any>;
     /**
      *
      *  Adds the delete and save options to each object

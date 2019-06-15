@@ -4,6 +4,7 @@ const f = require("node-fetch");
 const _ = require("lodash");
 const urlModule = require("url");
 const Ref_1 = require("./Ref");
+const Throttle_1 = require("./Throttle");
 const fetch = f;
 let inBrowser = false;
 let URLSearchParams = urlModule;
@@ -31,13 +32,11 @@ class Client {
             maxReadRetrys: 5,
             maxWriteRetrys: 0
         });
-        console.log(this.options);
         this.options.server = options.server || Client.defaultRallyServer;
         this.apiKey = apiKey;
         this.workspace = options.workspace;
         this.project = options.project;
-        this.maxConcurrentRequests = _.isNumber(options.maxConcurrentRequests) ? options.maxConcurrentRequests : 5;
-        ;
+        this.throttle = new Throttle_1.Throttle(this.options.maxConcurrentRequests);
     }
     /**
      * The default Rally server Rally to be used
@@ -84,15 +83,17 @@ class Client {
             headers.zsessionid = this.apiKey;
         }
         const body = JSON.stringify(request, null, 2);
-        const rawResponse = await fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            headers,
-            credentials: 'include',
-            body
-        });
-        /** @type {Promise<Toolkit.Api.Lookback.Response>} */
-        const resp = await Client.manageResponse(rawResponse);
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers,
+                credentials: 'include',
+                body
+            }, this.options.maxReadRetrys);
+            /** @type {Promise<Toolkit.Api.Lookback.Response>} */
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
         resp.$params = finalParams;
         resp.$hasMore = resp.$rawResponse.HasMore;
         const firstRawResponse = resp.$rawResponse;
@@ -132,14 +133,16 @@ class Client {
         if (this.apiKey) {
             headers.zsessionid = this.apiKey;
         }
-        const rawResponse = await fetch(url, {
-            method: 'GET',
-            mode: 'cors',
-            headers,
-            credentials: 'include'
-        });
-        /** @type {Promise<Toolkit.Api.QueryResponse>}  */
-        let resp = await Client.manageResponse(rawResponse);
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers,
+                credentials: 'include'
+            });
+            /** @type {Promise<Toolkit.Api.QueryResponse>}  */
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
         resp.$params = finalParams;
         resp.$hasMore = resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
         resp.$getNextPage = async () => {
@@ -193,14 +196,16 @@ class Client {
         const wrapper = {};
         wrapper[type] = rallyObject;
         const body = JSON.stringify(wrapper);
-        const rawResponse = await fetch(url, {
-            method: 'PUT',
-            mode: "cors",
-            headers,
-            credentials: 'include',
-            body
-        });
-        let resp = await Client.manageResponse(rawResponse);
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'PUT',
+                mode: "cors",
+                headers,
+                credentials: 'include',
+                body
+            });
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxWriteRetrys);
         resp.$params = params;
         this._decorateObject(resp);
         return resp;
@@ -227,21 +232,20 @@ class Client {
         if (this.apiKey) {
             headers.zsessionid = this.apiKey;
         }
-        const rawResponse = await fetch(url, {
-            method: 'GET',
-            mode: "cors",
-            headers,
-            credentials: 'include'
-        });
-        let resp = await Client.manageResponse(rawResponse);
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'GET',
+                mode: "cors",
+                headers,
+                credentials: 'include'
+            });
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
         resp.$params = finalParams;
         resp.forEach((d) => this._decorateObject(d));
         rallyObject[collectionName] = _.cloneDeep(_.defaults(resp, rallyObject[collectionName]));
         return resp;
     }
-    /**
-     * @private
-     */
     async _request(typeOrRef, objectID = null, params = {}, action) {
         let type = typeOrRef;
         if (Ref_1.Ref.isRef(typeOrRef)) {
@@ -255,13 +259,17 @@ class Client {
         const headers = {
             zsessionid: this.apiKey
         };
-        const rawResponse = await fetch(url, {
-            method: action,
-            mode: "cors",
-            headers,
-            credentials: 'include'
-        });
-        let resp = await Client.manageResponse(rawResponse);
+        //TODO make sure this is correct, do only puts count as writes?
+        let retryCount = action === "PUT" ? this.options.maxWriteRetrys : this.options.maxReadRetrys;
+        let resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: action,
+                mode: "cors",
+                headers,
+                credentials: 'include'
+            });
+            return await Client.manageResponse(rawResponse);
+        }, retryCount);
         resp = resp[_.keys(resp)[0]];
         resp.$params = finalParams;
         return resp;

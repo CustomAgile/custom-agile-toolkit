@@ -1,7 +1,8 @@
 import Bottleneck from "bottleneck";
 export declare class Throttle {
-    actions: Function[];
+    /** @private */
     maxPromises: number;
+    /** @private */
     bottleneck: Bottleneck;
     /**
      *
