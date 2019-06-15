@@ -1,7 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const bottleneck_1 = require("bottleneck");
-//push
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+const bottleneck_1 = require('bottleneck');
+// push
 // queue, if less than max execute immeadiatly
 // execute 
 // 
@@ -25,8 +26,7 @@ class Throttle {
         try {
             const resp = await this.bottleneck.wrap(action)();
             return resp;
-        }
-        catch (err) {
+        } catch (err) {
             if (maxRetries > 0) {
                 return this.queueAction(action, --maxRetries);
             }
@@ -35,4 +35,4 @@ class Throttle {
     }
 }
 exports.Throttle = Throttle;
-//# sourceMappingURL=Throttle.js.map
+// # sourceMappingURL=Throttle.js.map

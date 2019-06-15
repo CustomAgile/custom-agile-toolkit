@@ -1,6 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const _ = require("lodash");
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+const _ = require('lodash');
+
 class Common {
     constructor(client) {
         this.client = client;
@@ -10,13 +12,13 @@ class Common {
      * @param allRoots The list of root projects that the child projects will be returned from
      * @param  fetch The list of fields you want fetched on the children. The children field will be added to the user selection
      */
-    async getAllChildProjects(allRoots, fetch = ['Name', 'Workspace'], onEachPageComplete = (onePage) => []) {
-        const requiredFetchFields = _.uniq(["Children", ...fetch]);
+    async getAllChildProjects(allRoots, fetch = ['Name', 'Workspace'], onEachPageComplete = onePage => []) {
+        const requiredFetchFields = _.uniq(['Children', ...fetch]);
         if (!allRoots.length) {
             return [];
         }
         const allClosed = allRoots
-            .filter(r => {
+            .filter((r) => {
             if (!r.Children) {
                 return true;
             }
@@ -31,11 +33,9 @@ class Common {
             let result = [];
             try {
                 result = await this.client.getCollection(project, 'Children', { fetch: requiredFetchFields });
-            }
-            catch (err) {
+            } catch (err) {
                 allClosed.unshift(project);
-            }
-            finally {
+            } finally {
                 children = _.flatten([...children, ...result]);
                 onEachPageComplete(children);
                 if (allClosed.length) {
@@ -43,7 +43,7 @@ class Common {
                 }
             }
         };
-        //start some workers
+        // start some workers
         const respAll = await Promise.all([
             getNext(),
             getNext(),
@@ -56,10 +56,10 @@ class Common {
         const decendents = await this.getAllChildProjects(children, fetch, onEachPageComplete);
         let finalResponse = _.flatten([...decendents, ...allRoots, ...children]);
         const removeDupes = {};
-        finalResponse.forEach((s) => { removeDupes[s['_ref']] = s; });
+        finalResponse.forEach((s) => { removeDupes[s._ref] = s; });
         finalResponse = Object.values(removeDupes);
         return finalResponse;
     }
 }
 exports.Common = Common;
-//# sourceMappingURL=Common.js.map
+// # sourceMappingURL=Common.js.map
