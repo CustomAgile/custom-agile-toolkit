@@ -1,4 +1,4 @@
-# rally-node-sdk (AKA custom-agile-toolkit)
+# custom-agile-toolkit
 
 A custom toolkit for interacting with Rally ALM tools in a modern JavaScript and TypeScript Fashion
 
