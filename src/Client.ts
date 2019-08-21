@@ -169,7 +169,7 @@ export class Client {
             return await Client.manageResponse(rawResponse);
         }, this.options.maxReadRetrys);
         resp.$params = finalParams;
-        resp.$hasMore = resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
+        resp.$hasMore = finalParams.limit ? finalParams.start + finalParams.pagesize < finalParams.limit : resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
         resp.$getNextPage = async () => {
             if (resp.$hasMore) {
                 let newQuery = _.cloneDeep(query);
