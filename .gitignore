@@ -63,5 +63,3 @@ tempDocs
 *.conf
 
 *.html
-
-.npmrc
