@@ -154,7 +154,7 @@ export declare namespace Classes {
         LastUpdateDate?: Date;
         /**
          * Latest Discussion Age In Minutes
-         * The age in minutes of the latest discussion on this Defect.
+         * The age in minutes of the latest discussion on this Artifact.
          */
         LatestDiscussionAgeInMinutes?: number;
         /**
@@ -611,10 +611,20 @@ export declare namespace Classes {
          */
         Builds?: Build[];
         /**
+         * Builds Data
+         * The Builds associated with this Changeset
+         */
+        BuildsData?: string;
+        /**
          * Changes
          * Changes included in this Changeset
          */
         Changes?: Change[];
+        /**
+         * Changes Data
+         * The Changes associated with this Changeset
+         */
+        ChangesData?: string;
         /**
          * Commit Timestamp
          * Time the Changeset was created
@@ -1528,6 +1538,11 @@ export declare namespace Classes {
      */
     interface Iteration extends WorkspaceDomainObject {
         /**
+         * CascadedToChildren
+         * Whether this iteration is cascaded to iterations in children projects. Derived field.
+         */
+        CascadedToChildren?: boolean;
+        /**
          * Children Planned Velocity
          * Planned velocity for all "like iterations" in child projects
          */
@@ -1582,6 +1597,11 @@ export declare namespace Classes {
          * State of this iteration
          */
         State?: string;
+        /**
+         * SyncedWithParent
+         * Whether this iteration is synced with an iteration belonging to the parent project. Derived field.
+         */
+        SyncedWithParent?: boolean;
         /**
          * Task Actual Total
          * The total of task actuals for this iteration.
@@ -1794,6 +1814,21 @@ export declare namespace Classes {
          */
         Attachments?: Attachment[];
         /**
+         * Blocked
+         * Flag to determine if this artifact is blocked
+         */
+        Blocked?: boolean;
+        /**
+         * Blocked Reason
+         * The reason this artifact is blocked
+         */
+        BlockedReason?: string;
+        /**
+         * Blocker
+         * The blocker blocking this artifact.
+         */
+        Blocker?: Blocker;
+        /**
          * Child Story Predecessor Not Scheduled
          * Indicates whether any of the stories that roll up to this Portfolio Item have predecessors that are not scheduled in any Iteration
          */
@@ -1833,6 +1868,11 @@ export declare namespace Classes {
          * The WSJF Job Size for a Portfolio Item (minimum value is 1)
          */
         JobSize?: number;
+        /**
+         * Last Rollup Date
+         * The last time rollup was calculated
+         */
+        LastRollupDate?: Date;
         /**
          * Leaf Story Count
          * Count of all leaf user stories (stories without children) associated with this Portfolio Item.
@@ -2234,6 +2274,11 @@ export declare namespace Classes {
          */
         Accepted?: number;
         /**
+         * CascadedToChildren
+         * Whether this release is cascaded to releases in children projects. Derived field.
+         */
+        CascadedToChildren?: boolean;
+        /**
          * Children Planned Velocity
          * Planned velocity for all "like releases" in child projects
          */
@@ -2293,6 +2338,11 @@ export declare namespace Classes {
          * State of this release
          */
         State?: string;
+        /**
+         * SyncedWithParent
+         * Whether this release is synced with an release belonging to the parent project. Derived field.
+         */
+        SyncedWithParent?: boolean;
         /**
          * Task Actual Total
          * The total of task actuals for this release.
@@ -2613,22 +2663,197 @@ export declare namespace Classes {
      * null
      *
      */
-    interface ScheduledTestCase extends Artifact {
+    interface ScheduledTestCase extends TestCase {
+        /**
+         * Created By
+         * User who created the artifact
+         */
+        CreatedBy?: User;
+        /**
+         * Defect Status
+         * The status of the Defects associated with this artifact.
+         */
+        DefectStatus?: string;
+        /**
+         * Defects
+         * The defects associated with the Test Case
+         */
+        Defects?: Defect[];
+        /**
+         * Description
+         * Artifact description, which is a rich-text field.
+         */
+        Description?: string;
+        /**
+         * Discussion
+         * The discussions for this artifact.
+         */
+        Discussion?: ConversationPost[];
+        /**
+         * Display Color
+         * Display color for artifacts
+         */
+        DisplayColor?: string;
+        /**
+         * Drag And Drop Rank
+         * Alphanumeric rank value
+         */
+        DragAndDropRank?: string;
+        /**
+         * Expedite
+         * Whether or not this Artifact is expedited
+         */
+        Expedite?: boolean;
+        /**
+         * Formatted ID
+         * The formatted ID for an object.  This is automatically assigned when an object is created and can never be changed.  In queries, only include the integer portion and omit the prefix.
+         */
+        FormattedID?: number;
+        /**
+         * Last Build
+         * The last result build number.  This is automatically calculated off of the set of test case results.
+         */
+        LastBuild?: string;
         /**
          * Last Result
          * The last result.  This is automatically calculated off of the set of scheduled test case results.
          */
         LastResult?: TestCaseResult;
         /**
+         * Last Run
+         * The last result date.  This is automatically calculated off of the set of test case results.
+         */
+        LastRun?: Date;
+        /**
+         * Last Update Date
+         * The last update date of an object.  It is automatically assigned when an object is created or updated.
+         */
+        LastUpdateDate?: Date;
+        /**
+         * Last Verdict
+         * The last result verdict.  This is automatically calculated off of the set of test case results.
+         */
+        LastVerdict?: string;
+        /**
+         * Latest Discussion Age In Minutes
+         * The age in minutes of the latest discussion on this Artifact.
+         */
+        LatestDiscussionAgeInMinutes?: number;
+        /**
+         * Method
+         * Is this a manual or automated test case.
+         */
+        Method?: string;
+        /**
+         * Milestones
+         * The milestones associated with this artifact
+         */
+        Milestones?: Milestone[];
+        /**
+         * Name
+         * The name of the artifact
+         */
+        Name?: string;
+        /**
+         * Notes
+         * Artifact notes, which is a rich-text field.
+         */
+        Notes?: string;
+        /**
+         * Objective
+         * Objective of this test case
+         */
+        Objective?: string;
+        /**
+         * Owner
+         * Artifact owner, a reference to the user.
+         */
+        Owner?: User;
+        /**
+         * Package
+         * Test case package
+         */
+        Package?: string;
+        /**
+         * Post Conditions
+         * Post-conditions to expect once this test case is executed
+         */
+        PostConditions?: string;
+        /**
+         * Pre Conditions
+         * Pre-conditions that should be setup before this test case is executed
+         */
+        PreConditions?: string;
+        /**
+         * Priority
+         * Test case priority
+         */
+        Priority?: string;
+        /**
+         * Project
+         * The project this artifact is associated with.
+         */
+        Project?: Project;
+        /**
+         * Ready
+         * Whether or not this Artifact is ready
+         */
+        Ready?: boolean;
+        /**
+         * Results
+         * A collection of result objects for this scheduled test case
+         */
+        Results?: TestCaseResult[];
+        /**
+         * Risk
+         * Test case risk
+         */
+        Risk?: string;
+        /**
+         * Steps
+         * A collection of steps for this test case
+         */
+        Steps?: TestCaseStep[];
+        /**
+         * Tags
+         * Tags for Artifact
+         */
+        Tags?: Tag[];
+        /**
          * Test Case
          * The test case that has been scheduled.
          */
         TestCase?: TestCase;
         /**
+         * Test Folder
+         * Test Folder
+         */
+        TestFolder?: TestFolder;
+        /**
          * Test Set
          * The parent test set.
          */
         TestSet?: TestSet;
+        /**
+         * Type
+         * Type of test case (see allowed values)
+         */
+        Type?: string;
+        /**
+         * Validation Expected Result
+         * Validation outcome
+         */
+        ValidationExpectedResult?: string;
+        /**
+         * Validation Input
+         * Validation step
+         */
+        ValidationInput?: string;
+        /**
+         * Work Product
+         * The work product that is the subject of this test case (can only be a Requirement or a Defect).
+         */
+        WorkProduct?: SchedulableArtifact;
     }
     /**
      * Scope
@@ -2875,6 +3100,11 @@ export declare namespace Classes {
          */
         CustomSSOLogoutURL?: string;
         /**
+         * CustomerType
+         * Customer Type
+         */
+        CustomerType?: string;
+        /**
          * Disabled Users Count
          * The number of disabled users on this subscription.
          */
@@ -2909,6 +3139,11 @@ export declare namespace Classes {
          * Whether JSONP functionality is enabled for this subscription.
          */
         JSONPEnabled?: boolean;
+        /**
+         * LicenseType
+         * License Type
+         */
+        LicenseType?: string;
         /**
          * Maximum Custom User Fields
          * The maximum number of custom user fields allowed for this subscription.
@@ -2989,6 +3224,11 @@ export declare namespace Classes {
          * Subscription-level user session timeout time in seconds.
          */
         SessionTimeoutSeconds?: number;
+        /**
+         * SiteId
+         * Customer support ID
+         */
+        SiteId?: string;
         /**
          * SSO Redirect Enabled
          * Whether api keys functionality is enabled for this subscription.
@@ -3304,7 +3544,7 @@ export declare namespace Classes {
         ValidationInput?: string;
         /**
          * Work Product
-         * The work product that is is the subject of this test case (can only be a Requirement or a Defect).
+         * The work product that is the subject of this test case (can only be a Requirement or a Defect).
          */
         WorkProduct?: SchedulableArtifact;
     }
@@ -3930,6 +4170,11 @@ export declare namespace Classes {
          * On-Premise LDAP Username
          */
         OnpremLdapUsername?: string;
+        /**
+         * Override SSO Redirect
+         * Override SSO Redirect
+         */
+        OverrideSSORedirect?: string;
         /**
          * Password Expires
          * Number of days until user password expires

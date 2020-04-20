@@ -1,10 +1,8 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-const fetch = require('node-fetch');
-const _ = require('lodash');
-const url = require('url');
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fetch = require("node-fetch");
+const _ = require("lodash");
+const url = require("url");
 const { URLSearchParams } = url;
 class Client {
     constructor(apiKey, options = {
@@ -100,7 +98,8 @@ class Client {
                 allResponses.$rawResponse = firstRawResponse;
                 return allResponses;
             };
-        } else {
+        }
+        else {
             resp.$getNextPage = async () => { throw new Error('No more pages in this request'); };
             resp.$getAll = async () => _.cloneDeep(resp);
         }
@@ -133,10 +132,12 @@ class Client {
             type = arg1;
             rallyObject = arg2;
             params = arg3;
-        } else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
+        }
+        else if (_.isObject(rallyObject) && _.isString(rallyObject._ref)) {
             params = arg2;
             rallyObject = arg1;
-        } else {
+        }
+        else {
             throw new Error('Input must be either a string representing a type like "Defect" or an object containing a string field "_ref"');
         }
         const headers = {
@@ -148,12 +149,14 @@ class Client {
         }
         if (rallyObject._ref) {
             url = Client._prepareUrl(this.options.server, Client.getTypeFromRef(rallyObject._ref), Client.getIdFromRef(rallyObject._ref), params);
-        } else {
+        }
+        else {
             const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
             url = Client._prepareUrl(this.options.server, type, action, params);
             if (_.isNumber(rallyObject.ObjectID)) {
                 url = `${url}/${rallyObject.ObjectID}?`;
-            } else {
+            }
+            else {
                 url = `${url}/create?`;
             }
         }
@@ -276,7 +279,8 @@ class Client {
      * Gets the ID portion of a ref
      */
     static getIdFromRef(ref) {
-        if (!_.isString(ref)) { return null; }
+        if (!_.isString(ref))
+            return null;
         const [id] = ref.split('/').reverse();
         return Number(id) || null;
     }
@@ -284,7 +288,8 @@ class Client {
      * Gets the type portion of a ref
      */
     static getTypeFromRef(ref) {
-        if (!_.isString(ref)) { return null; }
+        if (!_.isString(ref))
+            return null;
         const [, type = null] = ref.split('/').reverse();
         return type;
     }
@@ -317,7 +322,8 @@ class Client {
      * @private
      */
     static _prepareUrl(server, type, action = '', params = {}) {
-        if (_.isNumber(action)) { action = action.toString(); }
+        if (_.isNumber(action))
+            action = action.toString();
         if (!params.workspace) {
             delete params.workspace;
         }
@@ -341,4 +347,4 @@ class Client {
     }
 }
 exports.Client = Client;
-// # sourceMappingURL=Client.js.map
+//# sourceMappingURL=Client.js.map
