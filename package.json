@@ -1,6 +1,6 @@
 {
-    "name": "@customagile/custom-agile-toolkit",
-    "version": "1.0.4",
+    "name": "custom-agile-toolkit",
+    "version": "1.0.5",
     "homepage": "https://github.com/CustomAgile/custom-agile-toolkit/blob/master/README.md",
     "main": "built/index.js",
     "types": "declare/index.d.ts",
