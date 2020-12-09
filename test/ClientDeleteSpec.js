@@ -11,7 +11,8 @@ const client = new Client(
   apiKey,
   {
     project: projectRef,
-    workspace: workspaceRef
+    workspace: workspaceRef,
+    maxWriteRetrys: 20
   }
 );
 
@@ -22,7 +23,7 @@ function delay(t, v) {
 }
 const { expect } = chai;
 describe('Rally Client', function requestFoo() {
-  this.timeout(5000);
+  this.timeout(50000);
 
   describe('delete', function getRef() {
     describe('happy path', () => {

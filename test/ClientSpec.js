@@ -15,7 +15,7 @@ const client = new Client(
   apiKey,
   {
     project: projectRef,
-    workspace: workspaceRef
+    workspace: workspaceRef,
   }
 );
 
@@ -119,10 +119,10 @@ describe('Rally Client', function requestFoo() {
     });
 
     it('should handle getNextPage error', async () => {
-      client.query('project', { pagesize: 2000 })
-        .then((result) => {
+      return client.query('project', { pagesize: 2000 })
+        .then(async (result) => {
           try {
-            result.$getNextPage();
+            const nextPage = await result.$getNextPage();
             expect.fail('Error not caught');
           } catch (err) {
             expect(err);
@@ -325,11 +325,12 @@ describe('Rally Client', function requestFoo() {
     const id = 206176979708;
     const type = 'defect';
     const shortRef = `/${type}/${id}`;
+    this.retries(70);
     let defectObject, projectObject;
     before(async () => {
       defectObject = await client.get(shortRef);
       projectObject = await client.get(projectRef);
-      
+
       const rawTags = defectObject.Tags._tagsNameArray;
       expect(rawTags.length).to.equal(2, 'Precheck failed expected two tags');
     });
@@ -360,15 +361,20 @@ describe('Rally Client', function requestFoo() {
   });
   // final cleanup
   after(async () => {
-    const query = {
-      query: '(c_CreatedByAutomatedTest = true)',
-      project: projectRef,
-      workspace: workspaceRef
-    };
-    let defectsResponse = await client.query('Defect', query);
-    const deletePromises = defectsResponse.map(d => d.$delete());
+    try {
+      const query = {
+        query: '(c_CreatedByAutomatedTest = true)',
+        project: projectRef,
+        workspace: workspaceRef
+      };
+      let defectsResponse = await client.query('Defect', query);
+      const deletePromises = defectsResponse.map(d => d.$delete());
 
-    const resp = await Promise.all(deletePromises);
-    return { resp };
+      const resp = await Promise.all(deletePromises);
+      return {resp};
+    }
+    finally {
+      return {resp:{}};
+    }
   });
 });

@@ -7,12 +7,7 @@ import { Ref } from './Ref';
 import { Throttle } from './Throttle';
 const fetch: any = f;
 let inBrowser = false;
-let URLSearchParams: any = urlModule;
 
-if (urlModule.URLSearchParams) {
-    inBrowser = true;
-    URLSearchParams = urlModule.URLSearchParams || urlModule;
-}
 type ResponseData = {
     ok: any;
     statusText: any;

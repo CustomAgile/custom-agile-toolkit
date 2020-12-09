@@ -2,16 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const f = require("node-fetch");
 const _ = require("lodash");
-const urlModule = require("url");
 const Ref_1 = require("./Ref");
 const Throttle_1 = require("./Throttle");
 const fetch = f;
 let inBrowser = false;
-let URLSearchParams = urlModule;
-if (urlModule.URLSearchParams) {
-    inBrowser = true;
-    URLSearchParams = urlModule.URLSearchParams || urlModule;
-}
 class Client {
     constructor(apiKey, options = {
         server: Client.defaultRallyServer,
@@ -144,7 +138,7 @@ class Client {
             return await Client.manageResponse(rawResponse);
         }, this.options.maxReadRetrys);
         resp.$params = finalParams;
-        resp.$hasMore = resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
+        resp.$hasMore = finalParams.limit ? finalParams.start + finalParams.pagesize < finalParams.limit : resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
         resp.$getNextPage = async () => {
             if (resp.$hasMore) {
                 let newQuery = _.cloneDeep(query);
