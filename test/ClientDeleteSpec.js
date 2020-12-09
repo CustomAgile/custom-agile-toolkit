@@ -8,11 +8,11 @@ const workspace = 199606969760;
 const projectRef = `/project/${project}`;
 const workspaceRef = `/workspace/${workspace}`;
 const client = new Client(
-  apiKey, 
-  {   
-    project: projectRef, 
-    workspace: workspaceRef 
-  } 
+  apiKey,
+  {
+    project: projectRef,
+    workspace: workspaceRef
+  }
 );
 
 function delay(t, v) {
@@ -26,6 +26,8 @@ describe('Rally Client', function requestFoo() {
 
   describe('delete', function getRef() {
     describe('happy path', () => {
+      this.retries(70);
+
       let defectToDeleted;
 
       beforeEach(async () => {
@@ -38,6 +40,8 @@ describe('Rally Client', function requestFoo() {
         defectToDeleted = await client.save('Defect', defect);
       });
       it('Should delete the defect by passing the object', async () => {
+        this.retries(7);
+
         expect(defectToDeleted);
         await client.delete(defectToDeleted);
         try {
@@ -50,6 +54,8 @@ describe('Rally Client', function requestFoo() {
       });
 
       it('Should delete the defect by using the method on the object', async () => {
+        this.retries(7);
+
         expect(defectToDeleted);
         await defectToDeleted.$delete();
 
@@ -73,7 +79,8 @@ describe('Rally Client', function requestFoo() {
     });
 
     it('should de able to delete using $delete on query results', async function queryDelete() {
-      this.retries(7);
+      this.retries(70);
+      
 
       const bulkDefect = {
         Project: projectRef,
@@ -90,7 +97,7 @@ describe('Rally Client', function requestFoo() {
 
       const deletePromises = defectsResponse.map(d => d.$delete());
       const deleteResponse = await Promise.all(deletePromises);
-      expect(deletePromises.length > 0).to.equal(true);
+      expect(deletePromises.length > 0, "Expecting to have a defect to delete").to.equal(true);
       try {
         const { FormattedID } = await client.get(defectToDeleted2._ref);
         expect.fail(null, null, `Error expected ${FormattedID}`);
@@ -102,15 +109,21 @@ describe('Rally Client', function requestFoo() {
   });
   // final cleanup
   after(async () => {
-    const query = {
-      query: '(c_CreatedByAutomatedTest = true)',
-      project: projectRef,
-      workspace: workspaceRef
-    };
-    let defectsResponse = await client.query('Defect', query);
-    const deletePromises = defectsResponse.map(d => d.$delete());
+    try{
 
-    const resp = await Promise.all(deletePromises);
-    return { resp };
+      const query = {
+        query: '(c_CreatedByAutomatedTest = true)',
+        project: projectRef,
+        workspace: workspaceRef
+      };
+      let defectsResponse = await client.query('Defect', query);
+      const deletePromises = defectsResponse.map(d => d.$delete());
+  
+      const resp = await Promise.all(deletePromises);
+    }
+    catch{
+
+    }
+    return {  };
   });
 });
