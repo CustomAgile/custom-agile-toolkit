@@ -23,7 +23,7 @@ const client = new Client(apiKey, { options });
 Available options (Toolkit.Api.ClientOptions):
 
 | Name          | Type     | default                       | format             |
-| --------- --- | -------- | ------------------------------| -------------------|
+|------------|--------|------------------------------|-------------------| 
 | server        | string   | 'https://rally1.rallydev.com' | Standard URL       |
 | project       | string   | undefined                     | '/project/12345'   |
 | workspace     | string   | undefined                     | '/workspace/12345' |
