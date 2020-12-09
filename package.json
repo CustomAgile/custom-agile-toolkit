@@ -5,7 +5,7 @@
     "main": "built/index.js",
     "types": "declare/index.d.ts",
     "author": "Charles Ferentchak",
-    "license": "gpl",
+    "license": "mit",
     "dependencies": {
         "bottleneck": "^2.19.1",
         "lodash": "2.4.2",
