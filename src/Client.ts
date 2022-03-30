@@ -48,11 +48,11 @@ export class Client {
     }
 
     /** @private */
-    apiKey: string
-    throttle: Toolkit.Throttle
-    workspace: string
-    project: string
-    options: Toolkit.Api.ClientOptions
+    apiKey: string;
+    throttle: Toolkit.Throttle;
+    workspace: string;
+    project: string;
+    options: Toolkit.Api.ClientOptions;
 
     /**
      * The default Rally server Rally to be used
@@ -60,7 +60,6 @@ export class Client {
     static get defaultRallyServer() {
         return 'https://rally1.rallydev.com';
     }
-
 
     /** The default server for Rally to be used*/
     static async manageResponse(response: ResponseData) {
@@ -97,17 +96,21 @@ export class Client {
         const finalParams = _.defaults(request, Client.defaultLookbackRequest);
         let headers: any = {};
         if (this.apiKey) {
-            headers.zsessionid = this.apiKey
+            headers.zsessionid = this.apiKey;
         }
         const body = JSON.stringify(request, null, 2);
         const resp = await this.throttle.queueAction(async () => {
-            const rawResponse = await fetch(url, {
-                method: 'POST',
-                mode: 'cors',
-                headers,
-                credentials: 'include',
-                body
-            }, this.options.maxReadRetrys);
+            const rawResponse = await fetch(
+                url,
+                {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers,
+                    credentials: 'include',
+                    body
+                },
+                this.options.maxReadRetrys
+            );
             /** @type {Promise<Toolkit.Api.Lookback.Response>} */
             return await Client.manageResponse(rawResponse);
         }, this.options.maxReadRetrys);
@@ -119,8 +122,7 @@ export class Client {
                 const newRequest = _.cloneDeep(request);
                 newRequest.start += newRequest.pagesize;
                 return this.queryLookback(newRequest, workspaceId);
-            }
-            else {
+            } else {
                 throw new Error('No more pages in this request');
             }
         };
@@ -134,7 +136,9 @@ export class Client {
                 currentResponse = await currentResponse.$getNextPage();
                 allResponses = [...currentResponse, ...allResponses];
             }
-            allResponses.$getNextPage = async () => { throw new Error('No more pages in this request'); };
+            allResponses.$getNextPage = async () => {
+                throw new Error('No more pages in this request');
+            };
             allResponses.$getAll = async () => allResponses;
             allResponses.$hasMore = false;
             allResponses.$rawResponse = firstRawResponse;
@@ -145,13 +149,12 @@ export class Client {
     }
 
     /** returns an array modified to have additional meta data on it containing the results */
-    async query(type: string, query: Toolkit.Api.QueryOptions = {}, params = {}):
-        Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
+    async query(type: string, query: Toolkit.Api.QueryOptions = {}, params = {}): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
         const finalParams = _.defaults(query, params, this.defaultQueryOptions);
         const url = Client._prepareUrl(this.options.server, type, false, finalParams);
         let headers: any = {};
         if (this.apiKey) {
-            headers.zsessionid = this.apiKey
+            headers.zsessionid = this.apiKey;
         }
         const resp = await this.throttle.queueAction(async () => {
             const rawResponse = await fetch(url, {
@@ -170,8 +173,7 @@ export class Client {
                 let newQuery = _.cloneDeep(query);
                 newQuery.start += query.pagesize;
                 return this.query(type, newQuery, params);
-            }
-            else {
+            } else {
                 throw new Error('No more pages in this request');
             }
         };
@@ -185,10 +187,10 @@ export class Client {
      * @param type The type of object to be created
      * @param rallyObject A new or existing Rally object
      */
-    async save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>
-    async save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>
-    async save(rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>
-    async save(rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>
+    async save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>;
+    async save(type: string, rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
+    async save(rallyObject: Partial<Toolkit.Api.RallyObject>, queryOptions: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject>;
+    async save(rallyObject: Partial<Toolkit.Api.RallyObject>): Promise<Toolkit.Api.RallyObject>;
     async save(
         arg1: Partial<Toolkit.Api.RallyObject> | string,
         arg2: Partial<Toolkit.Api.RallyObject> | Toolkit.Api.QueryOptions = {},
@@ -208,18 +210,13 @@ export class Client {
         }
         let headers: any = {};
         if (this.apiKey) {
-            headers.zsessionid = this.apiKey
+            headers.zsessionid = this.apiKey;
         }
         if (!rallyObject.Project && this.options.project) {
             rallyObject.Project = this.options.project;
         }
         if (rallyObject._ref) {
-            url = Client._prepareUrl(
-                this.options.server,
-                Client.getTypeFromRef(rallyObject._ref),
-                Client.getIdFromRef(rallyObject._ref),
-                params
-            );
+            url = Client._prepareUrl(this.options.server, Client.getTypeFromRef(rallyObject._ref), Client.getIdFromRef(rallyObject._ref), params);
         } else {
             const action = _.isNumber(rallyObject.ObjectID) ? `${rallyObject.ObjectID}` : 'create';
 
@@ -235,16 +232,13 @@ export class Client {
         wrapper[type] = rallyObject;
         const body = JSON.stringify(wrapper);
         const resp = await this.throttle.queueAction(async () => {
-            const rawResponse = await fetch(
-                url,
-                {
-                    method: 'PUT',
-                    mode: "cors",
-                    headers,
-                    credentials: 'include',
-                    body
-                }
-            );
+            const rawResponse = await fetch(url, {
+                method: 'PUT',
+                mode: 'cors',
+                headers,
+                credentials: 'include',
+                body
+            });
 
             return await Client.manageResponse(rawResponse);
         }, this.options.maxWriteRetrys);
@@ -274,12 +268,12 @@ export class Client {
         const url = Client._prepareUrl(this.options.server, type, action, finalParams);
         let headers: any = {};
         if (this.apiKey) {
-            headers.zsessionid = this.apiKey
+            headers.zsessionid = this.apiKey;
         }
         const resp = await this.throttle.queueAction(async () => {
             const rawResponse = await fetch(url, {
                 method: 'GET',
-                mode: "cors",
+                mode: 'cors',
                 headers,
                 credentials: 'include'
             });
@@ -292,17 +286,16 @@ export class Client {
         return resp;
     }
 
-
     /**
      * @private
      * @param typeOrRef The string name for a type `defect` or a string ref object `/defect/1234/`
-     * @param objectID 
-     * @param params 
-     * @param action 
+     * @param objectID
+     * @param params
+     * @param action
      */
-    async _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "DELETE"): Promise<any>
-    async _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "PUT"): Promise<any>
-    async _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "GET"): Promise<any>
+    async _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: 'DELETE'): Promise<any>;
+    async _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: 'PUT'): Promise<any>;
+    async _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: 'GET'): Promise<any>;
     async _request(typeOrRef: string, objectID = null, params = {}, action: string): Promise<any> {
         let type = typeOrRef;
         if (Ref.isRef(typeOrRef)) {
@@ -317,11 +310,11 @@ export class Client {
             zsessionid: this.apiKey
         };
         //TODO make sure this is correct, do only puts count as writes?
-        let retryCount = action === "PUT" ? this.options.maxWriteRetrys : this.options.maxReadRetrys;
+        let retryCount = action === 'PUT' ? this.options.maxWriteRetrys : this.options.maxReadRetrys;
         let resp = await this.throttle.queueAction(async () => {
             const rawResponse = await fetch(url, {
                 method: action,
-                mode: "cors",
+                mode: 'cors',
                 headers,
                 credentials: 'include'
             });
@@ -333,7 +326,7 @@ export class Client {
     }
 
     /**
-     * 
+     *
      *  Adds the delete and save options to each object
      */
     async _decorateObject(rallyObject: Toolkit.Api.RallyObject) {
@@ -342,17 +335,17 @@ export class Client {
     }
 
     /**
-     * 
+     *
      * @param  inputOrRef Either a Rally object or the ref for a Rally object
      * @param  params Optional Params to be sent with the request
      * @param  ignoreDelay Pass true if you don't want to wait 500 ms longer to return. This time gives the Rally server a chance to finish deleting
      */
     async delete(inputOrRef: string | Toolkit.Api.RallyObject, params = {}, ignoreDelay = false) {
-        let ref:any = inputOrRef;
+        let ref: any = inputOrRef;
         ref = _.isObject(inputOrRef) ? ref._ref : ref;
         const resp = await this._request(ref, null, params, 'DELETE');
         if (!ignoreDelay) {
-            // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
+            // delete returns before the server has finished deleting adding in a fake wait to hope it is done before
             const delayResult = await Client.delay(500);
         }
         return resp;
@@ -439,9 +432,9 @@ export class Client {
     /**
      * @private
      */
-    static async delay(millisecondsOfDelay: number, scopeFuction: Function = () => { }) {
-        return new Promise(((resolve) => {
+    static async delay(millisecondsOfDelay: number, scopeFuction: Function = () => {}) {
+        return new Promise((resolve) => {
             setTimeout(resolve.bind(null, scopeFuction), millisecondsOfDelay);
-        }));
+        });
     }
 }
