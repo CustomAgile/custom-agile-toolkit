@@ -4,5 +4,8 @@
     "eslint.alwaysShowStatus": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
-    }
+    },
+    "editor.detectIndentation": false,
+    "prettier.tabWidth": 4,
+    "prettier.quoteProps": "preserve"
 }

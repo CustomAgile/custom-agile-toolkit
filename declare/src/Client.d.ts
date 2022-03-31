@@ -41,6 +41,8 @@ export declare class Client {
      * Gets a subcollection stored on the Rally object
      */
     getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject[]>;
+    /** returns an array of cumulative flow data from Rally analytics */
+    getCfdData(workspaceUUID: string, projectUUID: string, startDate: string, endDate?: string): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
     /**
      * @private
      * @param typeOrRef The string name for a type `defect` or a string ref object `/defect/1234/`
@@ -48,9 +50,9 @@ export declare class Client {
      * @param params
      * @param action
      */
-    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "DELETE"): Promise<any>;
-    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "PUT"): Promise<any>;
-    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: "GET"): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: 'DELETE'): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: 'PUT'): Promise<any>;
+    _request(typeOrRef: string, objectID: any, params: Toolkit.Api.QueryOptions, action: 'GET'): Promise<any>;
     /**
      *
      *  Adds the delete and save options to each object

@@ -286,6 +286,28 @@ export class Client {
         return resp;
     }
 
+    /** returns an array of cumulative flow data from Rally analytics */
+    async getCfdData(workspaceUUID: string, projectUUID: string, startDate: string, endDate: string = new Date().toISOString()): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
+        const url = `${this.options.server}/apps/cleo/analytics/cfd?workspaceUuid=${workspaceUUID}&projectUuid=${projectUUID}&startDate=${startDate}&endDate=${endDate}&cfdType=flowState`;
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers,
+                credentials: 'include'
+            });
+
+            /** @type {Promise<Toolkit.Api.QueryResponse>}  */
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
+
+        return resp.data || resp;
+    }
+
     /**
      * @private
      * @param typeOrRef The string name for a type `defect` or a string ref object `/defect/1234/`
