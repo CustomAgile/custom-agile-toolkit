@@ -64,3 +64,4 @@ tempDocs
 
 *.html
 .npmrc
+.DS_Store
