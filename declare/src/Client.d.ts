@@ -16,7 +16,7 @@ export declare class Client {
     /**
      * The default Rally server Rally to be used
      */
-    static readonly defaultRallyServer: string;
+    static get defaultRallyServer(): string;
     /** The default server for Rally to be used*/
     static manageResponse(response: ResponseData): Promise<any>;
     /** Returns a collection of results from the Lookback Api */
@@ -43,6 +43,8 @@ export declare class Client {
     getCollection(rallyObject: Toolkit.Api.RallyObject, collectionName: string, params?: Toolkit.Api.QueryOptions): Promise<Toolkit.Api.RallyObject[]>;
     /** returns an array of cumulative flow data from Rally analytics */
     getCfdData(workspaceUUID: string, projectUUID: string, startDate: string, endDate?: string): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
+    /** returns an array of cumulative flow data from Rally analytics */
+    getCfdDataNewEndpoint(workspaceUUID: string, projectUUID: string, startDate: string, endDate?: string): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>>;
     /**
      * @private
      * @param typeOrRef The string name for a type `defect` or a string ref object `/defect/1234/`
@@ -77,8 +79,8 @@ export declare class Client {
      * Gets the type portion of a ref
      */
     static getTypeFromRef(ref: string): string;
-    readonly defaultQueryOptions: Toolkit.Api.QueryOptions;
-    static readonly defaultLookbackRequest: Toolkit.Api.QueryOptions;
+    get defaultQueryOptions(): Toolkit.Api.QueryOptions;
+    static get defaultLookbackRequest(): Toolkit.Api.QueryOptions;
     /**
      * @private
      */

@@ -3,7 +3,7 @@
     "eslint.run": "onType",
     "eslint.alwaysShowStatus": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "editor.detectIndentation": false,
     "prettier.tabWidth": 4,

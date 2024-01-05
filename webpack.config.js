@@ -1,5 +1,7 @@
 module.exports = {
     entry: './index.ts',
+    mode: 'production', // 'development',
+    target: 'web',
     output: {
         filename: 'web.js',
         path: `${__dirname}`,

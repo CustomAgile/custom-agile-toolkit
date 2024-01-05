@@ -111,7 +111,9 @@ class Client {
                 currentResponse = await currentResponse.$getNextPage();
                 allResponses = [...currentResponse, ...allResponses];
             }
-            allResponses.$getNextPage = async () => { throw new Error('No more pages in this request'); };
+            allResponses.$getNextPage = async () => {
+                throw new Error('No more pages in this request');
+            };
             allResponses.$getAll = async () => allResponses;
             allResponses.$hasMore = false;
             allResponses.$rawResponse = firstRawResponse;
@@ -138,16 +140,38 @@ class Client {
             return await Client.manageResponse(rawResponse);
         }, this.options.maxReadRetrys);
         resp.$params = finalParams;
-        resp.$hasMore = finalParams.limit ? finalParams.start + finalParams.pagesize < finalParams.limit : resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
+        resp.$hasMore =
+            finalParams.limit && finalParams.limit !== Infinity
+                ? finalParams.start + finalParams.pagesize < finalParams.limit
+                : resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
+        const firstRawResponse = resp.$rawResponse;
         resp.$getNextPage = async () => {
             if (resp.$hasMore) {
-                let newQuery = _.cloneDeep(query);
+                let newQuery = _.cloneDeep(finalParams);
                 newQuery.start += query.pagesize;
                 return this.query(type, newQuery, params);
             }
             else {
                 throw new Error('No more pages in this request');
             }
+        };
+        resp.$getAll = async () => {
+            // TODO: eventually make this more concurrent
+            // await Promise.all([who(), what(), where()]);
+            let currentResponse = resp;
+            currentResponse.$hasMore = resp.$hasMore;
+            let allResponses = currentResponse;
+            while (currentResponse.$hasMore) {
+                currentResponse = await currentResponse.$getNextPage();
+                allResponses = [...currentResponse, ...allResponses];
+            }
+            allResponses.$getNextPage = async () => {
+                throw new Error('No more pages in this request');
+            };
+            allResponses.$getAll = async () => allResponses;
+            allResponses.$hasMore = false;
+            allResponses.$rawResponse = firstRawResponse;
+            return allResponses;
         };
         resp.forEach((d) => this._decorateObject(d));
         return resp;
@@ -193,7 +217,7 @@ class Client {
         const resp = await this.throttle.queueAction(async () => {
             const rawResponse = await fetch(url, {
                 method: 'PUT',
-                mode: "cors",
+                mode: 'cors',
                 headers,
                 credentials: 'include',
                 body
@@ -229,7 +253,7 @@ class Client {
         const resp = await this.throttle.queueAction(async () => {
             const rawResponse = await fetch(url, {
                 method: 'GET',
-                mode: "cors",
+                mode: 'cors',
                 headers,
                 credentials: 'include'
             });
@@ -239,6 +263,44 @@ class Client {
         resp.forEach((d) => this._decorateObject(d));
         rallyObject[collectionName] = _.cloneDeep(_.defaults(resp, rallyObject[collectionName]));
         return resp;
+    }
+    /** returns an array of cumulative flow data from Rally analytics */
+    async getCfdData(workspaceUUID, projectUUID, startDate, endDate = new Date().toISOString()) {
+        const url = `${this.options.server}/apps/cleo/analytics/cfd?workspaceUuid=${workspaceUUID}&projectUuid=${projectUUID}&startDate=${startDate}&endDate=${endDate}&cfdType=flowState`;
+        let headers = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers,
+                credentials: 'include'
+            });
+            /** @type {Promise<Toolkit.Api.QueryResponse>}  */
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
+        return resp.data || resp;
+    }
+    /** returns an array of cumulative flow data from Rally analytics */
+    async getCfdDataNewEndpoint(workspaceUUID, projectUUID, startDate, endDate = new Date().toISOString()) {
+        const url = `${this.options.server}/apps/garthe/securedV1/cfd/project/${projectUUID}?workspaceUuid=${workspaceUUID}&scopeDown=false&scopeUp=false&startDate=${startDate}&endDate=${endDate}&cfdType=flowState`;
+        let headers = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers,
+                credentials: 'include'
+            });
+            /** @type {Promise<Toolkit.Api.QueryResponse>}  */
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
+        return resp.data || resp;
     }
     async _request(typeOrRef, objectID = null, params = {}, action) {
         let type = typeOrRef;
@@ -254,11 +316,11 @@ class Client {
             zsessionid: this.apiKey
         };
         //TODO make sure this is correct, do only puts count as writes?
-        let retryCount = action === "PUT" ? this.options.maxWriteRetrys : this.options.maxReadRetrys;
+        let retryCount = action === 'PUT' ? this.options.maxWriteRetrys : this.options.maxReadRetrys;
         let resp = await this.throttle.queueAction(async () => {
             const rawResponse = await fetch(url, {
                 method: action,
-                mode: "cors",
+                mode: 'cors',
                 headers,
                 credentials: 'include'
             });
@@ -287,7 +349,7 @@ class Client {
         ref = _.isObject(inputOrRef) ? ref._ref : ref;
         const resp = await this._request(ref, null, params, 'DELETE');
         if (!ignoreDelay) {
-            // delete returns before the server has finished deleting adding in a fake wait to hope it is done before 
+            // delete returns before the server has finished deleting adding in a fake wait to hope it is done before
             const delayResult = await Client.delay(500);
         }
         return resp;
@@ -369,9 +431,9 @@ class Client {
      * @private
      */
     static async delay(millisecondsOfDelay, scopeFuction = () => { }) {
-        return new Promise(((resolve) => {
+        return new Promise((resolve) => {
             setTimeout(resolve.bind(null, scopeFuction), millisecondsOfDelay);
-        }));
+        });
     }
 }
 exports.Client = Client;

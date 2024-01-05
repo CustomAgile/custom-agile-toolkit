@@ -171,14 +171,33 @@ export class Client {
             finalParams.limit && finalParams.limit !== Infinity
                 ? finalParams.start + finalParams.pagesize < finalParams.limit
                 : resp.$rawResponse.TotalResultCount >= finalParams.start + finalParams.pagesize;
+        const firstRawResponse = resp.$rawResponse;
         resp.$getNextPage = async () => {
             if (resp.$hasMore) {
-                let newQuery = _.cloneDeep(query);
+                let newQuery = _.cloneDeep(finalParams);
                 newQuery.start += query.pagesize;
                 return this.query(type, newQuery, params);
             } else {
                 throw new Error('No more pages in this request');
             }
+        };
+        resp.$getAll = async () => {
+            // TODO: eventually make this more concurrent
+            // await Promise.all([who(), what(), where()]);
+            let currentResponse = resp;
+            currentResponse.$hasMore = resp.$hasMore;
+            let allResponses = currentResponse;
+            while (currentResponse.$hasMore) {
+                currentResponse = await currentResponse.$getNextPage();
+                allResponses = [...currentResponse, ...allResponses];
+            }
+            allResponses.$getNextPage = async () => {
+                throw new Error('No more pages in this request');
+            };
+            allResponses.$getAll = async () => allResponses;
+            allResponses.$hasMore = false;
+            allResponses.$rawResponse = firstRawResponse;
+            return allResponses;
         };
         resp.forEach((d: Toolkit.Api.RallyObject) => this._decorateObject(d));
         return resp;
@@ -292,6 +311,33 @@ export class Client {
     /** returns an array of cumulative flow data from Rally analytics */
     async getCfdData(workspaceUUID: string, projectUUID: string, startDate: string, endDate: string = new Date().toISOString()): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
         const url = `${this.options.server}/apps/cleo/analytics/cfd?workspaceUuid=${workspaceUUID}&projectUuid=${projectUUID}&startDate=${startDate}&endDate=${endDate}&cfdType=flowState`;
+        let headers: any = {};
+        if (this.apiKey) {
+            headers.zsessionid = this.apiKey;
+        }
+        const resp = await this.throttle.queueAction(async () => {
+            const rawResponse = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers,
+                credentials: 'include'
+            });
+
+            /** @type {Promise<Toolkit.Api.QueryResponse>}  */
+            return await Client.manageResponse(rawResponse);
+        }, this.options.maxReadRetrys);
+
+        return resp.data || resp;
+    }
+
+    /** returns an array of cumulative flow data from Rally analytics */
+    async getCfdDataNewEndpoint(
+        workspaceUUID: string,
+        projectUUID: string,
+        startDate: string,
+        endDate: string = new Date().toISOString()
+    ): Promise<Toolkit.Api.QueryResponse<Toolkit.Api.RallyObject>> {
+        const url = `${this.options.server}/apps/garthe/securedV1/cfd/project/${projectUUID}?workspaceUuid=${workspaceUUID}&scopeDown=false&scopeUp=false&startDate=${startDate}&endDate=${endDate}&cfdType=flowState`;
         let headers: any = {};
         if (this.apiKey) {
             headers.zsessionid = this.apiKey;

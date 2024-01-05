@@ -1,6 +1,6 @@
 {
-    "name": "custom-agile-toolkit",
-    "version": "1.0.6",
+    "name": "@customagile/custom-agile-toolkit",
+    "version": "1.1.0",
     "homepage": "https://github.com/CustomAgile/custom-agile-toolkit/blob/master/README.md",
     "main": "built/index.js",
     "types": "declare/index.d.ts",
@@ -47,5 +47,8 @@
     },
     "repository": "git@github.com:CustomAgile/custom-agile-toolkit.git",
     "keywords": [],
-    "description": ""
+    "description": "",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/@customagile"
+    }
 }
